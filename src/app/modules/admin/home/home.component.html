@@ -1,0 +1,65 @@
+<div class="wrapper">
+  <nav id="sidebar" class="sidebar js-sidebar">
+    <div class="sidebar-content js-simplebar">
+      <a class="sidebar-brand" href="index.html">
+        <span class="align-middle">
+          <!-- <img src="img/zinga-logo.png" width="150"/> -->
+          Admin Portal
+        </span>
+      </a>
+
+      <ul class="sidebar-nav">
+        <li class="sidebar-item active">
+          <a class="sidebar-link" href="employee-list.html">
+            <i class="bi bi-people"></i><span class="align-middle">Employee</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="menu-management.html">
+            <i class="bi bi-file-text"></i> <span class="align-middle">Policies</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="main">
+    <nav class="navbar navbar-expand navbar-light navbar-bg">
+      <a class="sidebar-toggle js-sidebar-toggle">
+        <i class="hamburger align-self-center"></i>
+      </a>
+      <div class="d-inline-block ms-2">
+        <h4 class="mb-0"><strong>Welcome, Admin 👋</strong></h4>
+      </div>
+
+      <div class="navbar-collapse collapse">
+        <ul class="navbar-nav navbar-align align-items-center">
+          <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#"
+              data-bs-toggle="dropdown">
+              <img src="img/avatars/avatar.jpg"
+                class="avatar img-fluid full-rounded me-2 d-inline-block" alt="Charles Hall" />
+              <div class="text-dark d-inline-block"><strong>Admin</strong></div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+              <a class="dropdown-item" href="account-setting.html">
+                <i class="align-middle me-1" data-feather="user"></i> Account Setting
+              </a>
+              <a class="dropdown-item" href="update-password.html">
+                <i class="align-middle me-1" data-feather="key"></i> Change Password
+              </a>
+              <a class="dropdown-item" href="pages-profile.html">
+                <i class="align-middle me-1" data-feather="power"></i> Logout
+              </a>
+
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main class="content bg-white">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+

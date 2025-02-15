@@ -21,13 +21,21 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/app-new.css",
+              "src/assets/css/bootstrap-icons.css",
+              "src/assets/css/compilance-style.css",
+              "src/assets/css/summernote-lite.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/app-new.js",
+              "src/assets/js/bootstrap.bundle.js",
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/summernote-lite.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -83,13 +91,21 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/app-new.css",
+              "src/assets/css/bootstrap-icons.css",
+              "src/assets/css/compilance-style.css",
+              "src/assets/css/summernote-lite.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/app-new.js",
+              "src/assets/js/bootstrap.bundle.js",
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/summernote-lite.min.js"
+            ]
           }
         }
       }

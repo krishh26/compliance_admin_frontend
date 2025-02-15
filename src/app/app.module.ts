@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { AdminModule } from './modules/admin/admin.module';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,226 @@
+<main class="content bg-white">
+    <div class="container-fluid p-0">
+        <div class="page-title">
+            <h2><a href="employee-list.html" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>
+                Employee</h2>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-xl-2 col-md-2 col-12">
+                        <div class="profile-image">
+                            <img src="img/avatars/avatar-4.jpg" class="img-fluid">
+                            <div class="input--file">
+                                <i class="bi bi-camera-fill"></i>
+                                <input name="Select File" type="file">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
+                        <ul class="Employeedetails">
+                            <li>
+                                <p>First Name</p>
+                                <p class="mb-0 text-muted">First Name</p>
+                            </li>
+                            <li>
+                                <p>Middle Name</p>
+                                <p class="mb-0 text-muted">Middle Name</p>
+                            </li>
+                            <li>
+                                <p>Last Name</p>
+                                <p class="mb-0 text-muted">Last Name</p>
+                            </li>
+                            <li>
+                                <p>Gender</p>
+                                <p class="mb-0 text-muted">Select</p>
+                            </li>
+                            <li>
+                                <p>Date of Birth</p>
+                                <p class="mb-0 text-muted">MM/DD/YY</p>
+                            </li>
+                            <li>
+                                <p>Email</p>
+                                <p class="mb-0 text-muted">email@example.com</p>
+                            </li>
+                            <li>
+                                <p>Phome</p>
+                                <p class="mb-0 text-muted">Alternate phone</p>
+                            </li>
+                        </ul>
+                        <div class="text-end">
+                            <a href="#" class="btn btn-sm btn-primary">All Details</a>
+                            <a href="#" class="btn btn-sm btn-primary">Hide Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-lg-11 col-xl-11 col-md-11 col-sm-11 col-12">
+                        <ul class="Employeedetails">
+                            <li>
+                                <p>Date of Joining</p>
+                                <p class="mb-0 text-muted">11/21/2024</p>
+                            </li>
+                            <li>
+                                <p>Phone </p>
+                                <p class="mb-0 text-muted">XXXXX XXXXX</p>
+                            </li>
+                            <li>
+                                <p>Email</p>
+                                <p class="mb-0 text-muted">emailid@example.com</p>
+                            </li>
+                            <li>
+                                <p>Alternate Phone</p>
+                                <p class="mb-0 text-muted">XXXXX-XXXXX</p>
+                            </li>
+                            <li>
+                                <p>State</p>
+                                <p class="mb-0 text-muted">State name</p>
+                            </li>
+                            <li>
+                                <p>City</p>
+                                <p class="mb-0 text-muted">City name</p>
+                            </li>
+                            <li>
+                                <p>Country</p>
+                                <p class="mb-0 text-muted">India</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-auto text-end">
+                        <a href="#"><i class="bi bi-pencil-square"></i> Edit</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <ul class="OutstandingTab mb-4">
+                    <li>
+                        <a routerLink="/admin/employee-details-outstanding" class="first-child ">
+                            <img src="img/icons/outstanding-icon.png" /> Outstanding
+                        </a>
+                    </li>
+                    <li>
+                        <a routerLink="/admin/employee-details-completed" class="second-child active">
+                            <img src="img/icons/completed-icon.png" /> Completed
+                        </a>
+                    </li>
+                </ul>
+                <div class="row align-items-center">
+                    <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
+                        <label class="badge-light w-100 text-center">Compliance Result</label>
+                    </div>
+                    <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-auto">
+                                <label for="inputPassword6" class="col-form-label">Search Results</label>
+                            </div>
+                            <div class="col-9">
+                                <input type="password" id="inputPassword6" class="form-control"
+                                    aria-describedby="passwordHelpInline">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-12">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-auto">
+                                <label for="inputPassword6" class="col-form-label">Order By</label>
+                            </div>
+                            <div class="col-9">
+                                <select class="form-select w-100">
+                                    <option>Exam Name</option>
+                                    <option>Result</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
+                        <button type="button" class="btn btn-success btn sm">Search Result</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Compliance Test Name</th>
+                                <th scope="col">Score</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Result </th>
+                                <th scope="col">Time Taken </th>
+                                <th scope="col">Attempt </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td><a href="" class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td><a href="" class="btn btn-primary btn-sm rounded">Re Exam</a></td>
+                            </tr>
+                            <tr>
+                                <td>Data Analytics</td>
+                                <td>60</td>
+                                <td>20-01-2002</td>
+                                <td>Failed</td>
+                                <td>44 Min</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

@@ -7,6 +7,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { LoginComponent } from './modules/auth/login/login.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
+import { PoliciesModule } from './modules/policies/policies.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-p
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AdminModule
+    AdminModule,
+    PoliciesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

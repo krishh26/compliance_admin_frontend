@@ -24,11 +24,11 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/app-new.css",
               "src/assets/css/bootstrap-icons.css",
               "src/assets/css/compilance-style.css",
-              "src/assets/css/summernote-lite.min.css"
+              "src/assets/css/summernote-lite.min.css",
+              "src/assets/css/app-new.css",
+              "src/styles.css"
             ],
             "scripts": [
               "src/assets/js/app-new.js",
@@ -94,11 +94,11 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/app-new.css",
               "src/assets/css/bootstrap-icons.css",
               "src/assets/css/compilance-style.css",
-              "src/assets/css/summernote-lite.min.css"
+              "src/assets/css/summernote-lite.min.css",
+              "src/assets/css/app-new.css",
+              "src/styles.css"
             ],
             "scripts": [
               "src/assets/js/app-new.js",

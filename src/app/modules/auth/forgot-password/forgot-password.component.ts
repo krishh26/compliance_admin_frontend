@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -16,7 +17,8 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
-    private router: Router
+    private router: Router,
+     private notificationService: NotificationService,
   ) {
     this.forgotForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,13 +42,13 @@ export class ForgotPasswordComponent implements OnInit {
       this.authServiceService.forgotUser(this.forgotForm.value).subscribe(
         (response) => {
           this.showLoader = false;
-          // this.router.navigate(['/login']);
-          // this.notificationService.showSuccess(response?.message || 'User login successfully');
+          this.router.navigate(['/login']);
+          this.notificationService.showSuccess(response?.message || 'User login successfully');
         },
         (error) => {
           this.showLoader = false;
           console.log('this is error', error);
-          // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          this.notificationService.showError(error?.error?.message || 'Something went wrong!');
         }
       );
     }

@@ -4,7 +4,9 @@ import { LoginComponent } from './modules/auth/login/login.component';
 import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'forgot', component: ForgotPasswordComponent },
   {
     path: 'admin',
     loadChildren: () =>
@@ -17,18 +19,11 @@ const routes: Routes = [
         (m) => m.PoliciesModule
       ),
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'forgot',
-    component: ForgotPasswordComponent,
-  },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
+import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -41,12 +43,12 @@ export class LoginComponent {
         (response) => {
           this.showLoader = false;
           this.router.navigate(['/admin']);
-          // this.notificationService.showSuccess(response?.message || 'User login successfully');
+           this.notificationService.showSuccess(response?.message || 'User login successfully');
         },
         (error) => {
           this.showLoader = false;
           console.log('this is error', error);
-          // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+           this.notificationService.showError(error?.error?.message || 'Something went wrong!');
         }
       );
     }

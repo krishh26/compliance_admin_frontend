@@ -24,10 +24,10 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "src/assets/css/app-new.css",
+              "src/assets/css/summernote-lite.min.css",
               "src/assets/css/bootstrap-icons.css",
               "src/assets/css/compilance-style.css",
-              "src/assets/css/summernote-lite.min.css",
-              "src/assets/css/app-new.css",
               "src/styles.css"
             ],
             "scripts": [

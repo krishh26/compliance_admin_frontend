@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environment/environment';
 
 export enum AuthEndPoint {
   LOGIN_USER = '/auth/login',
@@ -13,7 +14,7 @@ export enum AuthEndPoint {
 export class AuthServiceService {
   baseUrl!: string;
   constructor(private httpClient: HttpClient) {
-    this.baseUrl = 'http://192.168.198.153:3006';
+    this.baseUrl = environment.baseUrl;
   }
 
   getHeader(): HttpHeaders {

@@ -9,7 +9,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
   styleUrls: ['./employee-details-outstanding.component.css'],
 })
 export class EmployeeDetailsOutstandingComponent {
-  employeeId: string | null = null;
+  employeeId: any = null;
   employeeData: any;
   showLoader: boolean = false;
   constructor(

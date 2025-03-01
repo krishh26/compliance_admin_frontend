@@ -13,7 +13,8 @@ export class ResetPasswordComponent {
   forgotForm: FormGroup;
   showLoader: boolean = false;
   submitted = false;
-  token: string;
+  token!: any;
+
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,

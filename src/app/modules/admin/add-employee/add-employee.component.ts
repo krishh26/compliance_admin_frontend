@@ -14,7 +14,7 @@ export class AddEmployeeComponent {
   selectedFile: File | null = null;
   submitted = false;
   showLoader: boolean = false;
-  employeeId: string | null = null;
+  employeeId!: any;
   employeeData: any;
 
   countries = [

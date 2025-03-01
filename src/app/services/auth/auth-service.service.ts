@@ -6,6 +6,7 @@ import { environment } from 'src/environment/environment';
 export enum AuthEndPoint {
   LOGIN_USER = '/auth/login',
   FORGOT_PASSWORD = '/auth/forgot-password',
+  RESET_PASSWORD = 'auth/reset-password',
 }
 
 @Injectable({
@@ -35,6 +36,14 @@ export class AuthServiceService {
   forgotUser(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + AuthEndPoint.FORGOT_PASSWORD,
+      payload,
+      { headers: this.getHeader() }
+    );
+  }
+
+  resetUser(payload: any, token: string): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}${AuthEndPoint.RESET_PASSWORD}?token=${token}`,
       payload,
       { headers: this.getHeader() }
     );

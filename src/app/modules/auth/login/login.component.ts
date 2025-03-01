@@ -19,7 +19,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
     private router: Router,
-    private notificationService: NotificationService,
+    private notificationService: NotificationService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -42,13 +42,18 @@ export class LoginComponent {
       this.authServiceService.loginUser(this.loginForm.value).subscribe(
         (response) => {
           this.showLoader = false;
+          localStorage.setItem('token', response?.data?.access_token);
           this.router.navigate(['/admin']);
-           this.notificationService.showSuccess(response?.message || 'User login successfully');
+          this.notificationService.showSuccess(
+            response?.message || 'User login successfully'
+          );
         },
         (error) => {
           this.showLoader = false;
           console.log('this is error', error);
-           this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          this.notificationService.showError(
+            error?.error?.message || 'Something went wrong!'
+          );
         }
       );
     }

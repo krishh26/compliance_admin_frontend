@@ -39,7 +39,7 @@ export class ResetPasswordComponent {
 
   onSubmit() {
     this.submitted = true;
-
+    debugger
     if (this.forgotForm.invalid) {
       return;
     }
@@ -53,24 +53,18 @@ export class ResetPasswordComponent {
     }
     if (this.forgotForm.valid) {
       this.showLoader = true;
-      this.authServiceService
-        .resetUser(this.forgotForm.value, this.token)
-        .subscribe(
-          (response) => {
-            this.showLoader = false;
-            this.router.navigate(['/login']);
-            this.notificationService.showSuccess(
-              response?.message || 'Password changed successfully'
-            );
-          },
-          (error) => {
-            this.showLoader = false;
-            console.log('this is error', error);
-            this.notificationService.showError(
-              error?.error?.message || 'Something went wrong!'
-            );
-          }
-        );
+      this.authServiceService.resetUser({ password: this.forgotForm.value.password }, this.token).subscribe(
+        (response) => {
+          this.showLoader = false;
+          this.router.navigate(['/login']);
+          this.notificationService.showSuccess(response?.message || 'Password changed successfully');
+        },
+        (error) => {
+          this.showLoader = false;
+          console.log('this is error', error);
+          this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+        }
+      );
     }
   }
 }

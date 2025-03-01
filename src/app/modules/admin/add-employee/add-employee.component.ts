@@ -111,7 +111,7 @@ export class AddEmployeeComponent {
       email: ['', [Validators.required, Validators.email]],
       dateOfJoining: ['', Validators.required],
       phone: ['', [Validators.required]],
-      alternatePhone: ['', [Validators.required]],
+      alternatePhone: [''],
       country: ['', Validators.required],
       state: ['', Validators.required],
       city: ['', Validators.required],

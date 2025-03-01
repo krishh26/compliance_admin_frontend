@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../admin/home/home.component';
 import { UploadPoliciesComponent } from './upload-policies/upload-policies.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -32,7 +33,8 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ]
 })
 export class PoliciesModule { }

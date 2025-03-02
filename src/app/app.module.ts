@@ -13,7 +13,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for Toastr
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './utility/shared/shared.module';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,10 +28,14 @@ import { SharedModule } from './utility/shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // Required for Toastr
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: false,
+    }),
     SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

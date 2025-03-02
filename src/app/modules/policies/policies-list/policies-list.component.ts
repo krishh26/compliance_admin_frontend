@@ -26,10 +26,10 @@ export class PoliciesListComponent implements OnInit {
     this.policyService.getPolicyList().subscribe((response) => {
       this.showLoader = false;
       this.policyList = response?.data || [];
-      this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
+      // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
     }, (error) => {
       this.showLoader = false;
-      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }
 }

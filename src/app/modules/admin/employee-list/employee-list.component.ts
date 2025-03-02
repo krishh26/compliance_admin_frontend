@@ -16,7 +16,7 @@ export class EmployeeListComponent {
     private router: Router,
     private notificationService: NotificationService,
     private employeeService: EmployeeService
-  ) {}
+  ) { }
   ngOnInit() {
     this.getEmployees();
   }
@@ -27,9 +27,9 @@ export class EmployeeListComponent {
         console.log('this sis employee', response);
         this.showLoader = false;
         this.employees = response?.data;
-        this.notificationService.showSuccess(
-          response?.message || 'Get Employee successfully'
-        );
+        // this.notificationService.showSuccess(
+        //   response?.message || 'Get Employee successfully'
+        // );
       },
       (error) => {
         this.showLoader = false;

@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { LocalStorageService } from '../local-storage/local-storage.service';
+import { Router } from '@angular/router';
 
 export enum AuthEndPoint {
   LOGIN_USER = '/auth/login',
@@ -14,7 +16,11 @@ export enum AuthEndPoint {
 })
 export class AuthServiceService {
   baseUrl!: string;
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private localStorageService: LocalStorageService
+  ) {
     this.baseUrl = environment.baseUrl;
   }
 
@@ -47,5 +53,10 @@ export class AuthServiceService {
       payload,
       { headers: this.getHeader() }
     );
+  }
+
+  logout(): void {
+    this.localStorageService.clearStorage();
+    this.router.navigateByUrl('/');
   }
 }

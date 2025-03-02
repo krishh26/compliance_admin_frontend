@@ -9,10 +9,12 @@ import { LoginComponent } from './modules/auth/login/login.component';
 import { ResetPasswordComponent } from './modules/auth/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './modules/auth/forgot-password/forgot-password.component';
 import { PoliciesModule } from './modules/policies/policies.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for Toastr
 import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './utility/shared/shared.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +37,12 @@ import { SharedModule } from './utility/shared/shared.module';
     }),
     SharedModule
   ],
-  providers: [],
+  providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: APIInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

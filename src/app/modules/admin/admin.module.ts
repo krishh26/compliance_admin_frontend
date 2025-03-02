@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { EmployeeDetailsCompletedComponent } from './employee-details-completed/employee-details-completed.component';
 import { EmployeeDetailsOutstandingComponent } from './employee-details-outstanding/employee-details-outstanding.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -15,15 +16,22 @@ const routes: Routes = [
     children: [
       { path: 'employee-list', component: EmployeeListComponent },
       { path: 'add-employee', component: AddEmployeeComponent },
-      { path: 'employee-details-completed', component: EmployeeDetailsCompletedComponent },
-      { path: 'employee-details-outstanding', component: EmployeeDetailsOutstandingComponent },
-    ]
+      { path: 'edit-employee/:id', component: AddEmployeeComponent },
+      {
+        path: 'employee-details-completed',
+        component: EmployeeDetailsCompletedComponent,
+      },
+      {
+        path: 'employee-details-outstanding/:id',
+        component: EmployeeDetailsOutstandingComponent,
+      },
+    ],
   },
   {
-    path: "**",
-    pathMatch: "full",
-    redirectTo: ""
-  }
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
@@ -32,11 +40,8 @@ const routes: Routes = [
     HomeComponent,
     EmployeeDetailsCompletedComponent,
     EmployeeDetailsOutstandingComponent,
-    AddEmployeeComponent
+    AddEmployeeComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes)
-  ]
+  imports: [CommonModule, RouterModule.forChild(routes), ReactiveFormsModule],
 })
-export class AdminModule { }
+export class AdminModule {}

@@ -29,23 +29,23 @@
               <th scope="col">Date of Joining</th>
               <th scope="col">Phone no. </th>
               <th scope="col">Role</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td><a routerLink="/admin/employee-details-outstanding">Ayush</a></td>
-              <td>skills@gmail.com</td>
-              <td>01-12-2002</td>
-              <td>9845746310</td>
-              <td>Line Manager</td>
-            </tr>
-            <tr>
-              <td><a routerLink="/admin/employee-details-outstanding">Ayush</a></td>
-              <td>skills@gmail.com</td>
-              <td>01-12-2002</td>
-              <td>9845746310</td>
-              <td>Line Manager</td>
-            </tr>
+            <tr *ngFor="let employee of employees">
+
+            <td>
+              <a [routerLink]="['/admin/employee-details-outstanding',employee._id]">
+                {{ employee.firstName +" "+ employee.lastName }}
+              </a>
+            </td>
+            <td>{{ employee.email }}</td>
+            <td>{{ employee.dateOfJoining  | date}}</td>
+            <td>{{ employee.phone }}</td>
+            <td>{{ employee.role }}</td>
+            <td (click)="deleteEmployee(employee._id)" style="cursor: pointer;"><i class="bi bi-trash3-fill"></i></td>
+          </tr>
           </tbody>
         </table>
       </div>

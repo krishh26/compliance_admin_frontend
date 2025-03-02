@@ -42,7 +42,9 @@
                       <td><a routerLink="/admin/employee-details-outstanding">{{item?.name}}</a>
                       </td>
                       <td>{{ item?.updatedAt | date : 'dd MMM yyyy' }}</td>
-                      <td>{{item?.policyType}}</td>
+                      <td>
+                        <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
+                      </td>
                       <td>{{item?.status}}</td>
                       <td><a routerLink="/policies/terms-conditions" class="text-dark"><i
                             class="bi bi-eye-fill"></i></a></td>

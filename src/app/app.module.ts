@@ -12,6 +12,7 @@ import { PoliciesModule } from './modules/policies/policies.module';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Required for Toastr
 import { ToastrModule } from 'ngx-toastr';
+import { SharedModule } from './utility/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // Required for Toastr
-    ToastrModule.forRoot() 
+    ToastrModule.forRoot(),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],

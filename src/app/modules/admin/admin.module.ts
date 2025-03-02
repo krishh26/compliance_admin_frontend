@@ -7,6 +7,7 @@ import { EmployeeDetailsCompletedComponent } from './employee-details-completed/
 import { EmployeeDetailsOutstandingComponent } from './employee-details-outstanding/employee-details-outstanding.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/utility/shared/shared.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -42,6 +43,11 @@ const routes: Routes = [
     EmployeeDetailsOutstandingComponent,
     AddEmployeeComponent,
   ],
-  imports: [CommonModule, RouterModule.forChild(routes), ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    ReactiveFormsModule,
+    SharedModule
+  ],
 })
-export class AdminModule {}
+export class AdminModule { }

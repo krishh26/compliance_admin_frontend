@@ -6,6 +6,7 @@ import { HomeComponent } from '../admin/home/home.component';
 import { UploadPoliciesComponent } from './upload-policies/upload-policies.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from 'src/app/utility/shared/shared.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -34,7 +35,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class PoliciesModule { }

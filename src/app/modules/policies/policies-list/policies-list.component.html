@@ -30,6 +30,13 @@
                   </tr>
                 </thead>
                 <tbody>
+
+                  <tr>
+                    <td *ngIf="!policyList?.length" colspan="6">
+                      <app-no-record-found></app-no-record-found>
+                    </td>
+                  </tr>
+
                   <ng-container *ngFor="let item of policyList">
                     <tr>
                       <td><a routerLink="/admin/employee-details-outstanding">{{item?.name}}</a>

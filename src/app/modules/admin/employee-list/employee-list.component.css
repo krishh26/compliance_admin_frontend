@@ -1,0 +1,18 @@
+.form-group {
+  position: relative;
+}
+
+.search-input {
+  padding-left: 40px;
+  /* Space for the icon */
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+  /* Prevents interaction with the icon */
+}

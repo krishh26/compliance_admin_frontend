@@ -37,12 +37,12 @@ import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
     }),
     SharedModule
   ],
-  providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: APIInterceptor,
-      multi: true
-    }],
+  // providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
+  //   {
+  //     provide: HTTP_INTERCEPTORS,
+  //     useClass: APIInterceptor,
+  //     multi: true
+  //   }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -52,9 +52,7 @@ export class PoliciesListComponent implements OnInit {
         this.policyService.deletePolicy(id).subscribe(
           (response) => {
             this.showLoader = false;
-            this.notificationService.showSuccess(
-              response?.message || 'Delete Policy successfully'
-            );
+            this.notificationService.showSuccess('Delete Policy successfully');
             this.getPolicyList();
           },
           (error) => {

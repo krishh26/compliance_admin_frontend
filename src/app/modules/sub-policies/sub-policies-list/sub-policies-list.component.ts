@@ -66,9 +66,7 @@ export class SubPoliciesListComponent {
         this.subPoliciesService.deleteSubPolicy(payload).subscribe(
           (response) => {
             this.showLoader = false;
-            this.notificationService.showSuccess(
-              response?.message || 'Delete Sub Policy successfully'
-            );
+            this.notificationService.showSuccess('Delete Sub Policy successfully');
             this.getPolicyList();
           },
           (error) => {

@@ -12,13 +12,13 @@
               </h2>
             </div>
           </div>
-          <div class="col-lg-2 col-xl-2 col-12">
-            <a
-              [routerLink]="['/sub-policies/upload-sub-policy', policyId]"
-              class="btn btn-primary w-100"
-            >
-              + Creat</a
-            >
+          <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
+            <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
+              + Create
+            </a>
+            <a [routerLink]="['/policies/policies-list']" class="btn btn-primary w-100">
+              Back
+            </a>
           </div>
         </div>
 
@@ -52,16 +52,9 @@
                         <a class="btn btn-primary btn-sm">{{ "active" }}</a>
                       </td>
                       <td>
-                        <a
-                          routerLink="/policies/terms-conditions"
-                          class="text-dark"
-                          ><i class="bi bi-eye-fill"></i
-                        ></a>
+                        <a routerLink="/policies/terms-conditions" class="text-dark"><i class="bi bi-eye-fill"></i></a>
                       </td>
-                      <td
-                        (click)="deleteSubPolicy(item._id)"
-                        style="cursor: pointer"
-                      >
+                      <td (click)="deleteSubPolicy(item._id)" style="cursor: pointer">
                         <i class="bi bi-trash3-fill"></i>
                       </td>
                     </tr>

@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
 
-export enum PolicyEndPoint {
-  POLICY = '/policy',
+export enum SubPolicyEndPoint {
+  SUB_POLICY = '/sub-policy',
+  SUB_POLICY_LIST = '/sub-policy/list',
+  SUB_POLICY_DELETE = '/sub-policy/delete',
 }
 
 @Injectable({
   providedIn: 'root',
 })
-export class PolicyService {
+export class SubPoliciesService {
   baseUrl!: string;
 
   constructor(private httpClient: HttpClient) {
@@ -30,30 +32,35 @@ export class PolicyService {
     return headers;
   }
 
-  getPolicyList(): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + PolicyEndPoint.POLICY, {
-      headers: this.getHeader(),
-    });
+  getSubPolicyList(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.SUB_POLICY_LIST,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
+    );
   }
 
   getPolicyDetails(id: string): Observable<any> {
     return this.httpClient.get<any>(
-      this.baseUrl + PolicyEndPoint.POLICY + '/' + id,
+      this.baseUrl + SubPolicyEndPoint.SUB_POLICY + '/' + id,
       { headers: this.getHeader() }
     );
   }
 
   createPolicy(payload: any): Observable<any> {
     return this.httpClient.post<any>(
-      this.baseUrl + PolicyEndPoint.POLICY,
+      this.baseUrl + SubPolicyEndPoint.SUB_POLICY,
       payload,
       { headers: this.getHeader() }
     );
   }
 
-  deletePolicy(id: string): Observable<any> {
-    return this.httpClient.delete<any>(
-      this.baseUrl + PolicyEndPoint.POLICY + '/' + id,
+  deleteSubPolicy(id: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.SUB_POLICY_DELETE,
+      id,
       {
         headers: this.getHeader(),
       }

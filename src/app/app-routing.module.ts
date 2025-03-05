@@ -21,6 +21,13 @@ const routes: Routes = [
         (m) => m.PoliciesModule
       ),
   },
+  {
+    path: 'sub-policies',
+    loadChildren: () =>
+      import('./modules/sub-policies/sub-policies.module').then(
+        (m) => m.SubPoliciesModule
+      ),
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
@@ -28,4 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

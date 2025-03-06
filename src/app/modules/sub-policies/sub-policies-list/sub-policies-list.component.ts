@@ -19,7 +19,7 @@ export class SubPoliciesListComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -53,11 +53,11 @@ export class SubPoliciesListComponent {
   deleteSubPolicy(id: any) {
     Swal.fire({
       title: 'Are you sure?',
-      text: `Do you want to delete `,
+      text: `Do you want to delete sub policy ?`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#00B96F',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#4285F4',
+      cancelButtonColor: '#C8C8C8',
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {

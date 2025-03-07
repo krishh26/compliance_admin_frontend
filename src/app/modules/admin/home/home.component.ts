@@ -5,20 +5,20 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
   loginUser: any;
+  loginRole: any;
   constructor(
     private authService: AuthServiceService,
-    private localStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService
   ) {
     this.loginUser = this.localStorageService.getLogger();
+    this.loginRole = this.loginUser.role;
   }
 
   logout(): void {
     this.authService.logout();
   }
-
-
 }

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environment/environment';
+import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum SubPolicyEndPoint {
   SUB_POLICY = '/sub-policy',
@@ -15,16 +16,15 @@ export enum SubPolicyEndPoint {
 export class SubPoliciesService {
   baseUrl!: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private localStorageService: LocalStorageService
+  ) {
     this.baseUrl = environment.baseUrl;
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token'); // Ensure the token is stored as a string
-  }
-
   getHeader(): HttpHeaders {
-    let token = this.getToken();
+    let token = this.localStorageService.getLoggerToken();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: token ? `Bearer ${token}` : '', // Add token if it exists

@@ -9,14 +9,37 @@
       </a>
 
       <ul class="sidebar-nav">
-        <li class="sidebar-item" routerLinkActive="active">
+        <li
+          class="sidebar-item"
+          routerLinkActive="active"
+          *ngIf="loginRole === 'ADMIN'"
+        >
           <a class="sidebar-link" routerLink="/admin/employee-list">
-            <i class="bi bi-people"></i><span class="align-middle">Employee</span>
+            <i class="bi bi-people"></i
+            ><span class="align-middle">Employee</span>
           </a>
         </li>
-        <li class="sidebar-item" routerLinkActive="active">
+        <li
+          class="sidebar-item"
+          routerLinkActive="active"
+          *ngIf="loginRole === 'ADMIN'"
+        >
           <a class="sidebar-link" routerLink="/policies/policies-list">
-            <i class="bi bi-file-text"></i> <span class="align-middle">Policies</span>
+            <i class="bi bi-file-text"></i>
+            <span class="align-middle">Policies</span>
+          </a>
+        </li>
+        <li
+          class="sidebar-item"
+          routerLinkActive="active"
+          *ngIf="loginRole === 'EMPLOYEE'"
+        >
+          <a
+            class="sidebar-link"
+            routerLink="/employee-policies/employee-policies-list"
+          >
+            <i class="bi bi-file-text"></i>
+            <span class="align-middle">Employee Policies</span>
           </a>
         </li>
       </ul>
@@ -35,21 +58,35 @@
       <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align align-items-center">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="javscript:;" id="adminDropdown"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="assets/img/avatars/avatar.jpg" class="avatar img-fluid full-rounded me-2 d-inline-block"
-                alt="Charles Hall" />
+            <a
+              class="nav-link dropdown-toggle d-none d-sm-inline-block"
+              href="javscript:;"
+              id="adminDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="assets/img/avatars/avatar.jpg"
+                class="avatar img-fluid full-rounded me-2 d-inline-block"
+                alt="Charles Hall"
+              />
               <div class="text-dark d-inline-block"><strong>Admin</strong></div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="adminDropdown"
+            >
               <li>
                 <a class="dropdown-item" href="javascript:;">
-                  <i class="align-middle me-1" data-feather="user"></i> Account Setting
+                  <i class="align-middle me-1" data-feather="user"></i> Account
+                  Setting
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" href="javascript:;">
-                  <i class="align-middle me-1" data-feather="key"></i> Change Password
+                  <i class="align-middle me-1" data-feather="key"></i> Change
+                  Password
                 </a>
               </li>
               <li>

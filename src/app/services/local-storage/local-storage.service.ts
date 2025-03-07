@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
+  imageChangeEvent: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
 
-  imageChangeEvent: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);;
-
-  constructor() { }
+  constructor() {}
 
   // Function to use for the set login user details in localStorage
   setLogger(details: any): void {
@@ -18,7 +19,7 @@ export class LocalStorageService {
   }
 
   setLoginToken(details: any): void {
-    localStorage.setItem('loginToken', details?.token);
+    localStorage.setItem('loginToken', details);
   }
 
   // Set the updated loginUser details
@@ -30,15 +31,15 @@ export class LocalStorageService {
   // Function to use for the get login user details from the localStorage
   getLogger(): any {
     const loginUser: any = localStorage.getItem('loginUser');
-    if(loginUser) {
+    if (loginUser) {
       return JSON.parse(loginUser);
     } else {
-      return "";
+      return '';
     }
   }
 
   // Function to use for the get login user token from the localStorage
-  getLoggerToken(): void {
+  getLoggerToken(): string {
     const loginToken: any = localStorage.getItem('loginToken');
     return loginToken;
   }

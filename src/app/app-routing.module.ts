@@ -28,6 +28,13 @@ const routes: Routes = [
         (m) => m.SubPoliciesModule
       ),
   },
+  {
+    path: 'employee-policies',
+    loadChildren: () =>
+      import('./modules/employee-policies/employee-policies.module').then(
+        (m) => m.EmployeePoliciesModule
+      ),
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 

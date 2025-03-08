@@ -6,6 +6,7 @@ import { SharedModule } from '../../utility/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../admin/home/home.component';
 import { PoliciesListComponent } from './policies-list/policies-list.component';
+import { CompilanceTestComponent } from './compilance-test/compilance-test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-policies-list', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
         path: 'employee-sub-policies-list/:id',
         component: SubPoliciesListComponent,
       },
+      { path: 'compilance-test', component: CompilanceTestComponent },
     ],
   },
   {
@@ -28,7 +30,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PoliciesListComponent, SubPoliciesListComponent],
+  declarations: [
+    PoliciesListComponent,
+    SubPoliciesListComponent,
+    CompilanceTestComponent,
+  ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })
 export class EmployeePoliciesModule {}

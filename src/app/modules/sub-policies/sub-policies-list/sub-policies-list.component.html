@@ -7,16 +7,23 @@
             <div class="page-title">
               <h2>
                 <a routerLink="/policies/policies-list" class="me-2 text-dark">
-                  <i class="bi bi-arrow-left-circle"></i></a>
+                  <i class="bi bi-arrow-left-circle"></i
+                ></a>
                 Sub Policies Name
               </h2>
             </div>
           </div>
           <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
-            <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
+            <a
+              [routerLink]="['/sub-policies/upload-sub-policy', policyId]"
+              class="btn btn-primary w-100"
+            >
               + Create
             </a>
-            <a [routerLink]="['/policies/policies-list']" class="btn btn-primary w-100">
+            <a
+              [routerLink]="['/policies/policies-list']"
+              class="btn btn-primary w-100"
+            >
               Back
             </a>
           </div>
@@ -31,7 +38,7 @@
                     <th scope="col">Version History</th>
                     <th scope="col">Sub Policy Date</th>
                     <th></th>
-                    <th scope="col">View</th>
+                    <th scope="col">Action</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -45,16 +52,28 @@
                   <ng-container *ngFor="let item of policyList">
                     <tr>
                       <td>
-                        {{ item?.version }}
+                        <a routerLink="/policies/terms-conditions">
+                          {{ item?.version }}</a
+                        >
                       </td>
                       <td>{{ item?.createdAt | date : "dd MMM yyyy" }}</td>
                       <td>
                         <a class="btn btn-primary btn-sm">{{ "active" }}</a>
                       </td>
                       <td>
-                        <a routerLink="/policies/terms-conditions" class="text-dark"><i class="bi bi-eye-fill"></i></a>
+                        <a
+                          [routerLink]="[
+                            '/sub-policies/setting-sub-policies/',
+                            item._id
+                          ]"
+                          class="text-dark"
+                          ><i class="bi bi-gear-fill"></i>
+                        </a>
                       </td>
-                      <td (click)="deleteSubPolicy(item._id)" style="cursor: pointer">
+                      <td
+                        (click)="deleteSubPolicy(item._id)"
+                        style="cursor: pointer"
+                      >
                         <i class="bi bi-trash3-fill"></i>
                       </td>
                     </tr>

@@ -32,7 +32,20 @@
         <li
           class="sidebar-item"
           routerLinkActive="active"
-          *ngIf="loginRole === 'EMPLOYEE'"
+          *ngIf="loginRole !== 'ADMIN'"
+        >
+          <a
+            class="sidebar-link"
+            routerLink="/employee-policies/compilance-test"
+          >
+            <i class="bi bi-file-text"></i>
+            <span class="align-middle">Compilance Test</span>
+          </a>
+        </li>
+        <li
+          class="sidebar-item"
+          routerLinkActive="active"
+          *ngIf="loginRole !== 'ADMIN'"
         >
           <a
             class="sidebar-link"

@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../admin/home/home.component';
 import { UploadSubPoliciesComponent } from './upload-sub-policies/upload-sub-policies.component';
 import { SubPoliciesSettingComponent } from './sub-policies-setting/sub-policies-setting.component';
+import { QuestionListComponent } from './question-list/question-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: 'setting-sub-policies/:id',
         component: SubPoliciesSettingComponent,
+      },
+      {
+        path: 'question-list',
+        component: QuestionListComponent,
       },
     ],
   },
@@ -32,6 +37,7 @@ const routes: Routes = [
     SubPoliciesListComponent,
     UploadSubPoliciesComponent,
     SubPoliciesSettingComponent,
+    QuestionListComponent,
   ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })

@@ -28,9 +28,7 @@
             <span class="fw-bold">Q.</span>
             <span class="text-secondary"> {{ question.questionText }}</span>
           </h5>
-          <span class="text-primary fw-bold"
-            >Answer Type: {{ question.questionType }}</span
-          >
+          <span class="text-primary fw-bold">Answer Type: {{ question.questionType }}</span>
         </div>
 
         <div class="row mt-2">
@@ -42,23 +40,13 @@
           </div>
 
           <!-- Boolean Type (True/False) -->
-          <div *ngIf="question.questionType === 'boolean'">
+          <div *ngIf="question.questionType === 'Boolean'">
             <div class="form-check">
-              <input
-                type="radio"
-                [name]="'boolean_' + question.id"
-                value="True"
-                class="form-check-input"
-              />
+              <input type="radio" [name]="'boolean_' + question.id" value="True" class="form-check-input" />
               <label class="form-check-label">True</label>
             </div>
             <div class="form-check">
-              <input
-                type="radio"
-                [name]="'boolean_' + question.id"
-                value="False"
-                class="form-check-input"
-              />
+              <input type="radio" [name]="'boolean_' + question.id" value="False" class="form-check-input" />
               <label class="form-check-label">False</label>
             </div>
           </div>
@@ -66,27 +54,17 @@
           <!-- MCQ Type -->
           <div *ngIf="question.questionType === 'MCQ'">
             <div *ngFor="let option of question.options" class="mb-2">
-              <input
-                type="radio"
-                [name]="'mcq_' + question.id"
-                [value]="option"
-              />
+              <input type="radio" [name]="'mcq_' + question.id" [value]="option" />
               {{ option }}
             </div>
           </div>
         </div>
 
         <div class="d-flex justify-content-end">
-          <i
-            class="bi bi-pencil-fill me-4"
-            (click)="editQuestion(question.id)"
-            style="cursor: pointer; font-size: 1.2rem"
-          ></i>
-          <i
-            class="bi bi-trash3-fill"
-            (click)="deleteQuestion(question.id)"
-            style="cursor: pointer; font-size: 1.2rem"
-          ></i>
+          <i class="bi bi-pencil-fill me-4" (click)="editQuestion(question.id)"
+            style="cursor: pointer; font-size: 1.2rem"></i>
+          <i class="bi bi-trash3-fill" (click)="deleteQuestion(question.id)"
+            style="cursor: pointer; font-size: 1.2rem"></i>
         </div>
       </div>
     </div>

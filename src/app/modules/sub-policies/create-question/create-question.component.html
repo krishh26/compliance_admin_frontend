@@ -16,41 +16,25 @@
   <div class="card-body">
     <form [formGroup]="questionForm" (ngSubmit)="submitForm()">
       <div formArrayName="questions">
-        <div
-          *ngFor="let question of questions.controls; let i = index"
-          [formGroupName]="i"
-          class="border p-3 mb-3"
-        >
+        <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="border p-3 mb-3">
           <h5 class="fw-bold text-primary">
             <span class="fw-bold">Question</span>
             <span class="text-secondary">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="questionText"
-                placeholder="Enter question"
-              />
+              <input type="text" class="form-control" formControlName="questionText" placeholder="Enter question" />
             </span>
           </h5>
-          <div
-            *ngIf="
+          <div *ngIf="
               question.get('questionText')?.invalid &&
               question.get('questionText')?.touched
-            "
-            class="text-danger"
-          >
+            " class="text-danger">
             Question is required.
           </div>
 
           <span class="text-primary fw-bold">
             Answer Type:
-            <select
-              class="form-select"
-              formControlName="questionType"
-              (change)="onTypeChange(i)"
-            >
-              <option *ngFor="let type of questionTypes" [value]="type">
-                {{ type }}
+            <select class="form-select" formControlName="questionType" (change)="onTypeChange(i)">
+              <option *ngFor="let type of questionTypes" [value]="type.value">
+                {{ type.name }}
               </option>
             </select>
           </span>
@@ -61,20 +45,11 @@
 
             <div *ngFor="let option of getOptions(i).controls; let j = index">
               <div class="d-flex align-items-center mb-2">
-                <input
-                  type="text"
-                  class="form-control me-2"
-                  [formControlName]="j"
-                  placeholder="Enter option"
-                />
+                <input type="text" class="form-control me-2" [formControlName]="j" placeholder="Enter option" />
 
                 <!-- Delete button (only for Multiple Choice with 5+ options) -->
-                <button
-                  *ngIf="isMultipleChoice(i) && getOptions(i).length > 4"
-                  type="button"
-                  class="btn btn-danger btn-sm"
-                  (click)="removeOption(i, j)"
-                >
+                <button *ngIf="isMultipleChoice(i) && getOptions(i).length > 4" type="button"
+                  class="btn btn-danger btn-sm" (click)="removeOption(i, j)">
                   <i class="bi bi-trash3-fill" style="cursor: pointer"></i>
                 </button>
               </div>
@@ -84,35 +59,32 @@
             </div>
 
             <!-- Add Option Button (only in Multiple Choice) -->
-            <button
-              *ngIf="isMultipleChoice(i) && getOptions(i).length < 5"
-              type="button"
-              class="btn btn-secondary btn-sm mt-2"
-              (click)="addOption(i)"
-            >
+            <button *ngIf="isMultipleChoice(i) && getOptions(i).length < 5" type="button"
+              class="btn btn-secondary btn-sm mt-2" (click)="addOption(i)">
               + Add Option
             </button>
           </div>
 
           <!-- Remove Question Button -->
           <div class="d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-danger btn-sm mt-3"
-              (click)="removeQuestion(i)"
-              *ngIf="questions.length > 1"
-            >
+            <button type="button" class="btn btn-danger btn-sm mt-3" (click)="removeQuestion(i)"
+              *ngIf="questions.length > 1">
               <i class="bi bi-trash3-fill" style="cursor: pointer"></i>
             </button>
           </div>
+
+          <span class="text-primary fw-bold">
+            Answer :
+            <select class="form-select" formControlName="answer">
+              <option *ngFor="let type of getAnswerList(i)" [value]="type">
+                {{ type }}
+              </option>
+            </select>
+          </span>
         </div>
       </div>
       <div class="d-flex justify-content-end">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="addNewQuestion()"
-        >
+        <button type="button" class="btn btn-primary" (click)="addNewQuestion()">
           + Add Question
         </button>
       </div>

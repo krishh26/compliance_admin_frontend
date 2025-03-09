@@ -23,7 +23,7 @@ export class QuestionListComponent implements OnInit {
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -40,8 +40,7 @@ export class QuestionListComponent implements OnInit {
     this.showLoader = true;
     const payload = {
       subPolicyId: this.subPolicyId,
-      userGroup: this.userGroup,
-      size: '1',
+      userGroup: this.userGroup
     };
 
     this.subPoliciesService.getQuestionList(payload).subscribe(
@@ -117,7 +116,7 @@ export class QuestionListComponent implements OnInit {
       case QUESTION_TYPE.CHECKBOX:
         return 'Multiple Choice';
       case QUESTION_TYPE.BOOLEAN:
-        return 'boolean';
+        return 'Boolean';
       case QUESTION_TYPE.MCQ:
         return 'MCQ';
       default:

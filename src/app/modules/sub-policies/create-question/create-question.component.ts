@@ -18,7 +18,21 @@ import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.ser
 })
 export class CreateQuestionComponent {
   questionForm!: FormGroup;
-  questionTypes = ['MCQ', 'Boolean', 'Multiple Choice'];
+  questionTypes = [
+    {
+      name: "MCQ",
+      value: "3"
+    },
+    {
+      name: "Boolean",
+      value: "2"
+    },
+    {
+      name: 'Multiple Choice',
+      value: "1"
+    }
+  ]
+
   showLoader: boolean = false;
   subPolicyId: string | null = null;
   userGroup: string | null = null;
@@ -60,6 +74,8 @@ export class CreateQuestionComponent {
       questionText: ['', Validators.required],
       questionType: ['MCQ', Validators.required],
       options: this.fb.array([]),
+      isActive: ['1', Validators.required],
+      answer: ['', Validators.required],
     });
 
     this.questions.push(newQuestion);
@@ -71,17 +87,17 @@ export class CreateQuestionComponent {
     const optionsArray = this.getOptions(questionIndex);
     optionsArray.clear();
 
-    if (type === 'MCQ') {
+    if (type === "3") {
       // MCQ: Always 4 fixed options
       for (let i = 1; i <= 4; i++) {
         optionsArray.push(new FormControl(`Option ${i}`, Validators.required));
       }
-    } else if (type === 'Boolean') {
+    } else if (type === "2") {
       // Boolean: Always Yes & No
       ['True', 'false'].forEach((option) =>
         optionsArray.push(new FormControl(option, Validators.required))
       );
-    } else if (type === 'Multiple Choice') {
+    } else if (type === '1') {
       // Multiple Choice: Starts with 4 options, but can add more
       for (let i = 1; i <= 4; i++) {
         optionsArray.push(new FormControl(`Option ${i}`, Validators.required));
@@ -114,6 +130,9 @@ export class CreateQuestionComponent {
     this.questions.removeAt(index);
   }
 
+  getAnswerList(index: number) {
+    return this.questions.at(index).get('options')?.value;
+  }
   submitForm(): void {
     if (this.questionForm.invalid) {
       this.questionForm.markAllAsTouched(); // Show errors
@@ -125,6 +144,9 @@ export class CreateQuestionComponent {
       subPolicyId: this.subPolicyId,
       userGroup: this.userGroup,
     };
+
+    const newPayload = this.formatePayload(payload);
+
     this.subPoliciesService.createQuestion(payload).subscribe(
       (response) => {
         this.showLoader = false;
@@ -140,6 +162,25 @@ export class CreateQuestionComponent {
         );
       }
     );
+  }
+
+  formatePayload(payload: any) {
+    payload?.questions?.forEach((element: any) => {
+      if (element?.options?.length > 0) {
+        const optionList: any[] = [];
+        element.options.forEach((option: any, index: number) => {
+          const data = {
+            index: index,
+            value: option
+          }
+          optionList.push(data);
+        });
+
+        element.options = optionList;
+      }
+    });
+
+    return payload;
   }
 
   isMultipleChoice(index: number): boolean {

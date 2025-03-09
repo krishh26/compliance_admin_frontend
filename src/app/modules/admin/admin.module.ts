@@ -19,7 +19,7 @@ const routes: Routes = [
       { path: 'add-employee', component: AddEmployeeComponent },
       { path: 'edit-employee/:id', component: AddEmployeeComponent },
       {
-        path: 'employee-details-completed',
+        path: 'employee-details-completed/:id',
         component: EmployeeDetailsCompletedComponent,
       },
       {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
@@ -12,16 +12,17 @@ export class EmployeeDetailsOutstandingComponent {
   employeeId: any = null;
   employeeData: any;
   showLoader: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private employeeService: EmployeeService,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.employeeId = params.get('id');
-      console.log('Employee ID:', this.employeeId);
     });
     this.getOneEmployee();
   }
@@ -40,5 +41,9 @@ export class EmployeeDetailsOutstandingComponent {
         );
       }
     );
+  }
+
+  gotoCompletedPage() {
+    this.router.navigateByUrl(`/admin/employee-details-completed/${this.employeeId}`);
   }
 }

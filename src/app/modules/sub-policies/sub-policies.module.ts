@@ -7,6 +7,7 @@ import { HomeComponent } from '../admin/home/home.component';
 import { UploadSubPoliciesComponent } from './upload-sub-policies/upload-sub-policies.component';
 import { SubPoliciesSettingComponent } from './sub-policies-setting/sub-policies-setting.component';
 import { QuestionListComponent } from './question-list/question-list.component';
+import { CreateQuestionComponent } from './create-question/create-question.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -24,6 +25,10 @@ const routes: Routes = [
         path: 'question-list',
         component: QuestionListComponent,
       },
+      {
+        path: 'create-question',
+        component: CreateQuestionComponent,
+      },
     ],
   },
   {
@@ -38,6 +43,7 @@ const routes: Routes = [
     UploadSubPoliciesComponent,
     SubPoliciesSettingComponent,
     QuestionListComponent,
+    CreateQuestionComponent,
   ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })

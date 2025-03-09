@@ -9,6 +9,8 @@ export enum SubPolicyEndPoint {
   SUB_POLICY_LIST = '/sub-policy/list',
   SUB_POLICY_DELETE = '/sub-policy/delete',
   GET_QUESTION_LIST = '/question/list',
+  DELETE_QUESTION = '/question/delete',
+  CREATE_QUESTION = '/question/create',
 }
 
 @Injectable({
@@ -74,6 +76,26 @@ export class SubPoliciesService {
       this.baseUrl + SubPolicyEndPoint.GET_QUESTION_LIST,
       payload,
       { headers: this.getHeader() }
+    );
+  }
+
+  deleteQuestion(id: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.DELETE_QUESTION,
+      id,
+      {
+        headers: this.getHeader(),
+      }
+    );
+  }
+
+  createQuestion(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.CREATE_QUESTION,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
     );
   }
 }

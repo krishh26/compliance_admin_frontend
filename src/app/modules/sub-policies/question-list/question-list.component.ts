@@ -1,9 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QUESTION_TYPE } from 'src/app/common/enum/question-type.enum';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-question-list',
@@ -20,7 +21,8 @@ export class QuestionListComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private subPoliciesService: SubPoliciesService
+    private subPoliciesService: SubPoliciesService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -77,7 +79,37 @@ export class QuestionListComponent implements OnInit {
   }
 
   deleteQuestion(id: number) {
-    console.log('Delete Question:', id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Do you want to delete this Question ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#4285F4',
+      cancelButtonColor: '#C8C8C8',
+      confirmButtonText: 'Yes, Delete!',
+    }).then((result: any) => {
+      if (result?.value) {
+        this.showLoader = true;
+        const payload = { id: id };
+        console.log('this is payload', payload);
+        this.subPoliciesService.deleteQuestion(payload).subscribe(
+          (response) => {
+            this.showLoader = false;
+            this.notificationService.showSuccess(
+              'Delete Question successfully'
+            );
+            this.getQuestionList();
+          },
+          (error) => {
+            this.showLoader = false;
+            console.log('this is error', error);
+            this.notificationService.showError(
+              error?.error?.message || 'Something went wrong!'
+            );
+          }
+        );
+      }
+    });
   }
 
   getAnswerType(questionType: string): string {
@@ -91,5 +123,11 @@ export class QuestionListComponent implements OnInit {
       default:
         return 'Unknown';
     }
+  }
+
+  createQuestion() {
+    this.router.navigate(['/sub-policies/create-question'], {
+      queryParams: { subPoliciesId: this.subPolicyId, userGroup: this.userGroup }, // Add your params here
+    });
   }
 }

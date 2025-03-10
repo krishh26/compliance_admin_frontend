@@ -34,7 +34,7 @@ export class PolicyService {
   getPolicyList(): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + PolicyEndPoint.POLICY_LIST,
-      { isActive: 1 },
+      {},
       {
         headers: this.getHeader(),
       }

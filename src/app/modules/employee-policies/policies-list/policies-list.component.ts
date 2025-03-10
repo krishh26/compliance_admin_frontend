@@ -15,7 +15,7 @@ export class PoliciesListComponent {
   constructor(
     private notificationService: NotificationService,
     private policyService: PolicyService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getPolicyList();

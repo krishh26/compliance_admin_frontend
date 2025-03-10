@@ -5,9 +5,7 @@
         <div class="container-fluid p-0">
           <div class="page-title mb-3">
             <h2>
-              <a (click)="back()" class="me-2 text-dark"
-                ><i class="bi bi-arrow-left-circle"></i
-              ></a>
+              <a (click)="back()" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>
             </h2>
           </div>
           <div class="container-fluid p-0">
@@ -24,15 +22,8 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="examTimeline"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['examTimeline'].errors?.['required']"
-                        >
+                        <input type="date" class="form-control" formControlName="examTimeline" />
+                        <small class="text-danger" *ngIf="submitted && f['examTimeline'].errors?.['required']">
                           Exam timeline is required
                         </small>
                       </div>
@@ -41,21 +32,12 @@
 
                   <div class="row align-items-center">
                     <div class="col-lg-3 col-xl-3 col-12">
-                      <label class="col-form-label"
-                        >Re-attempt Days left:</label
-                      >
+                      <label class="col-form-label">Re-attempt Days left:</label>
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="reattemptDaysLeft"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['reattemptDaysLeft'].errors?.['required']"
-                        >
+                        <input type="text" class="form-control" formControlName="reattemptDaysLeft" />
+                        <small class="text-danger" *ngIf="submitted && f['reattemptDaysLeft'].errors?.['required']">
                           Re-attempt Days left is required
                         </small>
                       </div>
@@ -64,21 +46,12 @@
 
                   <div class="row align-items-center">
                     <div class="col-lg-3 col-xl-3 col-12">
-                      <label class="col-form-label"
-                        >Max. no. of Re-attempt:</label
-                      >
+                      <label class="col-form-label">Max. no. of Re-attempt:</label>
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="maxReattempts"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['maxReattempts'].errors?.['required']"
-                        >
+                        <input type="text" class="form-control" formControlName="maxReattempts" />
+                        <small class="text-danger" *ngIf="submitted && f['maxReattempts'].errors?.['required']">
                           Max. no. of Re-attempt is required
                         </small>
                       </div>
@@ -91,15 +64,8 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="maxMarks"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['maxMarks'].errors?.['required']"
-                        >
+                        <input type="text" class="form-control" formControlName="maxMarks" />
+                        <small class="text-danger" *ngIf="submitted && f['maxMarks'].errors?.['required']">
                           Max Marks is required
                         </small>
                       </div>
@@ -112,15 +78,8 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="maxQuestions"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['maxQuestions'].errors?.['required']"
-                        >
+                        <input type="text" class="form-control" formControlName="maxQuestions" />
+                        <small class="text-danger" *ngIf="submitted && f['maxQuestions'].errors?.['required']">
                           Max Questions is required
                         </small>
                       </div>
@@ -133,11 +92,7 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="maxScore"
-                        />
+                        <input type="text" class="form-control" formControlName="maxScore" />
                       </div>
                     </div>
                   </div>
@@ -148,15 +103,8 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="timeLimit"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['timeLimit'].errors?.['required']"
-                        >
+                        <input type="text" class="form-control" formControlName="timeLimit" />
+                        <small class="text-danger" *ngIf="submitted && f['timeLimit'].errors?.['required']">
                           TimeLimit is required
                         </small>
                       </div>
@@ -169,11 +117,7 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="text"
-                          class="form-control"
-                          formControlName="passingMarks"
-                        />
+                        <input type="text" class="form-control" formControlName="passingMarks" />
                       </div>
                     </div>
                   </div>
@@ -184,15 +128,8 @@
                     </div>
                     <div class="col-lg-9 col-xl-9 col-12">
                       <div class="form-group">
-                        <input
-                          type="date"
-                          class="form-control"
-                          formControlName="publishDate"
-                        />
-                        <small
-                          class="text-danger"
-                          *ngIf="submitted && f['publishDate'].errors?.['required']"
-                        >
+                        <input type="date" class="form-control" formControlName="publishDate" />
+                        <small class="text-danger" *ngIf="submitted && f['publishDate'].errors?.['required']">
                           Publish Date is required
                         </small>
                       </div>

@@ -37,4 +37,4 @@ const routes: Routes = [
   ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })
-export class EmployeePoliciesModule {}
+export class EmployeePoliciesModule { }

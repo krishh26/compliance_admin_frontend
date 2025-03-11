@@ -15,6 +15,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SharedModule } from './utility/shared/shared.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
+import { ComplianceTestModule } from './modules/compliance-test/compliance-test.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
       positionClass: 'toast-top-right',
       preventDuplicates: false,
     }),
-    SharedModule
+    SharedModule,
+    ComplianceTestModule
   ],
   // providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
   //   {

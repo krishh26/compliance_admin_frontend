@@ -40,12 +40,12 @@
                           }}</a>
                       </td>
                       <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
-                        date : "dd MMM yyyy") : (item?.createdAt |
-                        date : "dd MMM yyyy") }}</td>
+                        date : "dd MM yyyy") : (item?.createdAt |
+                        date : "dd MM yyyy") }}</td>
                       <td>
                         <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
                       </td>
-                      <td scope="col">{{ item?.createdAt | date : "dd MMM yyyy" }}</td>
+                      <td scope="col">{{ item?.createdAt | date : "dd MM yyyy" }}</td>
                     </tr>
                   </ng-container>
                 </tbody>

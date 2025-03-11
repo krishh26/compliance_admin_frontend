@@ -42,8 +42,8 @@
                       <td>
                         <a routerLink="/policies/terms-conditions" class="text-dark">{{ item?.version }}</a>
                       </td>
-                      <td>{{ item?.createdAt | date : "dd MMM yyyy" }}</td>
-                      <td>{{ item?.policySettings?.publishDate | date : "dd MMM yyyy" }}</td>
+                      <td>{{ item?.createdAt | date : "dd MM yyyy" }}</td>
+                      <td>{{ item?.policySettings?.publishDate | date : "dd MM yyyy" }}</td>
                     </tr>
                   </ng-container>
                 </tbody>

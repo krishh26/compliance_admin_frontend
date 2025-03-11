@@ -1,5 +1,16 @@
 <main class="content bg-white">
   <div class="container-fluid p-0">
+    <div class="page-title  mb-3">
+      <div class="row align-items-center">
+        <div class="col-6">
+          <h2><a href="exam-instruction.html" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a></h2>
+        </div>
+        <div class="col-6 text-end">
+          <span class="badge bg-success ps-3 pe-3 pt-2 pb-2">{{ formattedTime }}</span>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-header text-center bg-light">
         <h2 class="mb-0 p-600">Data Analysis Exam</h2>
@@ -10,7 +21,8 @@
             <p><strong>Read Questions Carefully.</strong></p>
           </div>
           <div class="col-6 text-end">
-            <button *ngIf="currentQuestionIndex === questions.length - 1" class="btn btn-success" (click)="completeExam()">
+            <button *ngIf="currentQuestionIndex === questions.length - 1" class="btn btn-success"
+              (click)="completeExam()">
               Complete
             </button>
           </div>
@@ -20,14 +32,9 @@
 
         <div *ngFor="let option of currentQuestion?.optionsDetails; let i = index">
           <div class="form-check mb-2">
-            <input
-              class="form-check-input"
-              [type]="currentQuestion?.questionType == 1 ? 'checkbox' : 'radio'"
-              [name]="'question_' + currentQuestion?._id"
-              [value]="option.optionIndex"
-              (change)="selectAnswer(option.optionIndex)"
-              [checked]="isOptionSelected(option.optionIndex)"
-            />
+            <input class="form-check-input" [type]="currentQuestion?.questionType == 1 ? 'checkbox' : 'radio'"
+              [name]="'question_' + currentQuestion?._id" [value]="option.optionIndex"
+              (change)="selectAnswer(option.optionIndex)" [checked]="isOptionSelected(option.optionIndex)" />
             <label class="form-check-label">
               {{ option.optionText }}
             </label>
@@ -38,14 +45,16 @@
           <button class="btn btn-dark m-1" (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">
             <i class="bi bi-chevron-left"></i> Previous
           </button>
-          <button class="btn btn-primary m-1" (click)="nextQuestion()" [disabled]="currentQuestionIndex === questions.length - 1">
+          <button class="btn btn-primary m-1" (click)="nextQuestion()"
+            [disabled]="currentQuestionIndex === questions.length - 1">
             Next <i class="bi bi-chevron-right"></i>
           </button>
         </div>
 
         <div class="p-5">
           <div class="progress mb-2">
-            <div class="progress-bar" role="progressbar" [style.width]="progressPercent + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar" role="progressbar" [style.width]="progressPercent + '%'" aria-valuemin="0"
+              aria-valuemax="100"></div>
           </div>
           <p class="text-center">{{ currentQuestionIndex + 1 }}/{{ questions.length }} Completed</p>
         </div>

@@ -78,10 +78,38 @@ export class ExamComponent {
     })
   }
 
+  ngOnDestroy() {
+    clearInterval(this.timerInterval);
+  }
 
-
+  timeLeft: number = 600; // 10 minutes in seconds
+  timerInterval: any;
   ngOnInit() {
     this.loadAnswers();
+    this.loadTimer();
+    this.startTimer();
+  }
+
+  loadTimer() {
+    const savedTime = localStorage.getItem('timeLeft');
+    this.timeLeft = savedTime ? parseInt(savedTime) : 600; // Load remaining time or default to 10 min
+  }
+
+  startTimer() {
+    this.timerInterval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+        localStorage.setItem('timeLeft', this.timeLeft.toString());
+      } else {
+        this.completeExam();
+      }
+    }, 1000);
+  }
+
+  get formattedTime(): string {
+    const minutes = Math.floor(this.timeLeft / 60);
+    const seconds = this.timeLeft % 60;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
 
   loadQuestions() {

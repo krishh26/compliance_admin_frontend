@@ -71,11 +71,11 @@
               <td>{{item?.latestResult?.score}}</td>
               <td>{{item?.latestResult?.submitDate | date : "dd MMM YYYY"}}</td>
               <td>
-                <span *ngIf="item?.latestResult?.resultStatus == '2'">Fail</span>
-                <span *ngIf="item?.latestResult?.resultStatus == '1'">Pass</span>
+                <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
+                <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
               </td>
               <td>{{item?.latestResult?.duration}} Minutes</td>
-              <td><a href="" class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
+              <td><a class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
             </tr>
           </tbody>
         </table>

@@ -81,7 +81,7 @@ Form control CSS
 
 .input-icon-right {
     position: absolute;
-    top: 15px;
+    top: 25px;
     right: 15px;
     cursor: pointer;
     color: #A7A7A7;
@@ -630,10 +630,22 @@ ul.Employeedetails li{
     display: inline-block;
     padding: 1rem;
 }
+.padding-5{
+    padding: 3rem;
+}
 /*==================================
   Media Query
   ====================================*/
 @media (max-width: 768px) {
+    .padding-5{
+        padding: 1rem;
+    }
+    .mobile-hide{
+        display: none;
+    }
+    .content{
+        padding: 1rem 0.75rem;
+    }
     .desktop-end {
         text-align: left;
     }
@@ -647,6 +659,20 @@ ul.Employeedetails li{
     }
 
     .mob-mb1 {
-        margin-bottom: 1rem;
+        margin-bottom: 1rem !important;
+    }
+    ul.OutstandingTab li {
+        margin-right: 5px;
+    }
+    ul.OutstandingTab li a {
+        padding: 0.75rem 0.40rem;
+        min-width:130px;
+        font-weight: 400;
+        font-size: 0.9rem;
+    }
+    ul.OutstandingTab li a img {
+        display: inline-block;
+        margin-right: 5px;
+        width: 32px;
     }
 }

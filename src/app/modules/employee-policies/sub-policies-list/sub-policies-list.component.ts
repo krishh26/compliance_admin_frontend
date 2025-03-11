@@ -18,7 +18,7 @@ export class SubPoliciesListComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -31,7 +31,11 @@ export class SubPoliciesListComponent {
     this.showLoader = true;
     this.policyList = [];
     this.subPoliciesService
-      .getSubPolicyList({ policyId: this.policyId })
+      .getSubPolicyList({
+        policyId: this.policyId,
+        isActive: 1,
+        isFrontEndRequest: 1
+      })
       .subscribe(
         (response) => {
           this.showLoader = false;

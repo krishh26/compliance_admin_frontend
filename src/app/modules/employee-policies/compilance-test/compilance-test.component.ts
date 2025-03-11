@@ -4,18 +4,18 @@ import { PolicyService } from 'src/app/services/policy/policy.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-policies-list',
-  templateUrl: './policies-list.component.html',
-  styleUrls: ['./policies-list.component.css'],
+  selector: 'app-compilance-test',
+  templateUrl: './compilance-test.component.html',
+  styleUrls: ['./compilance-test.component.css'],
 })
-export class PoliciesListComponent {
+export class CompilanceTestComponent {
   policyList: any[] = [];
   showLoader: boolean = false;
 
   constructor(
     private notificationService: NotificationService,
     private policyService: PolicyService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getPolicyList();

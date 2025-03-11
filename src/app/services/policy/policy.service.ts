@@ -6,6 +6,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum PolicyEndPoint {
   POLICY = '/policy',
+  POLICY_LIST = '/policy/list',
 }
 
 @Injectable({
@@ -31,9 +32,13 @@ export class PolicyService {
   }
 
   getPolicyList(): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + PolicyEndPoint.POLICY, {
-      headers: this.getHeader(),
-    });
+    return this.httpClient.post<any>(
+      this.baseUrl + PolicyEndPoint.POLICY_LIST,
+      {},
+      {
+        headers: this.getHeader(),
+      }
+    );
   }
 
   getPolicyDetails(id: string): Observable<any> {

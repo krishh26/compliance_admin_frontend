@@ -5,6 +5,9 @@ import { SharedModule } from '../../utility/shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../admin/home/home.component';
 import { UploadSubPoliciesComponent } from './upload-sub-policies/upload-sub-policies.component';
+import { SubPoliciesSettingComponent } from './sub-policies-setting/sub-policies-setting.component';
+import { QuestionListComponent } from './question-list/question-list.component';
+import { CreateQuestionComponent } from './create-question/create-question.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -14,7 +17,18 @@ const routes: Routes = [
     children: [
       { path: 'sub-policies-list/:id', component: SubPoliciesListComponent },
       { path: 'upload-sub-policy/:id', component: UploadSubPoliciesComponent },
-      // { path: 'terms-conditions', component: TermsConditionsComponent },
+      {
+        path: 'setting-sub-policies/:id',
+        component: SubPoliciesSettingComponent,
+      },
+      {
+        path: 'question-list',
+        component: QuestionListComponent,
+      },
+      {
+        path: 'create-question',
+        component: CreateQuestionComponent,
+      },
     ],
   },
   {
@@ -24,7 +38,13 @@ const routes: Routes = [
   },
 ];
 @NgModule({
-  declarations: [SubPoliciesListComponent, UploadSubPoliciesComponent],
+  declarations: [
+    SubPoliciesListComponent,
+    UploadSubPoliciesComponent,
+    SubPoliciesSettingComponent,
+    QuestionListComponent,
+    CreateQuestionComponent,
+  ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })
 export class SubPoliciesModule {}

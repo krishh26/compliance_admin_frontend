@@ -3,43 +3,43 @@
     <div class="sidebar-content js-simplebar">
       <a class="sidebar-brand" routerLink="/admin/employee-list">
         <span class="align-middle">
-          <!-- <img src="assets/img/zinga-logo.png" width="150"/> -->
-          Admin Portal
+          <ng-container *ngIf="loginRole !== 'ADMIN'">
+            Compliance Portal
+          </ng-container>
+          <ng-container *ngIf="loginRole === 'ADMIN'">
+            Admin Portal
+          </ng-container>
         </span>
       </a>
 
       <ul class="sidebar-nav">
-        <li
-          class="sidebar-item"
-          routerLinkActive="active"
-          *ngIf="loginRole === 'ADMIN'"
-        >
+        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole === 'ADMIN'">
           <a class="sidebar-link" routerLink="/admin/employee-list">
-            <i class="bi bi-people"></i
-            ><span class="align-middle">Employee</span>
+            <i class="bi bi-people"></i><span class="align-middle">Employee</span>
           </a>
         </li>
-        <li
-          class="sidebar-item"
-          routerLinkActive="active"
-          *ngIf="loginRole === 'ADMIN'"
-        >
+        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole === 'ADMIN'">
           <a class="sidebar-link" routerLink="/policies/policies-list">
             <i class="bi bi-file-text"></i>
             <span class="align-middle">Policies</span>
           </a>
         </li>
-        <li
-          class="sidebar-item"
-          routerLinkActive="active"
-          *ngIf="loginRole === 'EMPLOYEE'"
-        >
-          <a
-            class="sidebar-link"
-            routerLink="/employee-policies/employee-policies-list"
-          >
+        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+          <a class="sidebar-link" routerLink="/compliance-test/outstanding">
             <i class="bi bi-file-text"></i>
-            <span class="align-middle">Employee Policies</span>
+            <span class="align-middle">Compliance Test</span>
+          </a>
+        </li>
+        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+          <a class="sidebar-link" routerLink="/employee-policies/employee-policies-list">
+            <i class="bi bi-file-text"></i>
+            <span class="align-middle">Policies</span>
+          </a>
+        </li>
+        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+          <a class="sidebar-link" routerLink="/support/support">
+            <i class="bi bi-file-text"></i>
+            <span class="align-middle">Support</span>
           </a>
         </li>
       </ul>
@@ -58,25 +58,13 @@
       <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align align-items-center">
           <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle d-none d-sm-inline-block"
-              href="javscript:;"
-              id="adminDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="assets/img/avatars/avatar.jpg"
-                class="avatar img-fluid full-rounded me-2 d-inline-block"
-                alt="Charles Hall"
-              />
+            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="javscript:;" id="adminDropdown"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="assets/img/avatars/avatar.jpg" class="avatar img-fluid full-rounded me-2 d-inline-block"
+                alt="Charles Hall" />
               <div class="text-dark d-inline-block"><strong>Admin</strong></div>
             </a>
-            <ul
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="adminDropdown"
-            >
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
               <li>
                 <a class="dropdown-item" href="javascript:;">
                   <i class="align-middle me-1" data-feather="user"></i> Account

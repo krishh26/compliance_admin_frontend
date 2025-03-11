@@ -1,3 +1,4 @@
+import { ComplianceTestModule } from './modules/compliance-test/compliance-test.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modules/auth/login/login.component';
@@ -35,6 +36,20 @@ const routes: Routes = [
         (m) => m.EmployeePoliciesModule
       ),
   },
+  {
+    path: 'support',
+    loadChildren: () =>
+      import('./modules/support/support.module').then(
+        (m) => m.SupportModule
+      ),
+  },
+  {
+    path: 'compliance-test',
+    loadChildren: () =>
+      import('./modules/compliance-test/compliance-test.module').then(
+        (m) => m.ComplianceTestModule
+      ),
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
@@ -42,4 +57,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

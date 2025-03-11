@@ -68,10 +68,13 @@
 
             <tr *ngFor="let item of completedtestlist">
               <td>{{item?.name}}</td>
-              <td>{{item?.resultDetails?.score}}</td>
-              <td>{{item?.name}}</td>
-              <td>{{item?.resultDetails?.resultStatus}}</td>
-              <td>{{item?.duration}} Minutes</td>
+              <td>{{item?.latestResult?.score}}</td>
+              <td>{{item?.latestResult?.submitDate | date : "dd MMM YYYY"}}</td>
+              <td>
+                <span *ngIf="item?.latestResult?.resultStatus == '2'">Fail</span>
+                <span *ngIf="item?.latestResult?.resultStatus == '1'">Pass</span>
+              </td>
+              <td>{{item?.latestResult?.duration}} Minutes</td>
               <td><a href="" class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
             </tr>
           </tbody>

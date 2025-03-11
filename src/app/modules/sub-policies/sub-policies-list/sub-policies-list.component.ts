@@ -24,8 +24,8 @@ export class SubPoliciesListComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.policyId = params.get('id');
+      this.getPolicyList();
     });
-    this.getPolicyList();
   }
 
   getPolicyList() {

@@ -62,9 +62,12 @@ export class QuestionListComponent implements OnInit {
       },
       (error) => {
         this.showLoader = false;
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.questions = [];
+        if (error?.status !== 404) {
+          this.notificationService.showError(
+            error?.error?.message || 'Something went wrong!'
+          );
+        }
       }
     );
   }

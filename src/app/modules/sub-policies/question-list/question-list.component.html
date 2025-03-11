@@ -72,6 +72,6 @@
 
   <!-- No Questions Found -->
   <div *ngIf="!showLoader && questions.length === 0" class="text-center mt-4">
-    <p class="text-muted">No questions found.</p>
+    <app-no-record-found></app-no-record-found>
   </div>
 </div>

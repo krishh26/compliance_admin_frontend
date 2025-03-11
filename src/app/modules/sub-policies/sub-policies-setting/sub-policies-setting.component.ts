@@ -1,6 +1,9 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from 'src/app/services/notification/notification.service';
+import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
 @Component({
   selector: 'app-sub-policies-setting',
@@ -10,56 +13,109 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SubPoliciesSettingComponent {
   testSettingsForm: FormGroup;
   submitted: boolean = false;
+  subPolicyId!: any;
+  showLoader: boolean = false;
 
-  constructor(private fb: FormBuilder, private location: Location) {
-    this.testSettingsForm = this.fb.group({
-      examTimeline: ['', [Validators.required]],
-      reattemptDaysLeft: ['', [Validators.required]],
-      maxReattempts: ['', [Validators.required]],
-      maxMarks: ['', [Validators.required]],
-      maxQuestions: ['', [Validators.required]],
-      maxScore: [{ value: '', disabled: true }],
-      timeLimit: ['', [Validators.required]],
-      publishDate: ['', [Validators.required]],
-      passingMarks: [{ value: '', disabled: true }],
+  constructor(
+    private fb: FormBuilder,
+    private location: Location,
+    private subPoliciesService: SubPoliciesService,
+    private route: ActivatedRoute,
+    private notificationService: NotificationService,
+  ) {
+    this.route.paramMap.subscribe((params) => {
+      this.subPolicyId = String(params.get('id'));
+      if (this.subPolicyId) {
+        this.getSettingDetails();
+      }
     });
 
-    this.testSettingsForm
-      .get('maxMarks')
-      ?.valueChanges.subscribe(() => this.calculateValues());
-    this.testSettingsForm
-      .get('maxQuestions')
-      ?.valueChanges.subscribe(() => this.calculateValues());
+    this.testSettingsForm = this.fb.group({
+      examTimeLimit: ['', [Validators.required]],
+      maximumRettemptDaysLeft: ['', [Validators.required]],
+      maximumAttempt: ['', [Validators.required]],
+      maximumMarks: ['', [Validators.required]],
+      maximumQuestions: ['', [Validators.required]],
+      maximumScore: [{ value: '', disabled: true }],
+      timeLimit: ['', [Validators.required]],
+      PassingScore: ['', [Validators.required]],
+      publishDate: ['', [Validators.required]],
+      skipWeekDays: [1, [Validators.required]],
+    });
+
+    this.testSettingsForm.get('maximumMarks')?.valueChanges.subscribe(() => this.calculateValues());
+    this.testSettingsForm.get('maximumQuestions')?.valueChanges.subscribe(() => this.calculateValues());
   }
 
   get f() {
     return this.testSettingsForm.controls;
   }
 
+  getSettingDetails() {
+    this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
+      if (response?.data) {
+        this.testSettingsForm.patchValue({
+          examTimeLimit: response?.data?.examTimeLimit,
+          maximumRettemptDaysLeft: response?.data?.maximumRettemptDaysLeft,
+          maximumAttempt: response?.data?.maximumAttempt,
+          maximumMarks: response?.data?.maximumMarks,
+          maximumQuestions: response?.data?.maximumQuestions,
+          maximumScore: response?.data?.maximumScore,
+          timeLimit: response?.data?.timeLimit,
+          PassingScore: response?.data?.PassingScore,
+          publishDate: response?.data?.publishDate,
+          skipWeekDays: response?.data?.skipWeekDays,
+        });
+      } else {
+        this.testSettingsForm.reset();
+        this.testSettingsForm.patchValue({
+          skipWeekDays: 1,
+        });
+      }
+    }, (error) => {
+      this.testSettingsForm.reset();
+      this.testSettingsForm.patchValue({
+        skipWeekDays: 1,
+      });
+    })
+  }
+
   calculateValues(): void {
-    const maxMarks = Number(this.testSettingsForm.get('maxMarks')?.value) || 0;
-    const maxQuestions =
-      Number(this.testSettingsForm.get('maxQuestions')?.value) || 1; // Avoid division by zero
+    const maxMarks = Number(this.testSettingsForm.get('maximumMarks')?.value) || 0;
+    const maxQuestions = Number(this.testSettingsForm.get('maximumQuestions')?.value) || 1; // Avoid division by zero
 
     // Calculate passing marks and max score
     const passingMarks = Math.floor((maxMarks * 33) / 100);
     const maxScore = (maxMarks / maxQuestions).toFixed(2);
 
     // Set values in the form
+    // this.testSettingsForm.patchValue({
+    //   PassingScore: passingMarks,
+    //   maximumScore: maxScore,
+    // });
+
     this.testSettingsForm.patchValue({
-      passingMarks: passingMarks,
-      maxScore: maxScore,
+      maximumScore: maxScore,
     });
   }
+
   back() {
     this.location.back();
   }
+
   onSubmit() {
+    this.showLoader = true;
     this.submitted = true;
+    console.log("this.testSettingsForm.getRawValue()", this.testSettingsForm.getRawValue());
     if (!this.testSettingsForm.valid) {
       return;
     }
-    const payload = { ...this.testSettingsForm.getRawValue() };
+    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId };
     console.log('Form Submitted', payload);
+    this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
+      this.notificationService.showSuccess(response?.message || 'Setting Updated Successfully.');
+    }, (error) => {
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    })
   }
 }

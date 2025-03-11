@@ -28,10 +28,11 @@
               <table class="table table-striped mb-0">
                 <thead class="table-light">
                   <tr>
-                    <th scope="col">Version History</th>
-                    <th scope="col">Sub Policy Date</th>
-                    <th scope="col">Action</th>
-                    <th></th>
+                    <th scope="col" class="w-25">Version History</th>
+                    <th scope="col" class="w-25">Sub Policy Date</th>
+                    <th scope="col">Settings</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">User Group</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -46,17 +47,28 @@
                       <td>
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
                       </td>
-                      <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
+                      <td>{{ item?.createdAt | date: "dd/MM/yyyy" }}</td>
                       <td>
-                        <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-4"><i
-                            class="bi bi-gear-fill"></i> </a>
-                        <i class="bi bi-trash3-fill" (click)="deleteSubPolicy(item._id)" style="cursor: pointer"></i>
+                        <a [routerLink]="['/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-3">
+                          <i class="bi bi-gear-fill"></i>
+                        </a>
                       </td>
                       <td>
-                        <a class="btn btn-primary btn-sm me-4" [routerLink]="['/sub-policies/question-list']"
-                          [queryParams]="{ subPoliciesId: item._id, userGroup: '1' }">Employee</a>
-                        <a class="btn btn-primary btn-sm" [routerLink]="['/sub-policies/question-list']"
-                          [queryParams]="{ subPoliciesId: item._id, userGroup: '2'}">Line Manager</a>
+                        <button (click)="deleteSubPolicy(item._id)" class="btn btn-danger btn-sm">
+                          <i class="bi bi-trash-fill"></i>
+                        </button>
+                      </td>
+                      <td>
+                        <a class="btn btn-primary btn-sm me-2"
+                          [routerLink]="['/sub-policies/question-list']"
+                          [queryParams]="{ subPoliciesId: item._id, userGroup: '1' }">
+                          Employee
+                        </a>
+                        <a class="btn btn-primary btn-sm"
+                          [routerLink]="['/sub-policies/question-list']"
+                          [queryParams]="{ subPoliciesId: item._id, userGroup: '2' }">
+                          Line Manager
+                        </a>
                       </td>
                     </tr>
                   </ng-container>
@@ -65,7 +77,11 @@
             </div>
           </div>
         </div>
+
       </div>
     </main>
   </div>
 </div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

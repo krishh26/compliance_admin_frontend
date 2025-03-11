@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
@@ -18,7 +19,8 @@ export class SubPoliciesListComponent {
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -29,19 +31,26 @@ export class SubPoliciesListComponent {
   }
 
   getPolicyList() {
-    this.showLoader = true;
+    this.spinner.show();
     this.policyList = [];
     this.subPoliciesService
       .getSubPolicyList({ policyId: this.policyId })
       .subscribe(
         (response) => {
-          this.showLoader = false;
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 2000);
           this.policyList = response?.data || [];
           // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
         },
         (error) => {
-          this.showLoader = false;
-          // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 2000);
+          console.log('this is error', error);
+          this.notificationService.showError(
+            error?.error?.message || 'Something went wrong!'
+          );
         }
       );
   }

@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
@@ -26,7 +27,8 @@ export class UploadSubPoliciesComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private location: Location,
-    private policyService: PolicyService
+    private policyService: PolicyService,
+    private spinner: NgxSpinnerService
   ) {
     this.policyForm = this.fb.group({
       policyId: ['', Validators.required],
@@ -52,32 +54,40 @@ export class UploadSubPoliciesComponent {
   }
 
   getPolicyList() {
-    this.showLoader = true;
+    this.spinner.show();
     this.policyList = [];
     this.policyService.getPolicyList().subscribe(
       (response) => {
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
         this.policyList = response?.data || [];
         console.log('this is my policies services', this.policyList);
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
       },
       (error) => {
-        this.showLoader = false;
-        // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
+        console.log('this is error', error);
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
       }
     );
   }
 
   submitForm() {
-    this.submitted = true;
+    this.spinner.show();
     if (!this.policyForm.valid) {
       return;
     }
     this.showLoader = true;
     this.subPoliciesService.createPolicy(this.policyForm.value).subscribe(
       (response) => {
-        this.showLoader = false;
-
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
         this.notificationService.showSuccess(
           response?.message || 'Sub Policy Create successfully'
         );
@@ -88,7 +98,9 @@ export class UploadSubPoliciesComponent {
         ]);
       },
       (error) => {
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

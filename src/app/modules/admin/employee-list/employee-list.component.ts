@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import Swal from 'sweetalert2';
@@ -15,15 +16,19 @@ export class EmployeeListComponent {
   constructor(
     private router: Router,
     private notificationService: NotificationService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private spinner: NgxSpinnerService
   ) { }
   ngOnInit() {
     this.getEmployees();
   }
   getEmployees() {
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getEmployee().subscribe(
       (response) => {
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
         console.log('this sis employee', response);
         this.showLoader = false;
         this.employees = response?.data;
@@ -32,7 +37,9 @@ export class EmployeeListComponent {
         // );
       },
       (error) => {
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
         console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'

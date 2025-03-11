@@ -16,6 +16,7 @@ import { SharedModule } from './utility/shared/shared.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
 import { ComplianceTestModule } from './modules/compliance-test/compliance-test.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { ComplianceTestModule } from './modules/compliance-test/compliance-test.
       preventDuplicates: false,
     }),
     SharedModule,
-    ComplianceTestModule
+    ComplianceTestModule,
+    NgxSpinnerModule
   ],
   // providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
   //   {

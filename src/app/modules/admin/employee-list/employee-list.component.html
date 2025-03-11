@@ -52,7 +52,12 @@
               <td>{{ employee.dateOfJoining | date}}</td>
               <td>{{ employee.phone }}</td>
               <td>{{ employee.role }}</td>
-              <td (click)="deleteEmployee(employee._id)" style="cursor: pointer;"><i class="bi bi-trash3-fill"></i></td>
+              <!-- <td (click)="deleteEmployee(employee._id)" style="cursor: pointer;"><i class="bi bi-trash3-fill"></i></td> -->
+              <td>
+                <a href="javascript:void(0);" (click)="deleteEmployee(employee._id)" class="btn btn-danger btn-sm">
+                  <i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -60,3 +65,6 @@
     </div>
   </div>
 </div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

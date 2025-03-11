@@ -7,6 +7,7 @@ import { UploadPoliciesComponent } from './upload-policies/upload-policies.compo
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/utility/shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -36,7 +37,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    NgxSpinnerModule
   ]
 })
 export class PoliciesModule { }

@@ -1,115 +1,79 @@
-<body>
-  <div class="wrapper">
-    <div class="main">
-      <main class="content bg-white">
-        <div class="container-fluid p-0">
-          <div class="page-title mb-3">
-            <h2>
-              <a (click)="back()" class="me-2 text-dark"
-                ><i class="bi bi-arrow-left-circle"></i></a
-              >Upload Sub Policy
-            </h2>
-          </div>
+<div class="wrapper">
+  <div class="main">
+    <main class="content bg-white">
+      <div class="container-fluid p-3">
+        <!-- Page Title -->
+        <div class="page-title mb-4">
+          <h2 class="d-flex align-items-center">
+            <a (click)="back()" class="me-2 text-dark">
+              <i class="bi bi-arrow-left-circle"></i>
+            </a>
+            Upload Sub Policy
+          </h2>
+        </div>
 
-          <div class="card">
-            <div class="card-body">
-              <form [formGroup]="policyForm" (ngSubmit)="submitForm()">
-                <div class="row align-items-center">
-                  <div class="col-lg-2 col-xl-2 col-12">
-                    <label class="col-form-label">Policy Name:</label>
-                  </div>
-                  <div class="col-lg-10 col-xl-10 col-12">
-                    <div class="form-group">
-                      <select class="form-select" formControlName="policyId">
-                        <option
-                          *ngFor="let policy of policyList"
-                          [value]="policy._id"
-                        >
-                          {{ policy.name }} ({{ policy.version }})
-                        </option>
-                      </select>
-                      <small
-                        class="text-danger"
-                        *ngIf="submitted && f['policyId'].errors?.['required']"
-                      >
-                        Policy name is required
-                      </small>
-                    </div>
-                  </div>
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <form [formGroup]="policyForm" (ngSubmit)="submitForm()">
+              <!-- Row 1: Policy Name & Version -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="fw-bold">Policy Name:</label>
+                  <select class="form-select" formControlName="policyId">
+                    <option *ngFor="let policy of policyList" [value]="policy._id">
+                      {{ policy.name }} ({{ policy.version }})
+                    </option>
+                  </select>
+                  <small class="text-danger" *ngIf="submitted && f['policyId'].errors?.['required']">
+                    Policy name is required
+                  </small>
                 </div>
 
-                <div class="row g-3 align-items-center">
-                  <div class="col-lg-2 col-xl-2 col-12">
-                    <label class="col-form-label">Name:</label>
-                  </div>
-                  <div class="col-lg-10 col-xl-10 col-12">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Name"
-                        formControlName="name"
-                        required=""
-                      />
-                      <small
-                        class="text-danger"
-                        *ngIf="submitted && f['name'].errors?.['required']"
-                      >
-                        Name is required
-                      </small>
-                    </div>
-                  </div>
+                <div class="col-md-6">
+                  <label class="fw-bold">Version:</label>
+                  <input type="text" class="form-control" placeholder="Enter version (e.g., 2.20)"
+                    formControlName="version" />
+                  <small class="text-danger" *ngIf="submitted && f['version'].errors?.['required']">
+                    Policy version is required
+                  </small>
+                </div>
+              </div>
+
+              <!-- Row 2: Name & Description -->
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label class="fw-bold">Name:</label>
+                  <input type="text" class="form-control" placeholder="Enter sub-policy name" formControlName="name" />
+                  <small class="text-danger" *ngIf="submitted && f['name'].errors?.['required']">
+                    Name is required
+                  </small>
                 </div>
 
-                <div class="row g-3 align-items-center">
-                  <div class="col-lg-2 col-xl-2 col-12">
-                    <label class="col-form-label">Version:</label>
-                  </div>
-                  <div class="col-lg-10 col-xl-10 col-12">
-                    <div class="form-group">
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="2.20"
-                        formControlName="version"
-                        required=""
-                      />
-                      <small
-                        class="text-danger"
-                        *ngIf="submitted && f['version'].errors?.['required']"
-                      >
-                        Policy version is required
-                      </small>
-                    </div>
-                  </div>
+                <div class="col-md-6">
+                  <label class="fw-bold">Content (Description):</label>
+                  <textarea class="form-control" rows="2" placeholder="Enter detailed description"
+                    formControlName="description"></textarea>
                 </div>
-                <div class="row g-3 align-items-center">
-                  <div class="col-lg-2 col-xl-2 col-12">
-                    <label class="col-form-label">Content(Description) :</label>
-                  </div>
-                  <div class="col-lg-10 col-xl-10 col-12">
-                    <div class="form-group">
-                      <textarea
-                        class="form-control"
-                        rows="2"
-                        cols="100"
-                        placeholder="Enter Description"
-                        formControlName="description"
-                      ></textarea>
-                    </div>
-                  </div>
-                </div>
+              </div>
 
-                <div class="form-group text-center">
-                  <button type="submit" class="btn btn-primary">
-                    Upload Sub Policy
+              <!-- Submit Button: Right Aligned & 1/4 Width -->
+              <div class="row">
+                <div class="col-md-9"></div> <!-- Empty space -->
+                <div class="col-md-3 text-end">
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-cloud-upload"></i> Upload Sub Policy
                   </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
-</body>
+</div>
+
+<!-- Loading Spinner -->
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>

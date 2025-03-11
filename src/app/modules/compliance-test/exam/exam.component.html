@@ -1,0 +1,55 @@
+<main class="content bg-white">
+  <div class="container-fluid p-0">
+    <div class="card">
+      <div class="card-header text-center bg-light">
+        <h2 class="mb-0 p-600">Data Analysis Exam</h2>
+      </div>
+      <div class="card-body">
+        <div class="row align-items-center mb-3">
+          <div class="col-6">
+            <p><strong>Read Questions Carefully.</strong></p>
+          </div>
+          <div class="col-6 text-end">
+            <button *ngIf="currentQuestionIndex === questions.length - 1" class="btn btn-success" (click)="completeExam()">
+              Complete
+            </button>
+          </div>
+        </div>
+
+        <h3 class="mb-4">{{ currentQuestionIndex + 1 }}. {{ currentQuestion?.questionText }}</h3>
+
+        <div *ngFor="let option of currentQuestion?.optionsDetails; let i = index">
+          <div class="form-check mb-2">
+            <input
+              class="form-check-input"
+              [type]="currentQuestion?.questionType == 1 ? 'checkbox' : 'radio'"
+              [name]="'question_' + currentQuestion?._id"
+              [value]="option.optionIndex"
+              (change)="selectAnswer(option.optionIndex)"
+              [checked]="isOptionSelected(option.optionIndex)"
+            />
+            <label class="form-check-label">
+              {{ option.optionText }}
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group text-end mt-3">
+          <button class="btn btn-dark m-1" (click)="previousQuestion()" [disabled]="currentQuestionIndex === 0">
+            <i class="bi bi-chevron-left"></i> Previous
+          </button>
+          <button class="btn btn-primary m-1" (click)="nextQuestion()" [disabled]="currentQuestionIndex === questions.length - 1">
+            Next <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="p-5">
+          <div class="progress mb-2">
+            <div class="progress-bar" role="progressbar" [style.width]="progressPercent + '%'" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <p class="text-center">{{ currentQuestionIndex + 1 }}/{{ questions.length }} Completed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

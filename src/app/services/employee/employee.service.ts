@@ -6,6 +6,8 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum EmployeeEndPoint {
   EMPLOYEE = '/employee',
+  COMPLETED_TEST_LIST = '/result/list',
+  OUTSTANDING_TEST_LIST = '/result/out-stading-list'
 }
 
 @Injectable({
@@ -31,6 +33,18 @@ export class EmployeeService {
 
   getEmployee(): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl + EmployeeEndPoint.EMPLOYEE, {
+      headers: this.getHeader(),
+    });
+  }
+
+  getCompletedTestList(param:any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST,param, {
+      headers: this.getHeader(),
+    });
+  }
+
+  getOutstandingTestList(param:any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST,param, {
       headers: this.getHeader(),
     });
   }

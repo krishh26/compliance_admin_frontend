@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -20,18 +20,18 @@ export class CreateQuestionComponent {
   questionForm!: FormGroup;
   questionTypes = [
     {
-      name: "MCQ",
-      value: "3"
+      name: 'MCQ',
+      value: '3',
     },
     {
-      name: "Boolean",
-      value: "2"
+      name: 'Boolean',
+      value: '2',
     },
     {
       name: 'Multiple Choice',
-      value: "1"
-    }
-  ]
+      value: '1',
+    },
+  ];
 
   showLoader: boolean = false;
   subPolicyId: string | null = null;
@@ -41,7 +41,8 @@ export class CreateQuestionComponent {
     private location: Location,
     private subPoliciesService: SubPoliciesService,
     private notificationService: NotificationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.initializeForm();
   }
@@ -72,7 +73,7 @@ export class CreateQuestionComponent {
   addNewQuestion() {
     const newQuestion = this.fb.group({
       questionText: ['', Validators.required],
-      questionType: ['MCQ', Validators.required],
+      questionType: ['3', Validators.required],
       options: this.fb.array([]),
       isActive: ['1', Validators.required],
       answer: ['', Validators.required],
@@ -87,39 +88,33 @@ export class CreateQuestionComponent {
     const optionsArray = this.getOptions(questionIndex);
     optionsArray.clear();
 
-    if (type === "3") {
+    let defaultAnswer = ''; // Store default answer
+
+    if (type === '3') {
       // MCQ: Always 4 fixed options
-      for (let i = 1; i <= 4; i++) {
-        optionsArray.push(new FormControl(`Option ${i}`, Validators.required));
-      }
-    } else if (type === "2") {
+      const mcqOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+      mcqOptions.forEach((option, index) => {
+        optionsArray.push(new FormControl(option, Validators.required));
+        if (index === 0) defaultAnswer = option; // Set first option as default
+      });
+    } else if (type === '2') {
       // Boolean: Always Yes & No
-      ['True', 'false'].forEach((option) =>
-        optionsArray.push(new FormControl(option, Validators.required))
-      );
+      const booleanOptions = ['True', 'False'];
+      booleanOptions.forEach((option, index) => {
+        optionsArray.push(new FormControl(option, Validators.required));
+        if (index === 0) defaultAnswer = option; // Set first option as default
+      });
     } else if (type === '1') {
-      // Multiple Choice: Starts with 4 options, but can add more
-      for (let i = 1; i <= 4; i++) {
-        optionsArray.push(new FormControl(`Option ${i}`, Validators.required));
-      }
+      // Multiple Choice: Starts with 4 options
+      const multipleOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+      multipleOptions.forEach((option, index) => {
+        optionsArray.push(new FormControl(option, Validators.required));
+        if (index === 0) defaultAnswer = option; // Set first option as default
+      });
     }
-  }
 
-  addOption(questionIndex: number) {
-    if (this.isMultipleChoice(questionIndex)) {
-      this.getOptions(questionIndex).push(
-        new FormControl('', Validators.required)
-      );
-    }
-  }
-
-  removeOption(questionIndex: number, optionIndex: number) {
-    if (
-      this.isMultipleChoice(questionIndex) &&
-      this.getOptions(questionIndex).length > 4
-    ) {
-      this.getOptions(questionIndex).removeAt(optionIndex);
-    }
+    // Set the first option as the default answer
+    this.questions.at(questionIndex).patchValue({ answer: defaultAnswer });
   }
 
   onTypeChange(questionIndex: number) {
@@ -147,13 +142,19 @@ export class CreateQuestionComponent {
 
     const newPayload = this.formatePayload(payload);
 
-    this.subPoliciesService.createQuestion(payload).subscribe(
+    this.subPoliciesService.createQuestion(newPayload).subscribe(
       (response) => {
         this.showLoader = false;
 
         this.notificationService.showSuccess(
           response?.message || 'Questions Create successfully'
         );
+        this.router.navigate(['/sub-policies/question-list'], {
+          queryParams: {
+            subPoliciesId: this.subPolicyId,
+            userGroup: this.userGroup,
+          }, // Add your params here
+        });
       },
       (error) => {
         this.showLoader = false;
@@ -171,8 +172,8 @@ export class CreateQuestionComponent {
         element.options.forEach((option: any, index: number) => {
           const data = {
             index: index,
-            value: option
-          }
+            value: option,
+          };
           optionList.push(data);
         });
 
@@ -183,13 +184,12 @@ export class CreateQuestionComponent {
     return payload;
   }
 
-  isMultipleChoice(index: number): boolean {
-    return (
-      this.questions.at(index).get('questionType')?.value === 'Multiple Choice'
-    );
-  }
-
   back() {
     this.location.back();
+  }
+
+  getOptionLabel(index: number): string {
+    const labels = ['A', 'B', 'C', 'D']; // Fixed labels
+    return labels[index] || String.fromCharCode(65 + index); // Fallback for more options
   }
 }

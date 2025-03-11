@@ -23,7 +23,7 @@ export class QuestionListComponent implements OnInit {
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -40,7 +40,7 @@ export class QuestionListComponent implements OnInit {
     this.showLoader = true;
     const payload = {
       subPolicyId: this.subPolicyId,
-      userGroup: this.userGroup
+      userGroup: this.userGroup,
     };
 
     this.subPoliciesService.getQuestionList(payload).subscribe(
@@ -77,7 +77,12 @@ export class QuestionListComponent implements OnInit {
   }
 
   editQuestion(id: number) {
-    console.log('Edit Question:', id);
+    this.router.navigate(['/sub-policies/edit-question'], {
+      queryParams: {
+        questionId: id,
+        userGroup: this.userGroup,
+      },
+    });
   }
 
   deleteQuestion(id: number) {
@@ -129,7 +134,15 @@ export class QuestionListComponent implements OnInit {
 
   createQuestion() {
     this.router.navigate(['/sub-policies/create-question'], {
-      queryParams: { subPoliciesId: this.subPolicyId, userGroup: this.userGroup }, // Add your params here
+      queryParams: {
+        subPoliciesId: this.subPolicyId,
+        userGroup: this.userGroup,
+      },
     });
+  }
+
+  getOptionLabel(index: number): string {
+    const labels = ['a', 'b', 'c', 'd']; // Define static labels
+    return labels[index] || String.fromCharCode(97 + index); // Fallback for more options
   }
 }

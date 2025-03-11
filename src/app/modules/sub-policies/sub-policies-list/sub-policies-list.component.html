@@ -3,7 +3,7 @@
     <main class="content bg-white">
       <div class="container-fluid p-0">
         <div class="row align-items-center mb-3">
-          <div class="col-lg-10 col-xl-10 col-12">
+          <div class=" d-flex justify-content-between ">
             <div class="page-title">
               <h2>
                 <a routerLink="/policies/policies-list" class="me-2 text-dark">
@@ -11,14 +11,42 @@
                 Sub Policies
               </h2>
             </div>
-          </div>
-          <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
+            <div>
             <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
               Upload
             </a>
-            <a [routerLink]="['/policies/policies-list']" class="btn btn-primary w-100">
-              Back
-            </a>
+          </div>
+          </div>
+          <div class="card mt-3">
+            <div class="card-header">
+              <div class="row align-items-center">
+                <div>
+                  <ul class="OutstandingTab mb-4">
+                    <li>
+                      <a class="first-child active">
+                        <img src="assets/img/icons/outstanding-icon.png" />
+                        Version
+                      </a>
+                    </li>
+                    <li>
+                      <a  class="second-child">
+                        <img src="assets/img/icons/completed-icon.png" /> Completed
+                      </a>
+                    </li>
+                    <li>
+                      <a class="first-child active">
+                        <img src="assets/img/icons/outstanding-icon.png" />
+                        Outstanding
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-12">
+                 
+                </div>
+              </div>
+             
+            </div>
           </div>
         </div>
 

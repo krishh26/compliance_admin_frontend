@@ -9,6 +9,7 @@ import { SubPoliciesSettingComponent } from './sub-policies-setting/sub-policies
 import { QuestionListComponent } from './question-list/question-list.component';
 import { CreateQuestionComponent } from './create-question/create-question.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EditQuestionComponent } from './edit-question/edit-question.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -30,6 +31,10 @@ const routes: Routes = [
         path: 'create-question',
         component: CreateQuestionComponent,
       },
+      {
+        path: 'edit-question',
+        component: EditQuestionComponent,
+      },
     ],
   },
   {
@@ -45,6 +50,7 @@ const routes: Routes = [
     SubPoliciesSettingComponent,
     QuestionListComponent,
     CreateQuestionComponent,
+    EditQuestionComponent,
   ],
   imports: [CommonModule,
     SharedModule,

@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('assets/css/bootstrap-icons.css');
-@import url('assets/css/compilance-style.css');
 @import url('assets/css/summernote-lite.min.css');
 @import url('assets/css/app-new.css');
-@import url('assets/css/toast.css')
+@import url('assets/css/toast.css');
+@import url('assets/css/compilance-style.css');

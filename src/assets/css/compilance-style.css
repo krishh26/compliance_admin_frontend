@@ -634,6 +634,9 @@ ul.Employeedetails li{
   Media Query
   ====================================*/
 @media (max-width: 768px) {
+    .content{
+        padding: 1rem 0.75rem;
+    }
     .desktop-end {
         text-align: left;
     }
@@ -648,5 +651,19 @@ ul.Employeedetails li{
 
     .mob-mb1 {
         margin-bottom: 1rem;
+    }
+    ul.OutstandingTab li {
+        margin-right: 5px;
+    }
+    ul.OutstandingTab li a {
+        padding: 0.75rem 0.40rem;
+        min-width:130px;
+        font-weight: 400;
+        font-size: 0.9rem;
+    }
+    ul.OutstandingTab li a img {
+        display: inline-block;
+        margin-right: 5px;
+        width: 32px;
     }
 }

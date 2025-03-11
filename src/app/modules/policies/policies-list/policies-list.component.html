@@ -37,8 +37,8 @@
                   <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
                 </td>
                 <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
-                  date : "dd MM yyyy") : (item?.createdAt |
-                  date : "dd MM yyyy") }}
+                  date : "dd/MM/yyyy") : (item?.createdAt |
+                  date : "dd/MM/yyyy") }}
                 </td>
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>

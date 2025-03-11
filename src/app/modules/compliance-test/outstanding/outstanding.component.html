@@ -26,44 +26,16 @@
               </tr>
             </thead>
             <tbody>
+
               <tr>
-                <td>Leadership Skills</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
+                <td *ngIf="!outstandingtestlist?.length" colspan="6">
+                  <app-no-record-found></app-no-record-found>
+                </td>
               </tr>
-              <tr>
-                <td>Group Discussion</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>ituation Judgement Skill</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>Time Management Skill</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>Time Management Skill</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>Time Management Skill</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>Time Management Skill</td>
-                <td>10-12-2024</td>
-                <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
-              </tr>
-              <tr>
-                <td>Time Management Skill</td>
-                <td>10-12-2024</td>
+
+              <tr *ngFor="let item of outstandingtestlist">
+                <td>{{item?.name}}</td>
+                <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | date : "dd/MM/yyyy" }}</td>
                 <td><a routerLink="/compliance-test/instruction" class="btn btn-primary btn-sm">Begin</a></td>
               </tr>
             </tbody>

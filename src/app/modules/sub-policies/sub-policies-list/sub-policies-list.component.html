@@ -46,7 +46,7 @@
                       <td>
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
                       </td>
-                      <td>{{ item?.createdAt | date : "dd MM yyyy" }}</td>
+                      <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                       <td>
                         <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-4"><i
                             class="bi bi-gear-fill"></i> </a>

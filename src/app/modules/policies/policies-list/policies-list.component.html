@@ -15,13 +15,13 @@
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0" style="width: 100%; table-layout: fixed;">
           <thead class="table-light">
             <tr>
-              <th scope="col">Policies Name</th>
+              <th scope="col" style="width: 50%;">Policies Name</th>
               <th scope="col">Last Updated Date</th>
-              <th scope="col">Policy Type</th>
               <th scope="col">Status</th>
+              <th scope="col">Policy Type</th>
               <th></th>
             </tr>
           </thead>
@@ -33,20 +33,17 @@
             </tr>
             <ng-container *ngFor="let item of policyList">
               <tr>
-                <td>
+                <td style="width: 50%;">
                   <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
                 </td>
                 <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
                   date : "dd/MM/yyyy") : (item?.createdAt |
                   date : "dd/MM/yyyy") }}
                 </td>
+                <td>{{ item?.status }}</td>
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
                 </td>
-                <td>{{ item?.status }}</td>
-                <!-- <td (click)="deletePolicy(item._id)" style="cursor: pointer">
-                  <i class="bi bi-trash3-fill"></i>
-                </td> -->
                 <td>
                   <a href="javascript:void(0);" (click)="deletePolicy(item._id)" class="btn btn-danger btn-sm">
                     <i class="bi bi-trash-fill"></i>

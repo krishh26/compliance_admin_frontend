@@ -25,26 +25,26 @@
         <div class="card">
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-striped mb-0">
+              <table class="table table-striped mb-0" style="width: 100%; table-layout: fixed;">
                 <thead class="table-light">
                   <tr>
-                    <th scope="col" class="w-25">Version History</th>
-                    <th scope="col" class="w-25">Sub Policy Date</th>
+                    <th scope="col" style="width: 40%;">Version History</th>
+                    <th scope="col">Sub Policy Date</th>
                     <th scope="col">Settings</th>
                     <th scope="col">Actions</th>
-                    <th scope="col">User Group</th>
+                    <th scope="col" style="width: 20%;">User Group</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td *ngIf="!policyList?.length" colspan="6">
+                    <td *ngIf="!policyList?.length" colspan="5">
                       <app-no-record-found></app-no-record-found>
                     </td>
                   </tr>
 
                   <ng-container *ngFor="let item of policyList">
                     <tr>
-                      <td>
+                      <td style="width: 40%;">
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
                       </td>
                       <td>{{ item?.createdAt | date: "dd/MM/yyyy" }}</td>
@@ -58,7 +58,7 @@
                           <i class="bi bi-trash-fill"></i>
                         </button>
                       </td>
-                      <td>
+                      <td style="width: 40%;">
                         <a class="btn btn-primary btn-sm me-2"
                           [routerLink]="['/sub-policies/question-list']"
                           [queryParams]="{ subPoliciesId: item._id, userGroup: '1' }">
@@ -74,6 +74,8 @@
                   </ng-container>
                 </tbody>
               </table>
+
+
             </div>
           </div>
         </div>

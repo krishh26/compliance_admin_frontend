@@ -1,5 +1,16 @@
 .btn-primary {
-    border-radius: 10px;
-    padding: 5px 10px;
-  }
-  
+  border-radius: 10px;
+  padding: 5px 10px;
+}
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th:nth-child(1), td:nth-child(1),  /* Version History */
+th:nth-child(5), td:nth-child(5) { /* User Group */
+  width: 40%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
 @Component({
@@ -14,22 +15,23 @@ export class ChangePasswordComponent {
   showLoader: boolean = false;
   submitted = false;
   token!: any;
-
+  loginUser: any;
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
     private route: ActivatedRoute,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+     private localStorageService: LocalStorageService
   ) {
+    this.loginUser = this.localStorageService.getLogger();
     this.changeForm = this.fb.group({
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
     });
   }
   ngOnInit(): void {
-    this.token = this.route.snapshot.queryParamMap.get('token');
-    console.log('Token:', this.token); // Debugging purpose
+    this.token = this.loginUser?.email
   }
 
   // Getter for easy access to form controls in the template

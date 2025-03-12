@@ -39,7 +39,6 @@ export class CreatePasswordComponent {
 
   onSubmit() {
     this.submitted = true;
-    debugger
     if (this.createForm.invalid) {
       return;
     }

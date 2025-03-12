@@ -77,11 +77,11 @@ export class BulkEntryEmployeeComponent {
           gender: replaceNullWithEmptyString(row[3]),
           birthDate: typeof row[4] === 'number' ? convertExcelDate(row[4]) : replaceNullWithEmptyString(row[4]),
           email: replaceNullWithEmptyString(row[5]),
-          dateOfJoining: replaceNullWithEmptyString(row[6]) || '0',
-          phone: replaceNullWithEmptyString(row[7]) || '0',
-          alternatePhone: typeof row[8] === 'number' ? convertExcelDate(row[8]) : replaceNullWithEmptyString(row[8]),
-          country: typeof row[9] === 'number' ? convertExcelDate(row[9]) : replaceNullWithEmptyString(row[9]),
-          state: typeof row[10] === 'number' ? convertExcelDate(row[10]) : replaceNullWithEmptyString(row[10]),
+          dateOfJoining: typeof row[6] === 'number' ? convertExcelDate(row[6]) : replaceNullWithEmptyString(row[6]),
+          phone: replaceNullWithEmptyString(row[7]),
+          alternatePhone: replaceNullWithEmptyString(row[8]),
+          country: replaceNullWithEmptyString(row[9]),
+          state: replaceNullWithEmptyString(row[10]),
           city: replaceNullWithEmptyString(row[11]),
           role: replaceNullWithEmptyString(row[12]),
         };
@@ -89,10 +89,10 @@ export class BulkEntryEmployeeComponent {
 
       console.log(jsonData);
       const payload = {
-        data: jsonData
+         jsonData
       };
       this.spinner.show();
-      this.employeeService.createEmployee(payload).subscribe(
+      this.employeeService.createEmployee(jsonData).subscribe(
         (res) => {
           this.spinner.hide();
           if (res?.status == true) {

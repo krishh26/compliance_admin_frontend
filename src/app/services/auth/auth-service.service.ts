@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 export enum AuthEndPoint {
   LOGIN_USER = '/auth/login',
   FORGOT_PASSWORD = '/auth/forgot-password',
-  RESET_PASSWORD = 'auth/reset-password',
-  CREATE_PASSWORD = 'auth/create-password'
+  RESET_PASSWORD = '/auth/reset-password',
+  CREATE_PASSWORD = '/auth/create-password'
 }
 
 @Injectable({

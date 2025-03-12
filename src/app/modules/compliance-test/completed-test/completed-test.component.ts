@@ -34,7 +34,6 @@ export class CompletedTestComponent {
     this.showLoader = true;
     this.employeeService.getCompletedTestList(param).subscribe(
       (response) => {
-        console.log('this sis employee', response);
         this.showLoader = false;
         this.completedtestlist = response?.data;
         this.completedtestlist = this.completedtestlist.map((policy) => {
@@ -51,15 +50,10 @@ export class CompletedTestComponent {
             resultDetails: sortedResults  // Keep sorted result details
           };
         });
-
-        console.log("this.completedtestlist", this.completedtestlist);
       },
       (error) => {
         this.showLoader = false;
-        console.log('this is error', error);
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
   }

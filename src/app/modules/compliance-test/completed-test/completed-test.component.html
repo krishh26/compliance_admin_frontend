@@ -67,7 +67,7 @@
             </tr>
 
             <tr *ngFor="let item of completedtestlist">
-              <td>{{item?.name}}</td>
+              <td>{{item?.name}} ({{ item?.version }})</td>
               <td>{{item?.latestResult?.score}}</td>
               <td>{{item?.latestResult?.submitDate | date : "dd MMM YYYY"}}</td>
               <td>

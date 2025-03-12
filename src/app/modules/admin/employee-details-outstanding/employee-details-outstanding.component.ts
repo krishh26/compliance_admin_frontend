@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
@@ -13,11 +14,14 @@ export class EmployeeDetailsOutstandingComponent {
   employeeData: any;
   showLoader: boolean = false;
   showAllDetails = false;
+  outstandingtestlist: any[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private employeeService: EmployeeService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -32,13 +36,11 @@ export class EmployeeDetailsOutstandingComponent {
     this.employeeService.getOneEmployee(this.employeeId).subscribe(
       (response) => {
         this.employeeData = response?.data;
+        this.getOutstandingTestLists();
       },
       (error) => {
         this.showLoader = false;
-        console.log('this is error', error);
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
   }
@@ -51,4 +53,23 @@ export class EmployeeDetailsOutstandingComponent {
     this.showAllDetails = !this.showAllDetails;
   }
 
+  getOutstandingTestLists() {
+    let param = {
+      employeeId: this.employeeId
+    }
+    this.spinner.show();
+    this.employeeService.getOutstandingTestList(param).subscribe(
+      (response) => {
+        this.spinner.hide();
+        this.outstandingtestlist = response?.data;
+        this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
+      }
+    );
+  }
 }

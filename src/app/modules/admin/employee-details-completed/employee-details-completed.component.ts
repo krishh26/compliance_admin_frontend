@@ -13,6 +13,7 @@ export class EmployeeDetailsCompletedComponent {
   employeeData: any;
   showLoader: boolean = false;
   showAllDetails = false;
+  completedTestList: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -34,17 +35,42 @@ export class EmployeeDetailsCompletedComponent {
 
   getOneEmployee() {
     this.showLoader = true;
-    this.employeeService.getOneEmployee(this.employeeId).subscribe(
-      (response) => {
-        this.employeeData = response?.data;
-      },
-      (error) => {
-        this.showLoader = false;
-        console.log('this is error', error);
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
+    this.employeeService.getOneEmployee(this.employeeId).subscribe((response) => {
+      this.employeeData = response?.data;
+      this.getCompletedTestLists();
+    }, (error) => {
+      this.showLoader = false;
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    }
+    );
+  }
+
+  getCompletedTestLists() {
+    let param = {
+      employeeId: this.employeeId
+    }
+    this.showLoader = true;
+    this.employeeService.getCompletedTestList(param).subscribe((response) => {
+      this.showLoader = false;
+      this.completedTestList = response?.data;
+      this.completedTestList = this.completedTestList.map((policy) => {
+        let sortedResults = policy.resultDetails.sort(
+          (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
-      }
+
+        // Extract the latest result
+        const latestResult = sortedResults.length ? sortedResults[0] : null;
+
+        return {
+          ...policy,
+          latestResult,  // Set the latest result in the root object
+          resultDetails: sortedResults  // Keep sorted result details
+        };
+      });
+    }, (error) => {
+      this.showLoader = false;
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    }
     );
   }
 

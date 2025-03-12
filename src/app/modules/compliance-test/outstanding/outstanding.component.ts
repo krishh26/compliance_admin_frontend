@@ -36,23 +36,13 @@ export class OutstandingComponent {
     this.spinner.show();
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
-        console.log('this sis employee', response);
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.outstandingtestlist = response?.data;
-        // this.notificationService.showSuccess(
-        //   response?.message || 'Get Employee successfully'
-        // );
+        this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
-        console.log('this is error', error);
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.spinner.hide();
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
   }

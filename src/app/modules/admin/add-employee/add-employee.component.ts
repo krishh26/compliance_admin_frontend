@@ -157,8 +157,8 @@ export class AddEmployeeComponent {
             : '';
           const formattedJoinDate = this.employeeData.dateOfJoining
             ? new Date(this.employeeData.dateOfJoining)
-                .toISOString()
-                .split('T')[0]
+              .toISOString()
+              .split('T')[0]
             : '';
           this.employeeForm.patchValue({
             firstName: this.employeeData.firstName,
@@ -209,41 +209,49 @@ export class AddEmployeeComponent {
       return;
     }
     this.showLoader = true;
+
     let payload: any;
+
+    // If `this.employeeId` exists, edit a single employee
     if (this.employeeId) {
-      payload = {
-        ...this.employeeForm.value,
-        password: 'Test',
-        _id: this.employeeId,
-      };
+      payload = [
+        {
+          ...this.employeeForm.value,
+          password: 'Test',
+          _id: this.employeeId,
+        }
+      ];
     } else {
-      payload = { ...this.employeeForm.value, password: 'Test' };
+      // If no `employeeId`, allow bulk entry by storing multiple form entries
+      payload = [
+        { ...this.employeeForm.value, password: 'Test' }
+      ];
     }
+
+    // API call to create employee(s)
     this.employeeService.createEmployee(payload).subscribe(
       (response) => {
         this.showLoader = false;
         if (this.employeeId) {
           this.notificationService.showSuccess(
-            response?.message || 'Employee Edit successfully'
+            response?.message || 'Employee updated successfully'
           );
-          this.router.navigate([
-            '/admin/employee-details-outstanding',
-            this.employeeId,
-          ]);
+          this.router.navigate(['/admin/employee-details-outstanding', this.employeeId]);
         } else {
           this.notificationService.showSuccess(
-            response?.message || 'Employee Create successfully'
+            response?.message || 'Employee(s) created successfully'
           );
           this.router.navigate(['/admin/employee-list']);
         }
       },
       (error) => {
         this.showLoader = false;
-        console.log('this is error', error);
+        console.log('Error:', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
       }
     );
   }
+
 }

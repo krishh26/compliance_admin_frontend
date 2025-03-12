@@ -71,36 +71,21 @@ export class BulkEntryEmployeeComponent {
         };
 
         return {
-          BOSID: replaceNullWithEmptyString(row[0]),
-          projectName: replaceNullWithEmptyString(row[1]),
-          description: replaceNullWithEmptyString(row[2]),
-          noticeReference: replaceNullWithEmptyString(row[3]),
-          dueDate: typeof row[4] === 'number' ? convertExcelDate(row[4]) : replaceNullWithEmptyString(row[4]),
-          bidsubmissiontime: replaceNullWithEmptyString(row[5]),
-          minValue: replaceNullWithEmptyString(row[6]) || '0',
-          maxValue: replaceNullWithEmptyString(row[7]) || '0',
-          publishDate: typeof row[8] === 'number' ? convertExcelDate(row[8]) : replaceNullWithEmptyString(row[8]),
-          periodOfContractStart: typeof row[9] === 'number' ? convertExcelDate(row[9]) : replaceNullWithEmptyString(row[9]),
-          periodOfContractEnd: typeof row[10] === 'number' ? convertExcelDate(row[10]) : replaceNullWithEmptyString(row[10]),
-          CPVCodes: replaceNullWithEmptyString(row[11]),
-          link: replaceNullWithEmptyString(row[12]),
-          website: replaceNullWithEmptyString(row[13]),
-          clientType: replaceNullWithEmptyString(row[14]),
-          clientName: replaceNullWithEmptyString(row[15]),
-          projectType: replaceNullWithEmptyString(row[16]),
-          industry: parseCommaSeparatedField(row[17]), // Convert industry string to an array
-          category: parseCommaSeparatedField(row[18]), // Convert category string to an array
-          mailID: replaceNullWithEmptyString(row[19]),
-          categorisation: replaceNullWithEmptyString(row[20]),
-          documentsLink: replaceNullWithEmptyString(row[21]),
-          linkToPortal: replaceNullWithEmptyString(row[22]),
-          loginID: replaceNullWithEmptyString(row[23]),
-          password: replaceNullWithEmptyString(row[24]),
-          chatGptLink: replaceNullWithEmptyString(row[25]),
+          firstName: replaceNullWithEmptyString(row[0]),
+          middleName: replaceNullWithEmptyString(row[1]),
+          lastName: replaceNullWithEmptyString(row[2]),
+          gender: replaceNullWithEmptyString(row[3]),
+          birthDate: typeof row[4] === 'number' ? convertExcelDate(row[4]) : replaceNullWithEmptyString(row[4]),
+          email: replaceNullWithEmptyString(row[5]),
+          dateOfJoining: replaceNullWithEmptyString(row[6]) || '0',
+          phone: replaceNullWithEmptyString(row[7]) || '0',
+          alternatePhone: typeof row[8] === 'number' ? convertExcelDate(row[8]) : replaceNullWithEmptyString(row[8]),
+          country: typeof row[9] === 'number' ? convertExcelDate(row[9]) : replaceNullWithEmptyString(row[9]),
+          state: typeof row[10] === 'number' ? convertExcelDate(row[10]) : replaceNullWithEmptyString(row[10]),
+          city: replaceNullWithEmptyString(row[11]),
+          role: replaceNullWithEmptyString(row[12]),
         };
       });
-
-
 
       console.log(jsonData);
       const payload = {
@@ -117,7 +102,7 @@ export class BulkEntryEmployeeComponent {
 
             this.notificationService.showSuccess(res?.message);
             window.location.reload();
-            this.router.navigate(['/boss-user/project-list']);
+            this.router.navigate(['/admin/employee-list']);
           } else {
             this.spinner.hide();
             console.log('1', res?.status);

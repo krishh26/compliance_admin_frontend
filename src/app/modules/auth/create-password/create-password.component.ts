@@ -53,7 +53,7 @@ export class CreatePasswordComponent {
     }
     if (this.createForm.valid) {
       this.showLoader = true;
-      this.authServiceService.resetUser({ password: this.createForm.value.password }, this.token).subscribe(
+      this.authServiceService.createPassowrd({ password: this.createForm.value.password }, this.token).subscribe(
         (response) => {
           this.showLoader = false;
           this.router.navigate(['/login']);

@@ -10,6 +10,8 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 export class HomeComponent {
   loginUser: any;
   loginRole: any;
+  isSidebarOpen = true; // Sidebar is open by default
+
   constructor(
     private authService: AuthServiceService,
     private localStorageService: LocalStorageService
@@ -21,4 +23,17 @@ export class HomeComponent {
   logout(): void {
     this.authService.logout();
   }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+      if (this.isSidebarOpen) {
+        sidebar.classList.remove('collapsed'); // Ensure the sidebar is visible
+      } else {
+        sidebar.classList.add('collapsed'); // Hide the sidebar
+      }
+    }
+  }
+
 }

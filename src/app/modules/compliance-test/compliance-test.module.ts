@@ -6,6 +6,8 @@ import { OutstandingComponent } from './outstanding/outstanding.component';
 import { SharedModule } from 'src/app/utility/shared/shared.module';
 import { CompletedTestComponent } from './completed-test/completed-test.component';
 import { ExamIntructionComponent } from './exam-intruction/exam-intruction.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExamComponent } from './exam/exam.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'outstanding', pathMatch: 'full' },
@@ -22,8 +24,12 @@ const routes: Routes = [
         component: CompletedTestComponent,
       },
       {
-        path: 'instruction',
+        path: 'instruction/:id',
         component: ExamIntructionComponent,
+      },
+      {
+        path: 'start-exam/:id',
+        component: ExamComponent,
       },
     ],
   },
@@ -38,12 +44,15 @@ const routes: Routes = [
   declarations: [
     OutstandingComponent,
     CompletedTestComponent,
-    ExamIntructionComponent
+    ExamIntructionComponent,
+    ExamComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ComplianceTestModule { }

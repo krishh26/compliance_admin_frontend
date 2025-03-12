@@ -28,7 +28,7 @@ export class EmployeeListComponent {
       (response) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         console.log('this sis employee', response);
         this.showLoader = false;
         this.employees = response?.data;
@@ -39,7 +39,7 @@ export class EmployeeListComponent {
       (error) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'

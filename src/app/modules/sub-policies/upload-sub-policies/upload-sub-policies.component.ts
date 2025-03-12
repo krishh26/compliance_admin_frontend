@@ -60,7 +60,7 @@ export class UploadSubPoliciesComponent {
       (response) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         this.policyList = response?.data || [];
         console.log('this is my policies services', this.policyList);
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
@@ -68,7 +68,7 @@ export class UploadSubPoliciesComponent {
       (error) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
@@ -87,7 +87,7 @@ export class UploadSubPoliciesComponent {
       (response) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         this.notificationService.showSuccess(
           response?.message || 'Sub Policy Create successfully'
         );
@@ -100,7 +100,7 @@ export class UploadSubPoliciesComponent {
       (error) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

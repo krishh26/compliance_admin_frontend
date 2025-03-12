@@ -30,14 +30,14 @@ export class PoliciesListComponent implements OnInit {
       (response) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         this.policyList = response?.data || [];
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
       },
       (error) => {
         setTimeout(() => {
           this.spinner.hide();
-        }, 2000);
+        }, 1000);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

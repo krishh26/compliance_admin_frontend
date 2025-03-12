@@ -1,9 +1,8 @@
 <div class="container-fluid p-0">
   <div class="page-title mb-3">
     <h2>
-      <a routerLink="/admin/employee-list" class="me-2 text-dark"
-        ><i class="bi bi-arrow-left-circle"></i></a
-      >Employee Information
+      <a routerLink="/admin/employee-list" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>Employee
+      Information
     </h2>
   </div>
   <div class="card">
@@ -12,10 +11,7 @@
         <div class="row align-items-center mb-4">
           <div class="col-lg-2 col-xl-2 col-md-2 col-12">
             <div class="profile-image">
-              <img
-                src="assets/img/avatars/avatar-4.jpg"
-                class="img-fluid"
-              />
+              <img src="assets/img/avatars/avatar-4.jpg" class="img-fluid" />
               <div class="input--file">
                 <i class="bi bi-camera-fill"></i>
                 <input name="Select File" type="file" />
@@ -26,11 +22,7 @@
             <p>Upload Employee image here</p>
             <div class="input-file-btn btn" style="position: relative">
               Browse
-              <input
-                name="Select File"
-                type="file"
-                (change)="onFileChange($event)"
-              />
+              <input name="Select File" type="file" (change)="onFileChange($event)" />
             </div>
           </div>
         </div>
@@ -38,17 +30,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="First name"
-                formControlName="firstName"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['firstName'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="First name" formControlName="firstName" required />
+              <small class="text-danger" *ngIf="submitted && f['firstName'].errors?.['required']">
                 First Name is required
               </small>
             </div>
@@ -56,17 +39,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Middle Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Middle name"
-                formControlName="middleName"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['middleName'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="Middle name" formControlName="middleName" required />
+              <small class="text-danger" *ngIf="submitted && f['middleName'].errors?.['required']">
                 Middle Name is required
               </small>
             </div>
@@ -74,17 +48,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Last name"
-                formControlName="lastName"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['lastName'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="Last name" formControlName="lastName" required />
+              <small class="text-danger" *ngIf="submitted && f['lastName'].errors?.['required']">
                 Last Name is required
               </small>
             </div>
@@ -99,10 +64,7 @@
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
               </select>
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['gender'].errors?.['required']"
-              >
+              <small class="text-danger" *ngIf="submitted && f['gender'].errors?.['required']">
                 Please Select Gender
               </small>
             </div>
@@ -110,17 +72,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Date of Birth</label>
-              <input
-                type="date"
-                class="form-control"
-                placeholder="MM/DD/YYYY"
-                formControlName="birthDate"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['birthDate'].errors?.['required']"
-              >
+              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="birthDate" required />
+              <small class="text-danger" *ngIf="submitted && f['birthDate'].errors?.['required']">
                 Date of Birth is required
               </small>
             </div>
@@ -128,23 +81,11 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Email Address</label>
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Email address"
-                formControlName="email"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['email'].errors?.['required']"
-              >
+              <input type="email" class="form-control" placeholder="Email address" formControlName="email" required />
+              <small class="text-danger" *ngIf="submitted && f['email'].errors?.['required']">
                 Email is required
               </small>
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['email'].errors?.['email']"
-              >
+              <small class="text-danger" *ngIf="submitted && f['email'].errors?.['email']">
                 Enter a valid email
               </small>
             </div>
@@ -154,17 +95,9 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Joining Date</label>
-              <input
-                type="date"
-                class="form-control"
-                placeholder="MM/DD/YYYY"
-                formControlName="dateOfJoining"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['dateOfJoining'].errors?.['required']"
-              >
+              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="dateOfJoining"
+                required />
+              <small class="text-danger" *ngIf="submitted && f['dateOfJoining'].errors?.['required']">
                 Joining Date is required
               </small>
             </div>
@@ -172,17 +105,9 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Phone</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Phone number"
-                formControlName="phone"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['phone'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="Phone number" formControlName="phone" maxlength="10" minlength="10"
+                (keypress)="NumberOnly($event)" required />
+              <small class="text-danger" *ngIf="submitted && f['phone'].errors?.['required']">
                 Phone Number is required
               </small>
             </div>
@@ -190,16 +115,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Alternate Phone</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Alternate number"
-                formControlName="alternatePhone"
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['alternatePhone'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="Alternate number" formControlName="alternatePhone" maxlength="10" minlength="10"  (keypress)="NumberOnly($event)" required />
+              <small class="text-danger" *ngIf="submitted && f['alternatePhone'].errors?.['required']">
                 Alternate Phone Number is required
               </small>
             </div>
@@ -209,23 +126,13 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Country</label>
-              <select
-                class="form-select"
-                formControlName="country"
-                (change)="onCountryChange($event)"
-              >
+              <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
                 <option value="">Select Country</option>
-                <option
-                  *ngFor="let country of countries"
-                  [value]="country.name"
-                >
+                <option *ngFor="let country of countries" [value]="country.name">
                   {{ country.name }}
                 </option>
               </select>
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['country'].errors?.['required']"
-              >
+              <small class="text-danger" *ngIf="submitted && f['country'].errors?.['required']">
                 Please Select Country
               </small>
             </div>
@@ -239,10 +146,7 @@
                   {{ state }}
                 </option>
               </select>
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['state'].errors?.['required']"
-              >
+              <small class="text-danger" *ngIf="submitted && f['state'].errors?.['required']">
                 Please Select State
               </small>
             </div>
@@ -250,17 +154,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>City</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="City name"
-                formControlName="city"
-                required
-              />
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['city'].errors?.['required']"
-              >
+              <input type="text" class="form-control" placeholder="City name" formControlName="city" required />
+              <small class="text-danger" *ngIf="submitted && f['city'].errors?.['required']">
                 City is required
               </small>
             </div>
@@ -276,10 +171,7 @@
                 <option value="LINEMANAGER">LINEMANAGER</option>
                 <option value="EMPLOYEE">EMPLOYEE</option>
               </select>
-              <small
-                class="text-danger"
-                *ngIf="submitted && f['role'].errors?.['required']"
-              >
+              <small class="text-danger" *ngIf="submitted && f['role'].errors?.['required']">
                 Please Select Role
               </small>
             </div>

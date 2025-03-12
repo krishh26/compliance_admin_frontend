@@ -134,6 +134,14 @@ export class AddEmployeeComponent {
     }
   }
 
+  NumberOnly(event: any): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
+
   getOneEmployee() {
     this.showLoader = true;
     this.employeeService.getOneEmployee(this.employeeId).subscribe(

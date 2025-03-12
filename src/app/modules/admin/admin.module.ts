@@ -9,6 +9,7 @@ import { AddEmployeeComponent } from './add-employee/add-employee.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/utility/shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -27,6 +28,10 @@ const routes: Routes = [
         path: 'employee-details-outstanding/:id',
         component: EmployeeDetailsOutstandingComponent,
       },
+      {
+        path: 'employee-profile',
+        component: EmployeeProfileComponent,
+      },
     ],
   },
   {
@@ -43,6 +48,7 @@ const routes: Routes = [
     EmployeeDetailsCompletedComponent,
     EmployeeDetailsOutstandingComponent,
     AddEmployeeComponent,
+    EmployeeProfileComponent,
   ],
   imports: [
     CommonModule,

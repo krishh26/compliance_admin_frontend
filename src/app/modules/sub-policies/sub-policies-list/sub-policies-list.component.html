@@ -1,5 +1,3 @@
-
-
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
@@ -23,10 +21,26 @@
             <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
               Upload
             </a>
-            <a [routerLink]="['/policies/policies-list']" class="btn btn-primary w-100">
-              Back
-            </a>
           </div>
+        </div>
+        <div class="mb-1">
+          <ul class="OutstandingTab">
+            <li>
+              <a class="first-child">
+                <img src="assets/img/icons/outstanding-icon.png" /> Version ({{ latestPolicy?.version }})
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]"  class="second-child">
+                <img src="assets/img/icons/completed-icon.png" /> Completed ({{ countDetails?.completedCount }})
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]"  class="first-child">
+                <img src="assets/img/icons/outstanding-icon.png" /> Outstanding ({{ countDetails?.OutStadingCount }})
+              </a>
+            </li>
+          </ul>
         </div>
 
         <div class="card">
@@ -58,8 +72,6 @@
                       <td>
                         <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-4"><i
                             class="bi bi-gear-fill"></i> </a>
-                      </td>
-                      <td>
                         <button (click)="deleteSubPolicy(item._id)" class="btn btn-danger btn-sm">
                           <i class="bi bi-trash-fill"></i>
                         </button>

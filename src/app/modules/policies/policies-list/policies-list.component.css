@@ -2,7 +2,7 @@
   border-radius: 10px;
   padding: 5px 10px;
 }
-table {
+/* table {
   width: 100%;
   table-layout: fixed;
 }
@@ -13,4 +13,4 @@ td:nth-child(1) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */

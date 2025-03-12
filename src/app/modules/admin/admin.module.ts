@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/utility/shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { BulkEntryEmployeeComponent } from './bulk-entry-employee/bulk-entry-employee.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -54,7 +55,8 @@ const routes: Routes = [
     EmployeeDetailsOutstandingComponent,
     AddEmployeeComponent,
     EmployeeProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    BulkEntryEmployeeComponent
   ],
   imports: [
     CommonModule,

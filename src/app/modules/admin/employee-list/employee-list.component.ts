@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import Swal from 'sweetalert2';
+import { BulkEntryEmployeeComponent } from '../bulk-entry-employee/bulk-entry-employee.component';
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -17,11 +19,14 @@ export class EmployeeListComponent {
     private router: Router,
     private notificationService: NotificationService,
     private employeeService: EmployeeService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
   ) { }
+
   ngOnInit() {
     this.getEmployees();
   }
+
   getEmployees() {
     this.spinner.show();
     this.employeeService.getEmployee().subscribe(
@@ -46,6 +51,10 @@ export class EmployeeListComponent {
         );
       }
     );
+  }
+
+  openAddTeamModal() {
+    this.modalService.open(BulkEntryEmployeeComponent, { size: 'l' });
   }
 
   deleteEmployee(id: any) {

@@ -1,10 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { QUESTION_TYPE } from 'src/app/common/enum/question-type.enum';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import Swal from 'sweetalert2';
+import { BulyEntryQuestionComponent } from '../buly-entry-question/buly-entry-question.component';
 
 @Component({
   selector: 'app-question-list',
@@ -22,8 +24,9 @@ export class QuestionListComponent implements OnInit {
     private route: ActivatedRoute,
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private modalService: NgbModal,
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
@@ -34,6 +37,10 @@ export class QuestionListComponent implements OnInit {
         this.getQuestionList();
       }
     });
+  }
+
+  openAddTeamModal() {
+    this.modalService.open(BulyEntryQuestionComponent, { size: 'l' });
   }
 
   getQuestionList() {

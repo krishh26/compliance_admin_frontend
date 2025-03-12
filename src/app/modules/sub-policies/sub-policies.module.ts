@@ -12,6 +12,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { EditQuestionComponent } from './edit-question/edit-question.component';
 import { SubPolicyOutstandingComponent } from './sub-policy-outstanding/sub-policy-outstanding.component';
 import { SubPolicyCompletedComponent } from './sub-policy-completed/sub-policy-completed.component';
+import { BulyEntryQuestionComponent } from './buly-entry-question/buly-entry-question.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -63,6 +64,7 @@ const routes: Routes = [
     EditQuestionComponent,
     SubPolicyOutstandingComponent,
     SubPolicyCompletedComponent,
+    BulyEntryQuestionComponent,
   ],
   imports: [CommonModule,
     SharedModule,

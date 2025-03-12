@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from '../admin/home/home.component';
 import { PoliciesListComponent } from './policies-list/policies-list.component';
 import { CompilanceTestComponent } from './compilance-test/compilance-test.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-policies-list', pathMatch: 'full' },
@@ -35,6 +36,6 @@ const routes: Routes = [
     SubPoliciesListComponent,
     CompilanceTestComponent,
   ],
-  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes),NgxSpinnerModule],
 })
 export class EmployeePoliciesModule { }

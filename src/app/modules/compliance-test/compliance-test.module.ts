@@ -8,6 +8,7 @@ import { CompletedTestComponent } from './completed-test/completed-test.componen
 import { ExamIntructionComponent } from './exam-intruction/exam-intruction.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExamComponent } from './exam/exam.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes: Routes = [
   { path: '', redirectTo: 'outstanding', pathMatch: 'full' },
@@ -52,7 +53,8 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ]
 })
 export class ComplianceTestModule { }

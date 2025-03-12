@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -10,7 +11,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
   styleUrls: ['./outstanding.component.css']
 })
 export class OutstandingComponent {
- outstandingtestlist: any[] = [];
+  outstandingtestlist: any[] = [];
   showLoader: boolean = false;
   loginUser: any = [];
 
@@ -18,7 +19,8 @@ export class OutstandingComponent {
     private router: Router,
     private notificationService: NotificationService,
     private employeeService: EmployeeService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private spinner: NgxSpinnerService
   ) {
     this.loginUser = this.localStorageService.getLogger();
   }
@@ -31,18 +33,22 @@ export class OutstandingComponent {
     let param = {
       employeeId: this.loginUser._id
     }
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         console.log('this sis employee', response);
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
         this.outstandingtestlist = response?.data;
         // this.notificationService.showSuccess(
         //   response?.message || 'Get Employee successfully'
         // );
       },
       (error) => {
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
         console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'

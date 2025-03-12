@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import Swal from 'sweetalert2';
@@ -14,25 +15,33 @@ export class CompilanceTestComponent {
 
   constructor(
     private notificationService: NotificationService,
-    private policyService: PolicyService
-  ) {}
+    private policyService: PolicyService,
+    private spinner: NgxSpinnerService
+  ) { }
 
   ngOnInit(): void {
     this.getPolicyList();
   }
 
   getPolicyList() {
-    this.showLoader = true;
+    this.spinner.show();
     this.policyList = [];
     this.policyService.getPolicyList().subscribe(
       (response) => {
-        this.showLoader = false;
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
         this.policyList = response?.data || [];
-        // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
+
       },
       (error) => {
-        this.showLoader = false;
-        // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
+        console.log('this is error', error);
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
       }
     );
   }
@@ -48,15 +57,19 @@ export class CompilanceTestComponent {
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {
-        this.showLoader = true;
+        this.spinner.show();
         this.policyService.deletePolicy(id).subscribe(
           (response) => {
-            this.showLoader = false;
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 1000);
             this.notificationService.showSuccess('Delete Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-            this.showLoader = false;
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 1000);
             console.log('this is error', error);
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import Swal from 'sweetalert2';
@@ -17,7 +18,8 @@ export class SubPoliciesListComponent {
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -28,7 +30,7 @@ export class SubPoliciesListComponent {
   }
 
   getPolicyList() {
-    this.showLoader = true;
+    this.spinner.show();
     this.policyList = [];
     this.subPoliciesService
       .getSubPolicyList({
@@ -38,13 +40,19 @@ export class SubPoliciesListComponent {
       })
       .subscribe(
         (response) => {
-          this.showLoader = false;
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 1000);
           this.policyList = response?.data || [];
-          // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
         },
         (error) => {
-          this.showLoader = false;
-          // this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          setTimeout(() => {
+            this.spinner.hide();
+          }, 1000);
+          console.log('this is error', error);
+          this.notificationService.showError(
+            error?.error?.message || 'Something went wrong!'
+          );
         }
       );
   }
@@ -64,18 +72,22 @@ export class SubPoliciesListComponent {
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {
-        this.showLoader = true;
+        this.spinner.show();
         const payload = { id: id };
         this.subPoliciesService.deleteSubPolicy(payload).subscribe(
           (response) => {
-            this.showLoader = false;
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 1000);
             this.notificationService.showSuccess(
               'Delete Sub Policy successfully'
             );
             this.getPolicyList();
           },
           (error) => {
-            this.showLoader = false;
+            setTimeout(() => {
+              this.spinner.hide();
+            }, 1000);
             console.log('this is error', error);
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'

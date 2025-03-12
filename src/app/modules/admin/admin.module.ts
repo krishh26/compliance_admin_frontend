@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/utility/shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -32,6 +33,10 @@ const routes: Routes = [
         path: 'employee-profile',
         component: EmployeeProfileComponent,
       },
+      {
+        path: 'change-password',
+        component: ChangePasswordComponent,
+      },
     ],
   },
   {
@@ -49,6 +54,7 @@ const routes: Routes = [
     EmployeeDetailsOutstandingComponent,
     AddEmployeeComponent,
     EmployeeProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,

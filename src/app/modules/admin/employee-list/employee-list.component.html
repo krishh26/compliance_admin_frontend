@@ -1,4 +1,4 @@
-<div class="container-fluid p-0">
+<!-- <div class="container-fluid p-0">
   <div class="card">
     <div class="card-header">
       <div class="row align-items-center justify-content-between">
@@ -50,6 +50,76 @@
               </td>
               <td style="width: 30%;">{{ employee.email }}</td>
               <td>{{ employee.dateOfJoining | date : "dd/MM/yyyy" }}</td>
+              <td>{{ employee.phone }}</td>
+              <td>{{ employee.role }}</td>
+              <td>
+                <a href="javascript:void(0);" (click)="deleteEmployee(employee._id)" class="btn btn-danger btn-sm">
+                  <i class="bi bi-trash-fill"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+
+<div class="container-fluid p-0">
+  <div class="card">
+    <div class="card-header">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-lg-6 col-xl-6 col-md-8 col-sm-8 col-12 mob-mb1">
+          <div class="form-group mb-0 position-relative">
+            <input type="text" class="form-control form-control-search search-input"
+              placeholder="Search by employee name, email, date of joining...">
+            <span class="search-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-search">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+          </div>
+        </div>
+        <div class="col-lg-2 col-xl-2 col-sm-4 col-md-4 col-12">
+          <button type="button" routerLink="/admin/add-employee" class="btn btn-primary w-100">+ Add Employee</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Employees</th>
+              <th scope="col">Email</th>
+              <th scope="col">Date of Joining</th>
+              <th scope="col">Phone no. </th>
+              <th scope="col">Role</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <tr>
+              <td *ngIf="!employees?.length" colspan="6">
+                <app-no-record-found></app-no-record-found>
+              </td>
+            </tr>
+
+            <tr *ngFor="let employee of employees">
+              <td>
+                <a [routerLink]="['/admin/employee-details-outstanding',employee._id]">
+                  {{ employee.firstName +" "+ employee.lastName }}
+                </a>
+              </td>
+              <td>{{ employee.email }}</td>
+              <td>{{ employee.dateOfJoining | date}}</td>
               <td>{{ employee.phone }}</td>
               <td>{{ employee.role }}</td>
               <td>

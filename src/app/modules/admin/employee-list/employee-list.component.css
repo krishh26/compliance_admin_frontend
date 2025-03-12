@@ -16,15 +16,15 @@
   pointer-events: none;
   /* Prevents interaction with the icon */
 }
-table {
+/* table {
   width: 100%;
   table-layout: fixed;
 }
 
-th:nth-child(1), td:nth-child(1),  /* Employees column */
-th:nth-child(2), td:nth-child(2) { /* Email column */
+th:nth-child(1), td:nth-child(1),
+th:nth-child(2), td:nth-child(2) {
   width: 30%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} */

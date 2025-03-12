@@ -85,6 +85,15 @@ export class EditQuestionComponent {
   }
 
   initForm() {
+    const selectedAnswers = this.questionData.answer
+      .split(',')
+      .map(
+        (index: string) =>
+          this.questionData.optionsDetails[parseInt(index)].optionText
+      );
+
+    console.log('selected answe is', selectedAnswers);
+
     this.questionForm = this.fb.group({
       questionType: [this.questionData.questionType, Validators.required],
       questionText: [this.questionData.questionText, Validators.required],
@@ -94,9 +103,8 @@ export class EditQuestionComponent {
             new FormControl(option.optionText, Validators.required)
         )
       ),
-      answer: [this.questionData.answer, Validators.required],
+      answer: [selectedAnswers, Validators.required], // Set selected options
     });
-    this.setDefaultOptions();
   }
 
   get options(): FormArray {
@@ -188,6 +196,19 @@ export class EditQuestionComponent {
       });
 
       // Update payload with formatted options
+      if (Array.isArray(payload.answer)) {
+        // Convert answer array to index values based on options list
+        const selectedIndexes = payload.answer.map((ans: any) =>
+          optionList.findIndex((opt) => opt.value === ans)
+        );
+
+        if (payload.questionType === '1') {
+          payload.answer = selectedIndexes.join(',');
+        } else {
+          payload.answer =
+            selectedIndexes.length > 0 ? selectedIndexes[0].toString() : -1;
+        }
+      }
       payload.options = optionList;
     }
 

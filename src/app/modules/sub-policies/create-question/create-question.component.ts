@@ -114,7 +114,7 @@ export class CreateQuestionComponent {
     }
 
     // Set the first option as the default answer
-    this.questions.at(questionIndex).patchValue({ answer: defaultAnswer });
+    // this.questions.at(questionIndex).patchValue({ answer: defaultAnswer });
   }
 
   onTypeChange(questionIndex: number) {
@@ -141,7 +141,6 @@ export class CreateQuestionComponent {
     };
 
     const newPayload = this.formatePayload(payload);
-
     this.subPoliciesService.createQuestion(newPayload).subscribe(
       (response) => {
         this.showLoader = false;
@@ -169,13 +168,28 @@ export class CreateQuestionComponent {
     payload?.questions?.forEach((element: any) => {
       if (element?.options?.length > 0) {
         const optionList: any[] = [];
+
         element.options.forEach((option: any, index: number) => {
-          const data = {
-            index: index,
-            value: option,
-          };
-          optionList.push(data);
+          optionList.push({ index: index, value: option });
         });
+        if (Array.isArray(element.answer)) {
+          // Convert answer array to index values based on options list
+          const selectedIndexes = element.answer.map((ans: any) =>
+            optionList.findIndex((opt) => opt.value === ans)
+          );
+
+          if (element.questionType === '1') {
+            element.answer = selectedIndexes.join(',');
+          } else {
+            element.answer =
+              selectedIndexes.length > 0 ? selectedIndexes[0].toString() : -1;
+          }
+        } else {
+          const index = optionList.findIndex(
+            (opt) => opt.value === element.answer
+          );
+          element.answer = index !== -1 ? index.toString() : -1;
+        }
 
         element.options = optionList;
       }

@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 export enum AuthEndPoint {
   LOGIN_USER = '/auth/login',
   FORGOT_PASSWORD = '/auth/forgot-password',
-  RESET_PASSWORD = 'auth/reset-password',
+  RESET_PASSWORD = '/auth/reset-password',
+  CREATE_PASSWORD = '/auth/create-password'
 }
 
 @Injectable({
@@ -50,6 +51,14 @@ export class AuthServiceService {
   resetUser(payload: any, token: string): Observable<any> {
     return this.httpClient.post<any>(
       `${this.baseUrl}${AuthEndPoint.RESET_PASSWORD}?token=${token}`,
+      payload,
+      { headers: this.getHeader() }
+    );
+  }
+
+  createPassowrd(payload: any, token: string): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}${AuthEndPoint.CREATE_PASSWORD}?token=${token}`,
       payload,
       { headers: this.getHeader() }
     );

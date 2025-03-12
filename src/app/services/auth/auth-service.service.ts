@@ -57,7 +57,7 @@ export class AuthServiceService {
   }
 
   createPassowrd(payload: any, token: string): Observable<any> {
-    return this.httpClient.post<any>(
+    return this.httpClient.patch<any>(
       `${this.baseUrl}${AuthEndPoint.CREATE_PASSWORD}?token=${token}`,
       payload,
       { headers: this.getHeader() }

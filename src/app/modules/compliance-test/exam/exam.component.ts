@@ -19,6 +19,8 @@ export class ExamComponent {
   questions: any[] = []; // Question list
   currentQuestionIndex: number = 0;
   answers: any[] = [];
+  timeLeft: number = 600; // 10 minutes in seconds
+  timerInterval: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -41,8 +43,9 @@ export class ExamComponent {
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
       if (response?.statusCode == 200) {
         this.settingDetails = response?.data;
+        const savedTime = localStorage.getItem('timeLeft');
+        this.timeLeft = savedTime ? parseInt(savedTime) : this.settingDetails?.timeLimit * 60;
         this.loadQuestions();
-
       } else {
         this.notificationService.showError(response?.message || 'Policy instructions not found.');
       }
@@ -82,17 +85,10 @@ export class ExamComponent {
     clearInterval(this.timerInterval);
   }
 
-  timeLeft: number = 600; // 10 minutes in seconds
-  timerInterval: any;
+
   ngOnInit() {
     this.loadAnswers();
-    this.loadTimer();
     this.startTimer();
-  }
-
-  loadTimer() {
-    const savedTime = localStorage.getItem('timeLeft');
-    this.timeLeft = savedTime ? parseInt(savedTime) : 600; // Load remaining time or default to 10 min
   }
 
   startTimer() {
@@ -181,12 +177,15 @@ export class ExamComponent {
       answer: Array.isArray(item.answer) ? item.answer.join(",") : item.answer.toString()
     }));
 
+    const duration = (Number(localStorage.getItem('timeLeft')) !== 0 && localStorage.getItem('timeLeft')) ? (Number(localStorage.getItem('timeLeft')) / 60) : 1;
+
+    clearInterval(this.timerInterval);
     const payload = {
       subPolicyId: this.subPolicyId,
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       passingScore: this.settingDetails?.PassingScore,
       marksPerQuestion: this.settingDetails?.maximumScore,
-      duration: this.settingDetails?.timeLimit,
+      duration: duration !== 0 ? duration : this.settingDetails?.timeLimit,
       answers: transformedArray
     }
 
@@ -194,6 +193,7 @@ export class ExamComponent {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         localStorage.removeItem('answers');
         localStorage.removeItem('questions');
+        localStorage.removeItem('timeLeft');
         this.notificationService.showSuccess('Test result submitted.');
         this.router.navigateByUrl('/compliance-test/outstanding');
       } else {
@@ -208,5 +208,11 @@ export class ExamComponent {
 
   get progressPercent(): number {
     return ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
+  }
+
+  resetLocal() {
+    localStorage.removeItem('answers');
+    localStorage.removeItem('questions');
+    localStorage.removeItem('timeLeft');
   }
 }

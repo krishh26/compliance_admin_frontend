@@ -17,6 +17,7 @@
         </div>
         <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
           <ul class="Employeedetails">
+            <!-- First 7 details always visible -->
             <li>
               <p>First Name</p>
               <p class="mb-0 text-muted">{{ employeeData?.firstName }}</p>
@@ -35,73 +36,60 @@
             </li>
             <li>
               <p>Date of Birth</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.birthDate | date }}
-              </p>
+              <p class="mb-0 text-muted">{{ employeeData?.birthDate | date }}</p>
             </li>
             <li>
               <p>Email</p>
               <p class="mb-0 text-muted">{{ employeeData?.email }}</p>
-            </li>
-            <li>
-              <p>Phome</p>
-              <p class="mb-0 text-muted">{{ employeeData?.phone }}</p>
-            </li>
-          </ul>
-          <div class="text-end">
-            <a href="javasccript:;" class="btn btn-sm btn-primary">All Details</a>
-            <a href="javasccript:;" class="btn btn-sm btn-primary">Hide Details</a>
-          </div>
-        </div>
-      </div>
-      <div class="row align-items-center">
-        <div class="col-lg-11 col-xl-11 col-md-11 col-sm-11 col-12">
-          <ul class="Employeedetails">
-            <li>
-              <p>Date of Joining</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.dateOfJoining | date }}
-              </p>
             </li>
             <li>
               <p>Phone</p>
               <p class="mb-0 text-muted">{{ employeeData?.phone }}</p>
             </li>
-            <li>
-              <p>Email</p>
-              <p class="mb-0 text-muted">{{ employeeData?.email }}</p>
-            </li>
-            <li>
-              <p>Alternate Phone</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.alternatePhone }}
-              </p>
-            </li>
-            <li>
-              <p>State</p>
-              <p class="mb-0 text-muted">{{ employeeData?.state }}</p>
-            </li>
-            <li>
-              <p>City</p>
-              <p class="mb-0 text-muted">{{ employeeData?.city }}</p>
-            </li>
-            <li>
-              <p>Country</p>
-              <p class="mb-0 text-muted">{{ employeeData?.country }}</p>
-            </li>
+
+            <!-- Additional details (hidden initially) -->
+            <ng-container *ngIf="showAllDetails">
+              <li>
+                <p>Date of Joining</p>
+                <p class="mb-0 text-muted">{{ employeeData?.dateOfJoining | date }}</p>
+              </li>
+              <li>
+                <p>Alternate Phone</p>
+                <p class="mb-0 text-muted">{{ employeeData?.alternatePhone }}</p>
+              </li>
+              <li>
+                <p>State</p>
+                <p class="mb-0 text-muted">{{ employeeData?.state }}</p>
+              </li>
+              <li>
+                <p>City</p>
+                <p class="mb-0 text-muted">{{ employeeData?.city }}</p>
+              </li>
+              <li>
+                <p>Country</p>
+                <p class="mb-0 text-muted">{{ employeeData?.country }}</p>
+              </li>
+            </ng-container>
           </ul>
-        </div>
-        <div class="col-auto text-end">
-          <a [routerLink]="['/admin/edit-employee', employeeId]"><i class="bi bi-pencil-square"></i> Edit</a>
+
+          <!-- Flex container for buttons -->
+          <div class="d-flex justify-content-end gap-2">
+            <a [routerLink]="['/admin/edit-employee', employeeId]" class="btn btn-sm btn-secondary">
+              <i class="bi bi-pencil-square"></i> Edit
+            </a>
+            <a href="javascript:;" class="btn btn-sm btn-primary" (click)="toggleDetails()">
+              {{ showAllDetails ? 'Hide Details' : 'All Details' }}
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div class="card">
     <div class="card-header">
-      <ul class="OutstandingTab mb-4">
+      <ul class="OutstandingTab mb-4 d-flex">
         <li>
-          <a (click)="gotoOutStandingPage()" class="first-child ">
+          <a (click)="gotoOutStandingPage()" class="first-child">
             <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
           </a>
         </li>
@@ -111,38 +99,31 @@
           </a>
         </li>
       </ul>
-      <div class="row align-items-center">
-        <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
-          <label class="badge-light w-100 text-center">Compliance Result</label>
+
+      <!-- Align everything in one row and push to the right -->
+      <div class="d-flex align-items-center justify-content-end gap-3 flex-wrap">
+
+        <!-- Search Results -->
+        <div class="d-flex align-items-center">
+          <label for="searchResults" class="me-2">Search Results</label>
+          <input type="text" id="searchResults" class="form-control" style="width: 250px;">
         </div>
-        <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12 mob-mb1">
-          <div class="row g-3 align-items-center">
-            <div class="col-lg-auto col-xl-auto col-md-auto col-sm-auto col-12">
-              <label for="inputPassword6" class="col-form-label">Search Results</label>
-            </div>
-            <div class="col-lg-9 col-xl-9 col-sm-9 col-md-9 col-12">
-              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-            </div>
-          </div>
+
+        <!-- Order By -->
+        <div class="d-flex align-items-center">
+          <label for="orderBy" class="me-2">Order By</label>
+          <select class="form-select" id="orderBy" style="width: 200px;">
+            <option>Exam Name</option>
+            <option>Result</option>
+          </select>
         </div>
-        <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-12 mob-mb1">
-          <div class="row g-2 align-items-center">
-            <div class="col-lg-auto col-xl-auto col-md-auto col-sm-auto col-12">
-              <label for="inputPassword6" class="col-form-label">Order By</label>
-            </div>
-            <div class="col-lg-9 col-xl-9 col-sm-9 col-md-9 col-12">
-              <select class="form-select w-100">
-                <option>Exam Name</option>
-                <option>Result</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
-          <button type="button" class="btn btn-success btn sm">Search Result</button>
-        </div>
+
+        <!-- Search Button -->
+        <button type="button" class="btn btn-success">Search Result</button>
+
       </div>
     </div>
+
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-striped mb-0">

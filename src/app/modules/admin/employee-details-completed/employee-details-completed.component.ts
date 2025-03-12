@@ -12,6 +12,7 @@ export class EmployeeDetailsCompletedComponent {
   employeeId: any = null;
   employeeData: any;
   showLoader: boolean = false;
+  showAllDetails = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,6 +26,10 @@ export class EmployeeDetailsCompletedComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
+  }
+
+  toggleDetails() {
+    this.showAllDetails = !this.showAllDetails;
   }
 
   getOneEmployee() {

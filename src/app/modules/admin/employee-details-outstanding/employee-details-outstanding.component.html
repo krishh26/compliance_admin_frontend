@@ -19,6 +19,7 @@
         </div>
         <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
           <ul class="Employeedetails">
+            <!-- First 7 details always visible -->
             <li>
               <p>First Name</p>
               <p class="mb-0 text-muted">{{ employeeData?.firstName }}</p>
@@ -37,72 +38,61 @@
             </li>
             <li>
               <p>Date of Birth</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.birthDate | date }}
-              </p>
+              <p class="mb-0 text-muted">{{ employeeData?.birthDate | date }}</p>
             </li>
             <li>
               <p>Email</p>
               <p class="mb-0 text-muted">{{ employeeData?.email }}</p>
-            </li>
-            <li>
-              <p>Phome</p>
-              <p class="mb-0 text-muted">{{ employeeData?.phone }}</p>
-            </li>
-          </ul>
-          <div class="text-end">
-            <a href="javasccript:;" class="btn btn-sm btn-primary">All Details</a>
-            <a href="javasccript:;" class="btn btn-sm btn-primary">Hide Details</a>
-          </div>
-        </div>
-      </div>
-      <div class="row align-items-center">
-        <div class="col-lg-11 col-xl-11 col-md-11 col-sm-11 col-12">
-          <ul class="Employeedetails">
-            <li>
-              <p>Date of Joining</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.dateOfJoining | date }}
-              </p>
             </li>
             <li>
               <p>Phone</p>
               <p class="mb-0 text-muted">{{ employeeData?.phone }}</p>
             </li>
-            <li>
-              <p>Email</p>
-              <p class="mb-0 text-muted">{{ employeeData?.email }}</p>
-            </li>
-            <li>
-              <p>Alternate Phone</p>
-              <p class="mb-0 text-muted">
-                {{ employeeData?.alternatePhone }}
-              </p>
-            </li>
-            <li>
-              <p>State</p>
-              <p class="mb-0 text-muted">{{ employeeData?.state }}</p>
-            </li>
-            <li>
-              <p>City</p>
-              <p class="mb-0 text-muted">{{ employeeData?.city }}</p>
-            </li>
-            <li>
-              <p>Country</p>
-              <p class="mb-0 text-muted">{{ employeeData?.country }}</p>
-            </li>
+
+            <!-- Additional details (hidden initially) -->
+            <ng-container *ngIf="showAllDetails">
+              <li>
+                <p>Date of Joining</p>
+                <p class="mb-0 text-muted">{{ employeeData?.dateOfJoining | date }}</p>
+              </li>
+              <li>
+                <p>Alternate Phone</p>
+                <p class="mb-0 text-muted">{{ employeeData?.alternatePhone }}</p>
+              </li>
+              <li>
+                <p>State</p>
+                <p class="mb-0 text-muted">{{ employeeData?.state }}</p>
+              </li>
+              <li>
+                <p>City</p>
+                <p class="mb-0 text-muted">{{ employeeData?.city }}</p>
+              </li>
+              <li>
+                <p>Country</p>
+                <p class="mb-0 text-muted">{{ employeeData?.country }}</p>
+              </li>
+            </ng-container>
           </ul>
-        </div>
-        <div class="col-auto text-end">
-          <a [routerLink]="['/admin/edit-employee', employeeId]"><i class="bi bi-pencil-square"></i> Edit</a>
+
+          <!-- Flex container for buttons -->
+          <div class="d-flex justify-content-end gap-2">
+            <a [routerLink]="['/admin/edit-employee', employeeId]" class="btn btn-sm btn-secondary">
+              <i class="bi bi-pencil-square"></i> Edit
+            </a>
+            <a href="javascript:;" class="btn btn-sm btn-primary" (click)="toggleDetails()">
+              {{ showAllDetails ? 'Hide Details' : 'All Details' }}
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
   <div class="card">
     <div class="card-header">
       <div class="row align-items-center">
-        <div class="col-lg-8 col-xl-8 col-md-6 col-sm-6 col-12 mob-mb1">
+        <div class="col-12">
           <ul class="OutstandingTab mb-4">
             <li>
               <a class="first-child active">
@@ -117,20 +107,27 @@
             </li>
           </ul>
         </div>
-        <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-12">
-          <div class="form-group mb-0 mob-mb1">
-            <span class="input-icon-left"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" class="feather feather-search align-middle">
+      </div>
+
+      <!-- New row for search input -->
+      <div class="row">
+        <div class="col-12 d-flex justify-content-end">
+          <div class="form-group mb-0">
+            <span class="input-icon-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-search align-middle">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg></span>
-            <input type="text" class="form-control form-control-search"
-              placeholder="Seach by emplouyee name, email, date of joining..." />
+              </svg>
+            </span>
+            <input type="text" class="form-control form-control-search" style="width: 350px;"
+              placeholder="Search by employee name, email, date of joining..." />
           </div>
         </div>
       </div>
     </div>
+
   </div>
 </div>
 <div class="card">

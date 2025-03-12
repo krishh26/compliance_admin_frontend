@@ -12,7 +12,7 @@ export class EmployeeDetailsOutstandingComponent {
   employeeId: any = null;
   employeeData: any;
   showLoader: boolean = false;
-
+  showAllDetails = false;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -46,4 +46,9 @@ export class EmployeeDetailsOutstandingComponent {
   gotoCompletedPage() {
     this.router.navigateByUrl(`/admin/employee-details-completed/${this.employeeId}`);
   }
+
+  toggleDetails() {
+    this.showAllDetails = !this.showAllDetails;
+  }
+
 }

@@ -10,7 +10,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
   styleUrls: ['./change-password.component.css']
 })
 export class ChangePasswordComponent {
-  forgotForm: FormGroup;
+  changeForm: FormGroup;
   showLoader: boolean = false;
   submitted = false;
   token!: any;
@@ -22,7 +22,7 @@ export class ChangePasswordComponent {
     private router: Router,
     private notificationService: NotificationService
   ) {
-    this.forgotForm = this.fb.group({
+    this.changeForm = this.fb.group({
       password: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
     });
@@ -34,26 +34,25 @@ export class ChangePasswordComponent {
 
   // Getter for easy access to form controls in the template
   get f() {
-    return this.forgotForm.controls;
+    return this.changeForm.controls;
   }
 
   onSubmit() {
     this.submitted = true;
-    debugger
-    if (this.forgotForm.invalid) {
+    if (this.changeForm.invalid) {
       return;
     }
     if (
-      this.forgotForm.value.password != this.forgotForm.value.confirmPassword
+      this.changeForm.value.password != this.changeForm.value.confirmPassword
     ) {
       this.notificationService.showError(
         'Password and Confirm Password do not match'
       );
       return;
     }
-    if (this.forgotForm.valid) {
+    if (this.changeForm.valid) {
       this.showLoader = true;
-      this.authServiceService.resetUser({ password: this.forgotForm.value.password }, this.token).subscribe(
+      this.authServiceService.createPassowrd({ password: this.changeForm.value.password }, this.token).subscribe(
         (response) => {
           this.showLoader = false;
           this.router.navigate(['/login']);

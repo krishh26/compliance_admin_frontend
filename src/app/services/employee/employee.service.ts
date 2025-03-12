@@ -7,7 +7,8 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 export enum EmployeeEndPoint {
   EMPLOYEE = '/employee',
   COMPLETED_TEST_LIST = '/result/list',
-  OUTSTANDING_TEST_LIST = '/result/out-stading-list'
+  OUTSTANDING_TEST_LIST = '/result/out-stading-list',
+  CREATE_PASSWORD = 'auth/create-password'
 }
 
 @Injectable({
@@ -65,6 +66,14 @@ export class EmployeeService {
       { headers: this.getHeader() }
     );
   }
+
+    createPassowrd(payload: any, token: string): Observable<any> {
+      return this.httpClient.post<any>(
+        `${this.baseUrl}${EmployeeEndPoint.CREATE_PASSWORD}?token=${token}`,
+        payload,
+        { headers: this.getHeader() }
+      );
+    }
 
   deleteEmployee(id: string): Observable<any> {
     return this.httpClient.delete<any>(

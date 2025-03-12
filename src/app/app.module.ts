@@ -17,12 +17,14 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
 import { ComplianceTestModule } from './modules/compliance-test/compliance-test.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CreatePasswordComponent } from './modules/auth/create-password/create-password.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    CreatePasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,7 @@
 <main class="content bg-white">
   <div class="container-fluid p-0">
     <div class="page-title  mb-3">
-      <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyId]" class="me-2 text-dark"><i
+      <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyDetails?.policyId]" class="me-2 text-dark"><i
             class="bi bi-arrow-left-circle"></i></a> Privacy
         and Data Policy Completed</h2>
     </div>
@@ -77,15 +77,15 @@
                 <tr>
                   <td>{{ item?.firstName }} {{ item?.lastName }} </td>
                   <td>Version {{ subPolicyDetails?.version }}</td>
-                  <td>{{ item?.resultDetails?.[0]?.score }}</td>
-                  <td>{{ item?.resultDetails?.[0]?.submitDate | date:'dd MMM YYYY' }}</td>
+                  <td>{{ item?.latestResult?.score }}</td>
+                  <td>{{ item?.latestResult?.submitDate | date:'dd MMM YYYY' }}</td>
                   <td>
-                    <span *ngIf="item?.resultDetails?.[0]?.resultStatus == '2'"
+                    <span *ngIf="item?.latestResult?.resultStatus == '2'"
                       class="btn btn-danger btn-sm rounded">Fail</span>
-                    <span *ngIf="item?.resultDetails?.[0]?.resultStatus == '1'"
+                    <span *ngIf="item?.latestResult?.resultStatus == '1'"
                       class="btn btn-success btn-sm rounded">Pass</span>
                   </td>
-                  <td>{{ item?.resultDetails?.[0]?.duration }} Min</td>
+                  <td>{{ item?.latestResult?.duration }} Min</td>
                   <td><a href="" class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
                 </tr>
               </ng-container>

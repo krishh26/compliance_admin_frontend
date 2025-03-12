@@ -66,7 +66,20 @@ export class SubPolicyCompletedComponent {
       setTimeout(() => { this.spinner.hide(); }, 1000);
       this.countDetails = response?.data;
       this.dataList = this.countDetails?.empCompletedList || [];
-      console.log(this.countDetails)
+      this.dataList = this.dataList?.map((policy) => {
+        let sortedResults = policy?.resultDetails?.sort(
+          (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        // Extract the latest result
+        const latestResult = sortedResults.length ? sortedResults[0] : null;
+
+        return {
+          ...policy,
+          latestResult,  // Set the latest result in the root object
+          resultDetails: sortedResults  // Keep sorted result details
+        };
+      });
     }, (error) => {
       setTimeout(() => { this.spinner.hide(); }, 1000);
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
@@ -80,5 +93,21 @@ export class SubPolicyCompletedComponent {
     } else {
       this.dataList = this.countDetails?.empCompletedList || [];
     }
+
+    this.dataList = this.dataList?.map((policy) => {
+      let sortedResults = policy?.resultDetails?.sort(
+        (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+
+      // Extract the latest result
+      const latestResult = sortedResults.length ? sortedResults[0] : null;
+
+      return {
+        ...policy,
+        latestResult,  // Set the latest result in the root object
+        resultDetails: sortedResults  // Keep sorted result details
+      };
+    });
+
   }
 }

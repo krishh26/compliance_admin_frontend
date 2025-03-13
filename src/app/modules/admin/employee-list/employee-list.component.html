@@ -52,7 +52,13 @@
               </td>
             </tr>
 
-            <tr *ngFor="let employee of employees">
+            <tr *ngFor="let employee of employees   | paginate
+            : {
+                itemsPerPage: pagesize,
+                currentPage: page,
+
+              };
+        let i = index">
               <td>
                 <a [routerLink]="['/admin/employee-details-outstanding',employee._id]">
                   {{ employee.firstName +" "+ employee.lastName }}
@@ -70,6 +76,13 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="row mt-3 align-items-center">
+        <div class="row">
+          <div class="pagination">
+            <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+          </div>
+        </div>
       </div>
     </div>
   </div>

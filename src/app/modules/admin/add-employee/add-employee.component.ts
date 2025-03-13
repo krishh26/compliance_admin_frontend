@@ -199,59 +199,56 @@ export class AddEmployeeComponent {
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
-      this.employeeForm.patchValue({ profileImage: this.selectedFile });
     }
   }
+
 
   submitForm() {
     this.submitted = true;
-    if (!this.employeeForm.valid) {
+    if (this.employeeForm.invalid) {
       return;
     }
+
     this.showLoader = true;
 
-    let payload: any;
+    // Prepare JSON data
+    const formDataObject = {
+      firstName: this.employeeForm.value.firstName,
+      middleName: this.employeeForm.value.middleName,
+      lastName: this.employeeForm.value.lastName,
+      gender: this.employeeForm.value.gender,
+      birthDate: this.employeeForm.value.birthDate,
+      email: this.employeeForm.value.email,
+      dateOfJoining: this.employeeForm.value.dateOfJoining,
+      phone: this.employeeForm.value.phone,
+      alternatePhone: this.employeeForm.value.alternatePhone,
+      country: this.employeeForm.value.country,
+      state: this.employeeForm.value.state,
+      city: this.employeeForm.value.city,
+      role: this.employeeForm.value.role,
+    };
 
-    // If `this.employeeId` exists, edit a single employee
-    if (this.employeeId) {
-      payload = [
-        {
-          ...this.employeeForm.value,
-          password: 'Test',
-          _id: this.employeeId,
-        }
-      ];
-    } else {
-      // If no `employeeId`, allow bulk entry by storing multiple form entries
-      payload = [
-        { ...this.employeeForm.value, password: 'Test' }
-      ];
+    // Create FormData
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(formDataObject)); // Send JSON as string
+    if (this.selectedFile) {
+      formData.append('img', this.selectedFile); // Append file
     }
 
-    // API call to create employee(s)
-    this.employeeService.createEmployee(payload).subscribe(
+    // API Call
+    this.employeeService.createEmployee(formData).subscribe(
       (response) => {
         this.showLoader = false;
-        if (this.employeeId) {
-          this.notificationService.showSuccess(
-            response?.message || 'Employee updated successfully'
-          );
-          this.router.navigate(['/admin/employee-details-outstanding', this.employeeId]);
-        } else {
-          this.notificationService.showSuccess(
-            response?.message || 'Employee(s) created successfully'
-          );
-          this.router.navigate(['/admin/employee-list']);
-        }
+        this.notificationService.showSuccess('Employee added successfully!');
+        this.router.navigate(['/admin/employee-list']);
       },
       (error) => {
         this.showLoader = false;
-        console.log('Error:', error);
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.notificationService.showError('Error adding employee.');
       }
     );
   }
+
+
 
 }

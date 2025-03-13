@@ -31,14 +31,21 @@
             <td><strong>Gender:</strong> {{ loginUser?.gender || '-' }}</td>
           </tr>
           <tr>
-            <td><strong>Date of Birth:</strong> {{ loginUser?.birthDate || '-' }}</td>
+            <td>
+              <strong>Date of Birth:</strong>
+              {{ loginUser?.birthDate ? (loginUser.birthDate | date: "dd/MM/yyyy") : '-' }}
+            </td>
           </tr>
+
           <tr>
             <td><strong>Email:</strong> {{ loginUser?.email || '-' }}</td>
           </tr>
           <tr>
-            <td><strong>Joining Date:</strong> {{ loginUser?.dateOfJoining || '-' }}</td>
+            <td><strong>Joining Date:</strong>
+              {{ loginUser?.dateOfJoining ? (loginUser.dateOfJoining | date: "dd/MM/yyyy") : '-' }}
+            </td>
           </tr>
+
           <tr>
             <td><strong>Phone:</strong> {{ loginUser?.phone || '-' }}</td>
           </tr>

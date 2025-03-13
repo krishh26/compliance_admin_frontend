@@ -147,7 +147,7 @@
             <tr *ngFor="let item of completedTestList">
               <td>{{item?.name}} ({{ item?.version }})</td>
               <td>{{item?.latestResult?.score}}</td>
-              <td>{{item?.latestResult?.submitDate | date : "dd MMM YYYY"}}</td>
+              <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
               <td>
                 <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
                 <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>

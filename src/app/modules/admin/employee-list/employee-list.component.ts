@@ -37,7 +37,6 @@ export class EmployeeListComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-
   getEmployees() {
     this.spinner.show();
 

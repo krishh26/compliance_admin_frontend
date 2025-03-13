@@ -52,7 +52,7 @@
         <i class="hamburger align-self-center"></i>
       </a>
       <div class="d-inline-block ms-2">
-        <h4 class="mb-0"><strong>Welcome, Admin</strong></h4>
+        <h4 class="mb-0"><strong>Welcome, {{loginUser?.firstName}} {{loginUser?.lastName}}</strong></h4>
       </div>
 
       <div class="navbar-collapse collapse">
@@ -62,7 +62,7 @@
               role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="assets/img/avatars/no-profile.jpg" class="avatar img-fluid full-rounded me-2 d-inline-block"
                 alt="Charles Hall" />
-              <div class="text-dark d-inline-block"><strong>Admin</strong></div>
+              <div class="text-dark d-inline-block"><strong>{{loginUser?.firstName}} {{loginUser?.lastName}}</strong></div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
               <li>

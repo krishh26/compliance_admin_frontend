@@ -31,12 +31,12 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]"  class="second-child">
+              <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]" class="second-child">
                 <img src="assets/img/icons/completed-icon.png" /> Completed ({{ countDetails?.completedCount }})
               </a>
             </li>
             <li>
-              <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]"  class="first-child">
+              <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]" class="first-child">
                 <img src="assets/img/icons/outstanding-icon.png" /> Outstanding ({{ countDetails?.OutStadingCount }})
               </a>
             </li>
@@ -63,7 +63,8 @@
                     </td>
                   </tr>
 
-                  <ng-container *ngFor="let item of policyList">
+                  <ng-container
+                    *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, };let i = index">
                     <tr>
                       <td>
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
@@ -86,6 +87,13 @@
                   </ng-container>
                 </tbody>
               </table>
+            </div>
+            <div class="row mt-3 align-items-center">
+              <div class="row">
+                <div class="pagination">
+                  <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+                </div>
+              </div>
             </div>
           </div>
         </div>

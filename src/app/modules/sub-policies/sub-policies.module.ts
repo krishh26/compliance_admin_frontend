@@ -13,6 +13,7 @@ import { EditQuestionComponent } from './edit-question/edit-question.component';
 import { SubPolicyOutstandingComponent } from './sub-policy-outstanding/sub-policy-outstanding.component';
 import { SubPolicyCompletedComponent } from './sub-policy-completed/sub-policy-completed.component';
 import { BulyEntryQuestionComponent } from './buly-entry-question/buly-entry-question.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -69,7 +70,8 @@ const routes: Routes = [
   imports: [CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPaginationModule
   ],
 })
 export class SubPoliciesModule { }

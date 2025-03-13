@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,6 +17,9 @@ export class SubPoliciesListComponent {
   policyId: any = null;
   latestPolicy: any;
   countDetails: any;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
 
   constructor(
     private notificationService: NotificationService,
@@ -32,24 +36,65 @@ export class SubPoliciesListComponent {
     });
   }
 
+  paginate(page: number) {
+    this.page = page;
+    this.getPolicyList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+
+  // getPolicyList() {
+  //   this.spinner.show();
+  //   this.policyList = [];
+  //   this.subPoliciesService.getSubPolicyList({ policyId: this.policyId }).subscribe((response) => {
+  //     setTimeout(() => { this.spinner.hide(); }, 2000);
+  //     this.policyList = response?.data || [];
+  //     const sortedPolicies = response?.data?.subPolicyList?.sort(
+  //       (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  //     );
+  //     this.latestPolicy = sortedPolicies?.[0];
+  //     if (this.latestPolicy) {
+  //       this.getSubPolicyCountAndData();
+  //     }
+  //     this.totalRecords = response?.data?.count || 0;
+  //   }, (error) => {
+  //     setTimeout(() => { this.spinner.hide(); }, 2000);
+  //     this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+  //   });
+  // }
+
   getPolicyList() {
     this.spinner.show();
     this.policyList = [];
-    this.subPoliciesService.getSubPolicyList({ policyId: this.policyId }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 2000);
-      this.policyList = response?.data || [];
-      const sortedPolicies = response?.data?.sort(
-        (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-      this.latestPolicy = sortedPolicies?.[0];
-      if (this.latestPolicy) {
-        this.getSubPolicyCountAndData();
+
+    this.subPoliciesService.getSubPolicyList({ policyId: this.policyId }).subscribe(
+      (response) => {
+        setTimeout(() => { this.spinner.hide(); }, 2000);
+
+        console.log('API Response:', response);
+        this.policyList = response?.data?.subPolicyList || [];
+        console.log('Extracted subPolicyList:', this.policyList);
+
+        if (this.policyList.length) {
+          const sortedPolicies = [...this.policyList].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          this.latestPolicy = sortedPolicies[0];
+
+          if (this.latestPolicy) {
+            this.getSubPolicyCountAndData();
+          }
+        }
+
+        this.totalRecords = response?.data?.count || 0;
+      },
+      (error) => {
+        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
-    }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 2000);
-      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
-    });
+    );
   }
+
 
   uploadSubPolicies() {
     this.router.navigate(['/sub-policies/upload-sub-policy', this.policyId]);

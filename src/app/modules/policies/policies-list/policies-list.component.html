@@ -35,7 +35,7 @@
                 <app-no-record-found></app-no-record-found>
               </td>
             </tr>
-            <ng-container *ngFor="let item of policyList   | paginate : { itemsPerPage: pagesize, currentPage: page };let i = index">
+            <ng-container *ngFor="let item of policyList   | paginate : { itemsPerPage: pagesize, currentPage: page, totalItems: totalRecords };let i = index">
               <tr>
                 <td>
                   <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
@@ -50,7 +50,10 @@
                 </td>
                 <td>{{ item?.status }}</td>
                 <td>
-                  <a href="javascript:void(0);" (click)="deletePolicy(item._id)" class="btn btn-danger btn-sm">
+                  <a style="margin-left: 2px;" [routerLink]="['/policies/upload-policy', item._id]" class="btn btn-primary btn-sm">
+                    <i class="bi bi-pencil-square"></i>
+                  </a>
+                  <a style="margin-left: 2px;" (click)="deletePolicy(item._id)" class="btn btn-danger btn-sm">
                     <i class="bi bi-trash-fill"></i>
                   </a>
                 </td>

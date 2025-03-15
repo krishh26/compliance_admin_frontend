@@ -69,7 +69,7 @@
                   </tr>
 
                   <ng-container
-                    *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, };let i = index">
+                    *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, totalItems: totalRecords};let i = index">
                     <tr [ngClass]="!item?.policySettings ? 'setting-pending' : ''">
                       <td>
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>

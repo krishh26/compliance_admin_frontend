@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -22,7 +23,8 @@ export class SubPolicyOutstandingComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private employeeService: EmployeeService
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +38,29 @@ export class SubPolicyOutstandingComponent {
     });
   }
 
+  openDatePicker(input: HTMLInputElement) {
+    input.showPicker(); // Opens native date picker
+  }
+
+  onDateChange(date: string, employeeId: string) {
+    const payload = {
+      subPolicyId: this.subPolicyId,
+      employeeId: employeeId,
+      dueDate: date
+    }
+    this.employeeService.dueDateSetting(payload).subscribe(
+      (response) => {
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 2000);
+        this.getSubPolicyDetails();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      }
+    );
+  }
 
   getPolicySettingDetails() {
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {

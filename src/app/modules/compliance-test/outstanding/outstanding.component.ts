@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 
 @Component({
   selector: 'app-outstanding',
@@ -14,6 +15,10 @@ export class OutstandingComponent {
   outstandingtestlist: any[] = [];
   showLoader: boolean = false;
   loginUser: any = [];
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
+
 
   constructor(
     private router: Router,
@@ -29,6 +34,12 @@ export class OutstandingComponent {
     this.getOutstandingTestLists();
   }
 
+  paginate(page: number) {
+    this.page = page;
+    this.getOutstandingTestLists();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   getOutstandingTestLists() {
     let param = {
       employeeId: this.loginUser._id
@@ -37,8 +48,9 @@ export class OutstandingComponent {
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         this.spinner.hide();
-        this.outstandingtestlist = response?.data;
+        this.outstandingtestlist = response?.data?.subPolicyList;
         this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
+        this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
         this.spinner.hide();

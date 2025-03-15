@@ -14,13 +14,13 @@
         </li>
       </ul>
       <div class="row align-items-center">
-        <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
+        <!-- <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
           <label class="badge-light w-100 text-center">Compliance Result</label>
-        </div>
+        </div> -->
         <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12">
           <div class="row g-3 align-items-center">
             <div class="col-auto">
-              <label for="inputPassword6" class="col-form-label">Search Results</label>
+              <label for="inputPassword6" class="col-form-label">Search</label>
             </div>
             <div class="col-9">
               <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
@@ -29,9 +29,9 @@
         </div>
         <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-12">
           <div class="row g-2 align-items-center">
-            <div class="col-auto">
+            <!-- <div class="col-auto">
               <label for="inputPassword6" class="col-form-label">Order By</label>
-            </div>
+            </div> -->
             <div class="col-9">
               <select class="form-select w-100">
                 <option>Exam Name</option>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
-          <button type="button" class="btn btn-success btn sm">Search Result</button>
+          <button type="button" class="btn btn-success btn sm">Search</button>
         </div>
       </div>
     </div>
@@ -66,19 +66,32 @@
               </td>
             </tr>
 
-            <tr *ngFor="let item of completedtestlist">
+            <tr *ngFor="let item of completedtestlist | paginate
+            : {
+                itemsPerPage: pagesize,
+                currentPage: page,
+
+              };
+              let i = index">
               <td>{{item?.name}} ({{ item?.version }})</td>
               <td>{{item?.latestResult?.score}}</td>
-              <td>{{item?.latestResult?.submitDate | date : "dd MMM YYYY"}}</td>
+              <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
               <td>
                 <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
                 <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
               </td>
-              <td>{{item?.latestResult?.duration}} Minutes</td>
+              <td>{{ getFormattedDuration(item?.latestResult?.duration) }} Minutes</td>
               <td><a class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="row mt-3 align-items-center">
+        <div class="row">
+          <div class="pagination">
+            <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+          </div>
+        </div>
       </div>
     </div>
   </div>

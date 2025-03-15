@@ -9,6 +9,7 @@ import { ExamIntructionComponent } from './exam-intruction/exam-intruction.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExamComponent } from './exam/exam.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: '', redirectTo: 'outstanding', pathMatch: 'full' },
@@ -54,7 +55,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPaginationModule
   ]
 })
 export class ComplianceTestModule { }

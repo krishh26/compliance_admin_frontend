@@ -6,7 +6,7 @@
     <a *ngIf="loginUser?.role !== 'ADMIN'" routerLink="/employee-policies/employee-policies-list" class="me-3 text-dark fs-4">
       <i class="bi bi-arrow-left-circle"></i>
     </a>
-    <h2 class="mb-0">Employee Information</h2>
+    <h2 class="mb-0">User Profile</h2>
   </div>
 
   <div class="card shadow-sm">
@@ -14,9 +14,11 @@
       <div class="text-center mb-4">
         <div class="profile-image rounded-circle overflow-hidden shadow-sm mx-auto"
           style="width: 120px; height: 120px;">
+        <div class="profile-image rounded-circle overflow-hidden shadow-sm mx-auto"
+          style="width: 120px; height: 120px;">
           <img src="assets/img/avatars/avatar-4.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" />
         </div>
-        <h5 class="fw-bold mt-2">Avatar-4.jpg</h5>
+        <h5 class="fw-bold mt-2">{{ loginUser?.profileImage || 'Avatar-4.jpg' }}</h5>
       </div>
 
       <table class="table text-lg">

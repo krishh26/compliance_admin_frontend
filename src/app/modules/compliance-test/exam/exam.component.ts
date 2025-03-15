@@ -66,7 +66,7 @@ export class ExamComponent {
     }
     this.subPoliciesService.getQuestionList(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
-        this.questions = response?.data;
+        this.questions = response?.data?.questionList;
         if (this.questions?.[0] == null) {
           return this.notificationService.showError('Questions not found.');
         }

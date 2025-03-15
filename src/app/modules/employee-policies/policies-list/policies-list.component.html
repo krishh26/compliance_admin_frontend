@@ -33,7 +33,13 @@
                     </td>
                   </tr>
 
-                  <ng-container *ngFor="let item of policyList">
+                  <ng-container *ngFor="let item of policyList | paginate
+                  : {
+                      itemsPerPage: pagesize,
+                      currentPage: page,
+
+                    };
+              let i = index">
                     <tr>
                       <td>
                         <a [routerLink]="[ '/employee-policies/employee-sub-policies-list', item._id ]">{{ item?.name
@@ -50,6 +56,13 @@
                   </ng-container>
                 </tbody>
               </table>
+            </div>
+            <div class="row mt-3 align-items-center">
+              <div class="row">
+                <div class="pagination">
+                  <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+                </div>
+              </div>
             </div>
           </div>
         </div>

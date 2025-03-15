@@ -8,6 +8,7 @@ import { HomeComponent } from '../admin/home/home.component';
 import { PoliciesListComponent } from './policies-list/policies-list.component';
 import { CompilanceTestComponent } from './compilance-test/compilance-test.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-policies-list', pathMatch: 'full' },
@@ -36,6 +37,11 @@ const routes: Routes = [
     SubPoliciesListComponent,
     CompilanceTestComponent,
   ],
-  imports: [CommonModule, SharedModule, RouterModule.forChild(routes),NgxSpinnerModule],
+  imports: [CommonModule,
+    SharedModule,
+    RouterModule.forChild(routes),
+    NgxSpinnerModule,
+    NgxPaginationModule
+  ],
 })
 export class EmployeePoliciesModule { }

@@ -1,66 +1,6 @@
-<!-- <div class="container-fluid p-0">
-  <div class="row align-items-center mb-3">
-    <div class="col-lg-10 col-xl-10 col-12">
-      <div class="page-title">
-        <h2>
-          Policies Name
-        </h2>
-      </div>
-    </div>
-    <div class="col-lg-2 col-xl-2 col-12">
-      <a routerLink="/policies/upload-policy" class="btn btn-primary w-100"> Upload</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped mb-0" style="width: 100%; table-layout: fixed;">
-          <thead class="table-light">
-            <tr>
-              <th scope="col" style="width: 50%;">Policies Name</th>
-              <th scope="col">Last Updated Date</th>
-              <th scope="col">Status</th>
-              <th scope="col">Policy Type</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td *ngIf="!policyList?.length" colspan="6">
-                <app-no-record-found></app-no-record-found>
-              </td>
-            </tr>
-            <ng-container *ngFor="let item of policyList">
-              <tr>
-                <td style="width: 50%;">
-                  <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
-                </td>
-                <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
-                  date : "dd/MM/yyyy") : (item?.createdAt |
-                  date : "dd/MM/yyyy") }}
-                </td>
-                <td>{{ item?.status }}</td>
-                <td>
-                  <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
-                </td>
-                <td>
-                  <a href="javascript:void(0);" (click)="deletePolicy(item._id)" class="btn btn-danger btn-sm">
-                    <i class="bi bi-trash-fill"></i>
-                  </a>
-                </td>
-              </tr>
-            </ng-container>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div> -->
 <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
-
 
 <div class="container-fluid p-0">
   <div class="row align-items-center mb-3">
@@ -95,14 +35,20 @@
                 <app-no-record-found></app-no-record-found>
               </td>
             </tr>
-            <ng-container *ngFor="let item of policyList">
+            <ng-container *ngFor="let item of policyList   | paginate
+            : {
+                itemsPerPage: pagesize,
+                currentPage: page,
+
+              };
+        let i = index">
               <tr>
                 <td>
                   <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
                 </td>
                 <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
-                  date : "dd MMM yyyy") : (item?.createdAt |
-                  date : "dd MMM yyyy") }}
+                  date : "dd/MM/yyyy") : (item?.createdAt |
+                  date : "dd/MM/yyyy") }}
                 </td>
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
@@ -117,6 +63,13 @@
             </ng-container>
           </tbody>
         </table>
+      </div>
+      <div class="row mt-3 align-items-center">
+        <div class="row">
+          <div class="pagination">
+            <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+          </div>
+        </div>
       </div>
     </div>
   </div>

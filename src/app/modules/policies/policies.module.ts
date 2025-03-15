@@ -8,6 +8,7 @@ import { TermsConditionsComponent } from './terms-conditions/terms-conditions.co
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/utility/shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -38,7 +39,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     ReactiveFormsModule,
     SharedModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxPaginationModule
   ]
 })
 export class PoliciesModule { }

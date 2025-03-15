@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,6 +15,10 @@ export class SubPoliciesListComponent {
   policyList: any[] = [];
   showLoader: boolean = false;
   policyId: any = null;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
+
   constructor(
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
@@ -27,6 +32,12 @@ export class SubPoliciesListComponent {
       this.policyId = params.get('id');
     });
     this.getPolicyList();
+  }
+
+  paginate(page: number) {
+    this.page = page;
+    this.getPolicyList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   getPolicyList() {
@@ -43,7 +54,8 @@ export class SubPoliciesListComponent {
           setTimeout(() => {
             this.spinner.hide();
           }, 1000);
-          this.policyList = response?.data || [];
+          this.policyList = response?.data?.subPolicyList || [];
+          this.totalRecords = response?.data?.count || 0;
         },
         (error) => {
           setTimeout(() => {

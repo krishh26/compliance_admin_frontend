@@ -5,11 +5,12 @@ import { environment } from 'src/environment/environment';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum EmployeeEndPoint {
-  EMPLOYEE = '/employee',
+  EMPLOYEE = '/employee/list',
   UPDATE_EMPLOYEE = '/employee/update',
   COMPLETED_TEST_LIST = '/result/list',
   OUTSTANDING_TEST_LIST = '/result/out-stading-list',
-  CREATE_PASSWORD = 'auth/create-password'
+  CREATE_PASSWORD = 'auth/create-password',
+  CREATE_EMPLOYEE = '/employee'
 }
 
 @Injectable({
@@ -33,11 +34,22 @@ export class EmployeeService {
     return headers;
   }
 
-  getEmployee(): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + EmployeeEndPoint.EMPLOYEE, {
-      headers: this.getHeader(),
-    });
+  getEmployee(params: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.EMPLOYEE,
+      params, // Send params in request body
+      { headers: this.getHeader() }
+    );
   }
+
+  getHeaderWithoutContentType(): HttpHeaders {
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Bearer ' + this.localStorageService.getLoggerToken()); // Example token
+
+    return headers;
+  }
+
+
 
   getCompletedTestList(param: any): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST, param, {
@@ -60,11 +72,11 @@ export class EmployeeService {
     );
   }
 
-  createEmployee(payload: any): Observable<any> {
+  createEmployee(payload: FormData): Observable<any> {
     return this.httpClient.post<any>(
-      this.baseUrl + EmployeeEndPoint.EMPLOYEE,
+      this.baseUrl + EmployeeEndPoint.CREATE_EMPLOYEE,
       payload,
-      { headers: this.getHeader() }
+      { headers: this.getHeaderWithoutContentType() } // Use updated header method
     );
   }
 

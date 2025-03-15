@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,27 +13,41 @@ import Swal from 'sweetalert2';
 export class PoliciesListComponent implements OnInit {
   policyList: any[] = [];
   showLoader: boolean = false;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
 
   constructor(
     private notificationService: NotificationService,
     private policyService: PolicyService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getPolicyList();
   }
 
+  paginate(page: number) {
+    this.page = page;
+    this.getPolicyList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   getPolicyList() {
-   this.spinner.show();
+    this.spinner.show();
+
+    const params = {
+      pageNumber: this.page,
+      pageLimit: this.pagesize
+    };
+
     this.policyList = [];
     this.policyService.getPolicyList().subscribe(
       (response) => {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        this.policyList = response?.data || [];
-        // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
+        this.policyList = response?.data?.policyList || [];
       },
       (error) => {
         setTimeout(() => {

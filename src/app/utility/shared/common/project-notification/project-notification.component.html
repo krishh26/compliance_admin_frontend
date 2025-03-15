@@ -23,7 +23,7 @@
           <tbody>
             <ng-container *ngIf="projectNotificationList?.length > 0">
 
-            <tr *ngFor="let item of projectNotificationList |  paginate: { itemsPerPage: pagesize , currentPage: page, totalItems: totalRecords } ; let i = index">
+            <tr *ngFor="let item of projectNotificationList |  paginate: { itemsPerPage: pagesize , currentPage: page, totalItems: totalRecords, totalItems: totalRecords } ; let i = index">
               <td><a>{{item?.title}}</a></td>
               <td>{{item?.discription}}</td>
               <td>

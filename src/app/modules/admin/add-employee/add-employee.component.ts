@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-add-employee',
@@ -18,7 +19,8 @@ export class AddEmployeeComponent {
   employeeId!: any;
   employeeData: any;
   imagePreview: string = 'assets/img/avatars/avatar-4.jpg';
-  isUpload : boolean = false;
+  isUpload: boolean = false;
+  baseImageURL = environment.baseUrl;
 
   countries = [
     {
@@ -133,6 +135,8 @@ export class AddEmployeeComponent {
       this.employeeId = params.get('id');
       if (this.employeeId) {
         this.getOneEmployee();
+      } else {
+        this.isUpload = true;
       }
     });
   }
@@ -150,7 +154,9 @@ export class AddEmployeeComponent {
     this.employeeService.getOneEmployee(this.employeeId).subscribe(
       (response) => {
         this.employeeData = response?.data;
-
+        if (!this.employeeData?.profileImg) {
+          this.isUpload = true;
+        }
         if (this.employeeData) {
           this.onCountryChange({
             target: { value: this.employeeData.country },
@@ -220,12 +226,15 @@ export class AddEmployeeComponent {
       return this.editEmployee();
     }
     this.spinner.show();
-    let payload: any;
-
-    payload = { ...this.employeeForm.value, password: 'Test' };
+    const payload = { ...this.employeeForm.value };
+    this.spinner.show();
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(payload));
+    formData.append('img', this.selectedFile);
+    // payload = { ...this.employeeForm.value, password: 'Test' };
 
     // API call to create employee(s)
-    this.employeeService.createEmployee(payload).subscribe(
+    this.employeeService.createEmployee(formData).subscribe(
       (response) => {
         this.spinner.hide();
         if (this.employeeId) {

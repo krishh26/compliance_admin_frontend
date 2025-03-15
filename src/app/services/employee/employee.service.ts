@@ -14,6 +14,7 @@ export enum EmployeeEndPoint {
   CREATE_PASSWORD = '/auth/create-password',
   CREATE_EMPLOYEE = '/employee',
   EMP_POLICY_DUE_DATE_SETTING = '/policy-due-date/upsert',
+  BULK_EMP = '/employee/bulk-upload',
 }
 
 @Injectable({
@@ -109,6 +110,13 @@ export class EmployeeService {
       `${this.baseUrl}${EmployeeEndPoint.EMP_POLICY_DUE_DATE_SETTING}`,
       payload,
       { headers: this.getHeader() }
+    );
+  }
+
+  bulkUpload(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}${EmployeeEndPoint.BULK_EMP}`,
+      payload
     );
   }
 }

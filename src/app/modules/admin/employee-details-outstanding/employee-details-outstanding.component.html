@@ -10,7 +10,12 @@
       <div class="row align-items-center">
         <div class="col-lg-2 col-xl-2 col-md-2 col-12">
           <div class="profile-image">
-            <img src="assets/img/avatars/avatar-4.jpg" class="img-fluid" />
+            <ng-container *ngIf="employeeData?.profileImg">
+              <img [src]="baseImageURL + employeeData?.profileImg" class="img-fluid" />
+            </ng-container>
+            <ng-container *ngIf="!employeeData?.profileImg">
+              <img src="assets/img/avatars/avatar-4.jpg" class="img-fluid" />
+            </ng-container>
             <div class="input--file">
               <i class="bi bi-camera-fill"></i>
               <input name="Select File" type="file" />

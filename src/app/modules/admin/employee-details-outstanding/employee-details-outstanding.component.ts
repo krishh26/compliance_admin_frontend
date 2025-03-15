@@ -1,3 +1,4 @@
+import { environment } from './../../../../environment/environment';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,6 +16,7 @@ export class EmployeeDetailsOutstandingComponent {
   showAllDetails = false;
   outstandingtestlist: any[] = [];
   selectedDate: string = '';
+  baseImageURL = environment.baseUrl;
 
   constructor(
     private route: ActivatedRoute,

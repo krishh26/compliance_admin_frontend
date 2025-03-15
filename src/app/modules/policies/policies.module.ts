@@ -18,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: 'policies-list', component: PoliciesListComponent },
       { path: 'upload-policy', component: UploadPoliciesComponent },
+      { path: 'upload-policy/:id', component: UploadPoliciesComponent },
       { path: 'terms-conditions', component: TermsConditionsComponent },
     ]
   },

@@ -44,7 +44,14 @@
                   <td>{{ item?.firstName }} {{ item?.lastName }}</td>
                   <td>Version {{ subPolicyDetails?.version }}</td>
                   <td>{{ settingDetails?.examTimeLimit | date : 'dd MMM YYYY'}}</td>
-                  <td><a href="" class="btn btn-primary btn-sm rounded">Edit</a></td>
+                  <td>
+                    <div class="input-group">
+                      <input type="date" #dateInput class="form-control"
+                        [(ngModel)]="item.examTimeLimit"
+                        (change)="onDateChange(item.examTimeLimit, item?._id)" hidden />
+                      <button class="btn btn-primary" (click)="openDatePicker(dateInput)">📅 Edit</button>
+                    </div>
+                  </td>
                 </tr>
               </ng-container>
             </tbody>

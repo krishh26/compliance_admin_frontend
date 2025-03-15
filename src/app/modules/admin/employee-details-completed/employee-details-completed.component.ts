@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-
+import { environment } from './../../../../environment/environment';
 @Component({
   selector: 'app-employee-details-completed',
   templateUrl: './employee-details-completed.component.html',
@@ -14,6 +14,7 @@ export class EmployeeDetailsCompletedComponent {
   showLoader: boolean = false;
   showAllDetails = false;
   completedTestList: any[] = [];
+  baseImageURL = environment.baseUrl;
 
   constructor(
     private route: ActivatedRoute,

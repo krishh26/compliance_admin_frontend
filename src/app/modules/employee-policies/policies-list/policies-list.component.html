@@ -37,7 +37,7 @@
                   : {
                       itemsPerPage: pagesize,
                       currentPage: page,
-
+                      totalItems: totalRecords
                     };
               let i = index">
                     <tr>
@@ -45,7 +45,7 @@
                         <a [routerLink]="[ '/employee-policies/employee-sub-policies-list', item._id ]">{{ item?.name
                           }}</a>
                       </td>
-                      <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
+                      <td> {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt |
                         date : "dd/MM/yyyy") : (item?.createdAt |
                         date : "dd/MM/yyyy") }}</td>
                       <td>

@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import Swal from 'sweetalert2';
 import { BulyEntryQuestionComponent } from '../buly-entry-question/buly-entry-question.component';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 
 @Component({
   selector: 'app-question-list',
@@ -18,6 +19,9 @@ export class QuestionListComponent implements OnInit {
   userGroup: string | null = null;
   showLoader: boolean = false;
   questions: any[] = [];
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
 
   constructor(
     private location: Location,
@@ -39,6 +43,13 @@ export class QuestionListComponent implements OnInit {
     });
   }
 
+  paginate(page: number) {
+    this.page = page;
+    this.getQuestionList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+
   openAddTeamModal() {
     this.modalService.open(BulyEntryQuestionComponent, { size: 'l' });
   }
@@ -48,6 +59,8 @@ export class QuestionListComponent implements OnInit {
     const payload = {
       subPolicyId: this.subPolicyId,
       userGroup: this.userGroup,
+      pageNumber: this.page,
+      pageLimit: this.pagesize,
     };
 
     this.subPoliciesService.getQuestionList(payload).subscribe(
@@ -62,7 +75,11 @@ export class QuestionListComponent implements OnInit {
               question.optionsDetails?.map(
                 (option: any) => option.optionText
               ) || [],
+
           }));
+          this.totalRecords = response?.data?.count || 0;
+          console.log(this.totalRecords);
+
         } else {
           this.questions = [];
         }

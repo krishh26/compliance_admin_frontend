@@ -6,6 +6,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum EmployeeEndPoint {
   EMPLOYEE = '/employee',
+  UPDATE_EMPLOYEE = '/employee/update',
   COMPLETED_TEST_LIST = '/result/list',
   OUTSTANDING_TEST_LIST = '/result/out-stading-list',
   CREATE_PASSWORD = 'auth/create-password'
@@ -38,14 +39,14 @@ export class EmployeeService {
     });
   }
 
-  getCompletedTestList(param:any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST,param, {
+  getCompletedTestList(param: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST, param, {
       headers: this.getHeader(),
     });
   }
 
-  getOutstandingTestList(param:any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST,param, {
+  getOutstandingTestList(param: any): Observable<any> {
+    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST, param, {
       headers: this.getHeader(),
     });
   }
@@ -67,13 +68,21 @@ export class EmployeeService {
     );
   }
 
-    createPassowrd(payload: any, token: string): Observable<any> {
-      return this.httpClient.post<any>(
-        `${this.baseUrl}${EmployeeEndPoint.CREATE_PASSWORD}?token=${token}`,
-        payload,
-        { headers: this.getHeader() }
-      );
-    }
+  updateEmp(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.UPDATE_EMPLOYEE,
+      payload,
+      { headers: this.getHeader() }
+    );
+  }
+
+  createPassowrd(payload: any, token: string): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}${EmployeeEndPoint.CREATE_PASSWORD}?token=${token}`,
+      payload,
+      { headers: this.getHeader() }
+    );
+  }
 
   deleteEmployee(id: string): Observable<any> {
     return this.httpClient.delete<any>(

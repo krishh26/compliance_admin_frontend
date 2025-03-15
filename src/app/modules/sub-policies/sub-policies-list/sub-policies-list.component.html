@@ -24,7 +24,7 @@
           </div>
         </div>
         <div class="mb-1">
-          <ul class="OutstandingTab">
+          <ul class="OutstandingTab" *ngIf="latestPolicy">
             <li>
               <a class="first-child">
                 <img src="assets/img/icons/outstanding-icon.png" /> Version
@@ -43,6 +43,22 @@
             <li>
               <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]" class="first-child">
                 <img src="assets/img/icons/outstanding-icon.png" /> Outstanding ({{ countDetails?.OutStadingCount }})
+              </a>
+            </li>
+          </ul>
+          <ul class="OutstandingTab" *ngIf="!latestPolicy">
+            <li>
+              <a class="first-child">
+                <img src="assets/img/icons/outstanding-icon.png" /> Version
+              </a>
+            </li>
+            <li>
+              <a class="second-child">
+                <img src="assets/img/icons/completed-icon.png" /> Completed </a>
+            </li>
+            <li>
+              <a class="first-child">
+                <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
               </a>
             </li>
           </ul>

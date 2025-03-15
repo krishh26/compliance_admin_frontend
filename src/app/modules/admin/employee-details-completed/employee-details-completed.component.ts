@@ -52,8 +52,8 @@ export class EmployeeDetailsCompletedComponent {
     this.showLoader = true;
     this.employeeService.getCompletedTestList(param).subscribe((response) => {
       this.showLoader = false;
-      this.completedTestList = response?.data;
-      this.completedTestList = this.completedTestList.map((policy) => {
+      this.completedTestList = response?.data?.subPolicyList || [];
+      this.completedTestList = this.completedTestList?.map((policy) => {
         let sortedResults = policy.resultDetails.sort(
           (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );

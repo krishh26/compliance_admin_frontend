@@ -61,7 +61,7 @@ export class UploadSubPoliciesComponent {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        this.policyList = response?.data || [];
+        this.policyList = response?.data?.policyList || [];
         console.log('this is my policies services', this.policyList);
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
       },

@@ -54,7 +54,7 @@ export class QuestionListComponent implements OnInit {
       (response) => {
         this.showLoader = false;
         if (response?.data) {
-          this.questions = response.data.map((question: any) => ({
+          this.questions = response?.data?.questionList?.map((question: any) => ({
             id: question._id,
             questionText: question.questionText, // Corrected property name
             questionType: this.getAnswerType(question.questionType), // Mapped to readable type

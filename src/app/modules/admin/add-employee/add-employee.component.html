@@ -11,20 +11,25 @@
         <div class="row align-items-center mb-4">
           <div class="col-lg-2 col-xl-2 col-md-2 col-12">
             <div class="profile-image">
-              <img src="assets/img/avatars/avatar-4.jpg" class="img-fluid" />
+              <ng-container *ngIf="employeeData?.profileImg && !isUpload">
+                <img [src]="'http://localhost:3006' + employeeData?.profileImg"  class="img-fluid" alt="Profile Picture">
+              </ng-container>
+              <ng-container *ngIf="isUpload">
+                <img [src]="imagePreview" class="img-fluid" alt="Profile Image" />
+              </ng-container>
               <div class="input--file">
                 <i class="bi bi-camera-fill"></i>
-                <input name="Select File" type="file" />
+                <input name="Select File" type="file" accept="image/*" (change)="onFileChange($event)" />
               </div>
             </div>
           </div>
-          <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
+          <!-- <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
             <p>Upload Employee image here</p>
             <div class="input-file-btn btn" style="position: relative">
               Browse
               <input name="Select File" type="file" (change)="onFileChange($event)" />
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
@@ -105,8 +110,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Phone</label>
-              <input type="text" class="form-control" placeholder="Phone number" formControlName="phone" maxlength="10" minlength="10"
-                (keypress)="NumberOnly($event)" required />
+              <input type="text" class="form-control" placeholder="Phone number" formControlName="phone" maxlength="10"
+                minlength="10" (keypress)="NumberOnly($event)" required />
               <small class="text-danger" *ngIf="submitted && f['phone'].errors?.['required']">
                 Phone Number is required
               </small>
@@ -115,10 +120,11 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Alternate Phone</label>
-              <input type="text" class="form-control" placeholder="Alternate number" formControlName="alternatePhone" maxlength="10" minlength="10"  (keypress)="NumberOnly($event)" required />
-              <small class="text-danger" *ngIf="submitted && f['alternatePhone'].errors?.['required']">
+              <input type="text" class="form-control" placeholder="Alternate number" formControlName="alternatePhone"
+                maxlength="10" minlength="10" (keypress)="NumberOnly($event)" />
+              <!-- <small class="text-danger" *ngIf="submitted && f['alternatePhone'].errors?.['required']">
                 Alternate Phone Number is required
-              </small>
+              </small> -->
             </div>
           </div>
         </div>

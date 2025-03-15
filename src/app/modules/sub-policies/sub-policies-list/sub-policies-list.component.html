@@ -27,7 +27,12 @@
           <ul class="OutstandingTab">
             <li>
               <a class="first-child">
-                <img src="assets/img/icons/outstanding-icon.png" /> Version ({{ latestPolicy?.version }})
+                <img src="assets/img/icons/outstanding-icon.png" /> Version
+                <select [(ngModel)]="selectedVersion" (change)="onVersionChange($event)">
+                  <option *ngFor="let item of policyList" [value]="item?.version">
+                    {{ item?.version }}
+                  </option>
+                </select>
               </a>
             </li>
             <li>
@@ -65,7 +70,7 @@
 
                   <ng-container
                     *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, };let i = index">
-                    <tr>
+                    <tr [ngClass]="!item?.policySettings ? 'setting-pending' : ''">
                       <td>
                         <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
                       </td>

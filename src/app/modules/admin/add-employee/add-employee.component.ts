@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 
@@ -11,11 +12,13 @@ import { NotificationService } from 'src/app/services/notification/notification.
 })
 export class AddEmployeeComponent {
   employeeForm: FormGroup;
-  selectedFile: File | null = null;
+  selectedFile: any;
   submitted = false;
   showLoader: boolean = false;
   employeeId!: any;
   employeeData: any;
+  imagePreview: string = 'assets/img/avatars/avatar-4.jpg';
+  isUpload : boolean = false;
 
   countries = [
     {
@@ -100,7 +103,8 @@ export class AddEmployeeComponent {
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private spinner: NgxSpinnerService
   ) {
     this.employeeForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -127,11 +131,10 @@ export class AddEmployeeComponent {
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.employeeId = params.get('id');
-      console.log('Employee ID:', this.employeeId);
+      if (this.employeeId) {
+        this.getOneEmployee();
+      }
     });
-    if (this.employeeId) {
-      this.getOneEmployee();
-    }
   }
 
   NumberOnly(event: any): boolean {
@@ -197,58 +200,77 @@ export class AddEmployeeComponent {
   }
 
   onFileChange(event: any) {
+    this.isUpload = true;
     if (event.target.files.length > 0) {
       this.selectedFile = event.target.files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result; // Update the image preview
+      };
+      reader.readAsDataURL(this.selectedFile);
     }
   }
 
-
   submitForm() {
-    this.submitted = true;
-    if (this.employeeForm.invalid) {
+    if (!this.employeeForm.valid) {
       return;
     }
-
-    this.showLoader = true;
-
-    // Prepare JSON data
-    const formDataObject = {
-      firstName: this.employeeForm.value.firstName,
-      middleName: this.employeeForm.value.middleName,
-      lastName: this.employeeForm.value.lastName,
-      gender: this.employeeForm.value.gender,
-      birthDate: this.employeeForm.value.birthDate,
-      email: this.employeeForm.value.email,
-      dateOfJoining: this.employeeForm.value.dateOfJoining,
-      phone: this.employeeForm.value.phone,
-      alternatePhone: this.employeeForm.value.alternatePhone,
-      country: this.employeeForm.value.country,
-      state: this.employeeForm.value.state,
-      city: this.employeeForm.value.city,
-      role: this.employeeForm.value.role,
-    };
-
-    // Create FormData
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(formDataObject)); // Send JSON as string
-    if (this.selectedFile) {
-      formData.append('img', this.selectedFile); // Append file
+    if (this.employeeId) {
+      return this.editEmployee();
     }
+    this.spinner.show();
+    let payload: any;
 
-    // API Call
-    this.employeeService.createEmployee(formData).subscribe(
+    payload = { ...this.employeeForm.value, password: 'Test' };
+
+    // API call to create employee(s)
+    this.employeeService.createEmployee(payload).subscribe(
       (response) => {
-        this.showLoader = false;
-        this.notificationService.showSuccess('Employee added successfully!');
-        this.router.navigate(['/admin/employee-list']);
+        this.spinner.hide();
+        if (this.employeeId) {
+          this.notificationService.showSuccess(
+            response?.message || 'Employee updated successfully'
+          );
+          this.router.navigate(['/admin/employee-details-outstanding', this.employeeId]);
+        } else {
+          this.notificationService.showSuccess(
+            response?.message || 'Employee(s) created successfully'
+          );
+          this.router.navigate(['/admin/employee-list']);
+        }
       },
       (error) => {
-        this.showLoader = false;
-        this.notificationService.showError('Error adding employee.');
+        this.spinner.hide();
+        console.log('Error:', error);
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
       }
     );
   }
 
+  editEmployee() {
+    if (!this.employeeForm.valid) {
+      return;
+    }
 
+    const payload = { ...this.employeeForm.value, password: 'Test', id: this.employeeId };
+    this.spinner.show();
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(payload));
+    formData.append('img', this.selectedFile);
 
+    this.employeeService.updateEmp(formData).subscribe(
+      (response) => {
+        this.spinner.hide();
+        this.notificationService.showSuccess(response?.message || 'Employee updated successfully');
+        this.router.navigate(['/admin/employee-details-outstanding', this.employeeId]);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      }
+    );
+  }
 }

@@ -6,11 +6,14 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export enum EmployeeEndPoint {
   EMPLOYEE = '/employee/list',
+  DELETE_EMP = '/employee',
+  GET_EMPLOYEE = '/employee',
   UPDATE_EMPLOYEE = '/employee/update',
   COMPLETED_TEST_LIST = '/result/list',
   OUTSTANDING_TEST_LIST = '/result/out-stading-list',
-  CREATE_PASSWORD = 'auth/create-password',
-  CREATE_EMPLOYEE = '/employee'
+  CREATE_PASSWORD = '/auth/create-password',
+  CREATE_EMPLOYEE = '/employee',
+  EMP_POLICY_DUE_DATE_SETTING = '/policy-due-date/upsert',
 }
 
 @Injectable({
@@ -49,8 +52,6 @@ export class EmployeeService {
     return headers;
   }
 
-
-
   getCompletedTestList(param: any): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST, param, {
       headers: this.getHeader(),
@@ -65,7 +66,7 @@ export class EmployeeService {
 
   getOneEmployee(id: string): Observable<any> {
     return this.httpClient.get<any>(
-      this.baseUrl + EmployeeEndPoint.EMPLOYEE + '/' + id,
+      this.baseUrl + EmployeeEndPoint.GET_EMPLOYEE + '/' + id,
       {
         headers: this.getHeader(),
       }
@@ -83,9 +84,7 @@ export class EmployeeService {
   updateEmp(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + EmployeeEndPoint.UPDATE_EMPLOYEE,
-      payload,
-      { headers: this.getHeader() }
-    );
+      payload);
   }
 
   createPassowrd(payload: any, token: string): Observable<any> {
@@ -98,10 +97,18 @@ export class EmployeeService {
 
   deleteEmployee(id: string): Observable<any> {
     return this.httpClient.delete<any>(
-      this.baseUrl + EmployeeEndPoint.EMPLOYEE + '/' + id,
+      this.baseUrl + EmployeeEndPoint.DELETE_EMP + '/' + id,
       {
         headers: this.getHeader(),
       }
+    );
+  }
+
+  dueDateSetting(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}${EmployeeEndPoint.EMP_POLICY_DUE_DATE_SETTING}`,
+      payload,
+      { headers: this.getHeader() }
     );
   }
 }

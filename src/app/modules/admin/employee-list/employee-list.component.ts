@@ -7,6 +7,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import Swal from 'sweetalert2';
 import { BulkEntryEmployeeComponent } from '../bulk-entry-employee/bulk-entry-employee.component';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
@@ -18,6 +19,7 @@ export class EmployeeListComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
 
   constructor(
     private router: Router,
@@ -29,6 +31,9 @@ export class EmployeeListComponent {
 
   ngOnInit() {
     this.getEmployees();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getEmployees();
+    })
   }
 
   paginate(page: number) {
@@ -42,7 +47,8 @@ export class EmployeeListComponent {
 
     const params = {
       pageNumber: this.page,
-      pageLimit: this.pagesize
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value
     };
 
     this.employeeService.getEmployee(params).subscribe(

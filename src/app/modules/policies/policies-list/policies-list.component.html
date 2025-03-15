@@ -35,18 +35,13 @@
                 <app-no-record-found></app-no-record-found>
               </td>
             </tr>
-            <ng-container *ngFor="let item of policyList   | paginate
-            : {
-                itemsPerPage: pagesize,
-                currentPage: page,
-
-              };
-        let i = index">
+            <ng-container *ngFor="let item of policyList   | paginate : { itemsPerPage: pagesize, currentPage: page };let i = index">
               <tr>
                 <td>
                   <a [routerLink]="['/sub-policies/sub-policies-list', item._id]">{{ item?.name }}</a>
                 </td>
-                <td>{{ item?.subPolicyDetail?.length > 0 ? (item?.subPolicyDetail[0]?.updatedAt |
+                <td>
+                  {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt |
                   date : "dd/MM/yyyy") : (item?.createdAt |
                   date : "dd/MM/yyyy") }}
                 </td>

@@ -20,6 +20,7 @@ export class SubPoliciesListComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  selectedVersion: any;
 
   constructor(
     private notificationService: NotificationService,
@@ -80,7 +81,7 @@ export class SubPoliciesListComponent {
             (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
           this.latestPolicy = sortedPolicies[0];
-
+          this.selectedVersion = this.latestPolicy?.version
           if (this.latestPolicy) {
             this.getSubPolicyCountAndData();
           }
@@ -93,6 +94,16 @@ export class SubPoliciesListComponent {
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
+  }
+
+  onVersionChange(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    const findPolicy = this.policyList?.find((element) => element.version == selectedValue);
+    this.latestPolicy = findPolicy || {};
+    this.selectedVersion = this.latestPolicy?.version
+    if (this.latestPolicy) {
+      this.getSubPolicyCountAndData();
+    }
   }
 
 

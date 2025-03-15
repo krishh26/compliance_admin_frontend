@@ -43,12 +43,12 @@ import { CreatePasswordComponent } from './modules/auth/create-password/create-p
     ComplianceTestModule,
     NgxSpinnerModule
   ],
-  // providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
-  //   {
-  //     provide: HTTP_INTERCEPTORS,
-  //     useClass: APIInterceptor,
-  //     multi: true
-  //   }],
+  providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: APIInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

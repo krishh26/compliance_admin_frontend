@@ -17,7 +17,8 @@ export enum SubPolicyEndPoint {
   UPDATE_QUESTION = '/question/update',
   SAVE_ANS = '/answer/save',
   GET_COUNT_DATA = '/result/admin-test-employee-list',
-  SUB_POLICY_DETAILS = '/sub-policy/detail'
+  SUB_POLICY_DETAILS = '/sub-policy/detail',
+  UPDATE_SUB_POLICY = '/sub-policy/update/'
 }
 
 @Injectable({
@@ -73,8 +74,11 @@ export class SubPoliciesService {
   }
 
   getPolicyDetails(id: string): Observable<any> {
-    return this.httpClient.get<any>(
-      this.baseUrl + SubPolicyEndPoint.SUB_POLICY + '/' + id,
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.SUB_POLICY + '/detail',
+      {
+        id
+      },
       { headers: this.getHeader() }
     );
   }
@@ -82,6 +86,14 @@ export class SubPoliciesService {
   createPolicy(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + SubPolicyEndPoint.SUB_POLICY,
+      payload,
+      { headers: this.getHeader() }
+    );
+  }
+
+  updatePolicy(id: string, payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.UPDATE_SUB_POLICY + id,
       payload,
       { headers: this.getHeader() }
     );

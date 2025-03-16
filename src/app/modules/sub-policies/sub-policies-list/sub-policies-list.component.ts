@@ -106,8 +106,8 @@ export class SubPoliciesListComponent {
     }
   }
 
-
-  uploadSubPolicies() {
+  uploadSubPolicies(id: string) {
+    localStorage.setItem('subPolicyId', id);
     this.router.navigate(['/sub-policies/upload-sub-policy', this.policyId]);
   }
 

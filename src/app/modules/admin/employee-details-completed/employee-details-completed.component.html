@@ -124,7 +124,7 @@
         </div>
 
         <!-- Search Button -->
-        <button type="button" class="btn btn-success">Search</button>
+        <button type="button" class="btn btn-success" [formControl]="searchText">Search</button>
 
       </div>
     </div>
@@ -149,7 +149,12 @@
               </td>
             </tr>
 
-            <tr *ngFor="let item of completedTestList">
+            <tr *ngFor="let item of completedTestList | paginate
+            : {
+                itemsPerPage: pagesize,
+                currentPage: page,
+                totalItems: totalRecords
+              };let i = index">
               <td>{{item?.name}} ({{ item?.version }})</td>
               <td>{{item?.latestResult?.score}}</td>
               <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
@@ -162,6 +167,13 @@
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="row mt-3 align-items-center">
+        <div class="row">
+          <div class="pagination">
+            <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
+          </div>
+        </div>
       </div>
     </div>
   </div>

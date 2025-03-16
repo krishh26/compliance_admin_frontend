@@ -74,7 +74,6 @@
                     <th scope="col">Sub Policy Date</th>
                     <th scope="col">Action</th>
                     <th></th>
-                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -94,7 +93,11 @@
                       <td>
                         <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-4"><i
                             class="bi bi-gear-fill"></i> </a>
-                        <button (click)="deleteSubPolicy(item._id)" class="btn btn-danger btn-sm">
+                        <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)"
+                          class="btn btn-primary btn-sm me-4">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <button (click)="deleteSubPolicy(item._id)" class="btn btn-danger btn-sm me-4">
                           <i class="bi bi-trash-fill"></i>
                         </button>
                       </td>

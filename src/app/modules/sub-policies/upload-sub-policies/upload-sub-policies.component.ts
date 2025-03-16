@@ -19,6 +19,7 @@ export class UploadSubPoliciesComponent {
   policyData: any;
   submitted: boolean = false;
   policyList: any[] = [];
+  subPolicyId: any;
 
   constructor(
     private fb: FormBuilder,
@@ -47,6 +48,11 @@ export class UploadSubPoliciesComponent {
       this.policyID = params.get('id');
     });
     this.getPolicyList();
+    const subpolicyId = localStorage.getItem('subPolicyId');
+    if (subpolicyId) {
+      this.subPolicyId = subpolicyId;
+      this.getSubPolicyDetails();
+    }
   }
 
   back() {
@@ -77,10 +83,32 @@ export class UploadSubPoliciesComponent {
     );
   }
 
+  getSubPolicyDetails() {
+    this.showLoader = true;
+    this.subPoliciesService.getPolicyDetails(this.subPolicyId).subscribe((response) => {
+      const subPolicyData = response?.data;
+      if (subPolicyData) {
+        this.policyForm.patchValue({
+          policyId: subPolicyData.policyId,
+          version: subPolicyData.version,
+          description: subPolicyData.description,
+          name: subPolicyData.name,
+        });
+      }
+    }, (error) => {
+      this.showLoader = false;
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    }
+    );
+  }
+
   submitForm() {
     this.spinner.show();
     if (!this.policyForm.valid) {
       return;
+    }
+    if(this.subPolicyId) {
+      return this.update();
     }
     this.showLoader = true;
     this.subPoliciesService.createPolicy(this.policyForm.value).subscribe(
@@ -90,6 +118,33 @@ export class UploadSubPoliciesComponent {
         }, 1000);
         this.notificationService.showSuccess(
           response?.message || 'Sub Policy Create successfully'
+        );
+
+        this.router.navigate([
+          '/sub-policies/sub-policies-list',
+          this.policyID,
+        ]);
+      },
+      (error) => {
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
+      }
+    );
+  }
+
+  update() {
+    this.spinner.show();
+    this.subPoliciesService.updatePolicy(this.subPolicyId, this.policyForm.value).subscribe(
+      (response) => {
+        setTimeout(() => {
+          this.spinner.hide();
+        }, 1000);
+        this.notificationService.showSuccess(
+          response?.message || 'Sub Policy updated successfully'
         );
 
         this.router.navigate([

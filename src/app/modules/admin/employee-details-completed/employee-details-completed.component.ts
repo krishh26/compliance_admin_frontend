@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { environment } from './../../../../environment/environment';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-employee-details-completed',
   templateUrl: './employee-details-completed.component.html',
@@ -15,6 +17,10 @@ export class EmployeeDetailsCompletedComponent {
   showAllDetails = false;
   completedTestList: any[] = [];
   baseImageURL = environment.baseUrl;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +34,9 @@ export class EmployeeDetailsCompletedComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getCompletedTestLists();
+    })
   }
 
   toggleDetails() {
@@ -48,7 +57,10 @@ export class EmployeeDetailsCompletedComponent {
 
   getCompletedTestLists() {
     let param = {
-      employeeId: this.employeeId
+      employeeId: this.employeeId,
+      pageNumber: this.page,
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value
     }
     this.showLoader = true;
     this.employeeService.getCompletedTestList(param).subscribe((response) => {
@@ -78,4 +90,11 @@ export class EmployeeDetailsCompletedComponent {
   gotoOutStandingPage() {
     this.router.navigateByUrl(`/admin/employee-details-outstanding/${this.employeeId}`);
   }
+
+  paginate(page: number) {
+    this.page = page;
+    this.getCompletedTestLists();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 }

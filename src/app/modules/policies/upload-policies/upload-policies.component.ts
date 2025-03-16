@@ -14,7 +14,7 @@ export class UploadPoliciesComponent implements OnInit {
   policyID!: any;
   showLoader: boolean = false;
   policyData: any;
-  submitted : boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -71,15 +71,14 @@ export class UploadPoliciesComponent implements OnInit {
     if (!this.policyForm.valid) {
       return;
     }
+    if (this.policyID) {
+      return this.update();
+    }
     this.showLoader = true;
 
     this.policyService.createPolicy(this.policyForm.value).subscribe((response) => {
       this.showLoader = false;
-      if (this.policyID) {
-        this.notificationService.showSuccess(response?.message || 'Policy Edit successfully');
-      } else {
-        this.notificationService.showSuccess(response?.message || 'Policy Create successfully');
-      }
+      this.notificationService.showSuccess(response?.message || 'Policy Create successfully');
       this.router.navigate(['/policies/policies-list']);
     }, (error) => {
       this.showLoader = false;
@@ -87,4 +86,20 @@ export class UploadPoliciesComponent implements OnInit {
     });
   }
 
+  update() {
+    this.submitted = true;
+    if (!this.policyForm.valid) {
+      return;
+    }
+    this.showLoader = true;
+
+    this.policyService.updatePolicy(this.policyID, this.policyForm.value).subscribe((response) => {
+      this.showLoader = false;
+      this.notificationService.showSuccess(response?.message || 'Policy updated successfully');
+      this.router.navigate(['/policies/policies-list']);
+    }, (error) => {
+      this.showLoader = false;
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    });
+  }
 }

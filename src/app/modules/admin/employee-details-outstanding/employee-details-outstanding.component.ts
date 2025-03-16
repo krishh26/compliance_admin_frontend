@@ -1,9 +1,11 @@
 import { environment } from './../../../../environment/environment';
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 @Component({
   selector: 'app-employee-details-outstanding',
   templateUrl: './employee-details-outstanding.component.html',
@@ -17,6 +19,10 @@ export class EmployeeDetailsOutstandingComponent {
   outstandingtestlist: any[] = [];
   selectedDate: string = '';
   baseImageURL = environment.baseUrl;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +37,9 @@ export class EmployeeDetailsOutstandingComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getOutstandingTestLists();
+    })
   }
 
   openDatePicker(input: HTMLInputElement) {
@@ -81,7 +90,10 @@ export class EmployeeDetailsOutstandingComponent {
 
   getOutstandingTestLists() {
     let param = {
-      employeeId: this.employeeId
+      employeeId: this.employeeId,
+      pageNumber: this.page,
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value
     }
     this.spinner.show();
     this.employeeService.getOutstandingTestList(param).subscribe(
@@ -89,6 +101,7 @@ export class EmployeeDetailsOutstandingComponent {
         this.spinner.hide();
         this.outstandingtestlist = response?.data?.subPolicyList;
         this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
+        this.totalRecords = response?.data?.count;
       },
       (error) => {
         this.spinner.hide();
@@ -98,4 +111,11 @@ export class EmployeeDetailsOutstandingComponent {
       }
     );
   }
+
+  paginate(page: number) {
+    this.page = page;
+    this.getOutstandingTestLists();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 }

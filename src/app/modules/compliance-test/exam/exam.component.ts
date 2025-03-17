@@ -185,7 +185,7 @@ export class ExamComponent {
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       passingScore: this.settingDetails?.PassingScore,
       marksPerQuestion: this.settingDetails?.maximumScore,
-      duration: duration !== 0 ? duration : this.settingDetails?.timeLimit,
+      duration: duration !== 0 ?  Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
       answers: transformedArray
     }
 

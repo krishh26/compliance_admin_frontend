@@ -91,7 +91,7 @@ export class EmployeeDetailsOutstandingComponent {
   getOutstandingTestLists() {
     let param = {
       employeeId: this.employeeId,
-      pageNumber: this.page,
+      pageNumber: 1,
       pageLimit: this.pagesize,
       searchText: this.searchText.value
     }

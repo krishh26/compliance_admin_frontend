@@ -87,7 +87,7 @@
                     *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, totalItems: totalRecords};let i = index">
                     <tr [ngClass]="!item?.policySettings ? 'setting-pending' : ''">
                       <td>
-                        <a routerLink="/policies/terms-conditions"> {{ item?.version }}</a>
+                        <a routerLink="/policies/terms-conditions"> {{item?.name}} ({{ item?.version }})</a>
                       </td>
                       <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                       <td>

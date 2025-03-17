@@ -106,12 +106,10 @@ export class SubPoliciesSettingComponent {
   onSubmit() {
     this.showLoader = true;
     this.submitted = true;
-    console.log("this.testSettingsForm.getRawValue()", this.testSettingsForm.getRawValue());
     if (!this.testSettingsForm.valid) {
       return;
     }
-    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId };
-    console.log('Form Submitted', payload);
+    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId , dueDate : this.testSettingsForm.get('examTimeLimit')?.value };
     this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
       this.notificationService.showSuccess(response?.message || 'Setting Updated Successfully.');
     }, (error) => {

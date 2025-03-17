@@ -129,7 +129,9 @@ ul,ol{
 .p-18 {
     font-size: 18px;
 }
-
+.p-24{
+    font-size: 24px;
+}
 .full-rounded {
     border-radius: 100% !important;
 }

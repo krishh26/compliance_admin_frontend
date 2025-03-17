@@ -1,7 +1,7 @@
 <div class="container-fluid p-0">
   <div class="card">
     <div class="card-header">
-      <ul class="OutstandingTab">
+      <ul class="OutstandingTab mb-3">
         <li>
           <a routerLink="/compliance-test/outstanding" class="first-child">
             <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
@@ -13,35 +13,21 @@
           </a>
         </li>
       </ul>
-      <div class="row align-items-center">
+      <div class="row align-items-center justify-content-between">
         <!-- <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
           <label class="badge-light w-100 text-center">Compliance Result</label>
         </div> -->
-        <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12">
-          <div class="row g-3 align-items-center">
-            <div class="col-auto">
-              <label for="inputPassword6" class="col-form-label">Search</label>
-            </div>
-            <div class="col-9">
-              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-            </div>
-          </div>
+        <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12 mob-mb1">
+          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Search by name, scroe, date">
         </div>
-        <div class="col-lg-3 col-xl-3 col-md-6 col-sm-6 col-12">
-          <div class="row g-2 align-items-center">
-            <!-- <div class="col-auto">
-              <label for="inputPassword6" class="col-form-label">Order By</label>
-            </div> -->
-            <div class="col-9">
-              <select class="form-select w-100">
-                <option>Exam Name</option>
-                <option>Result</option>
-              </select>
-            </div>
-          </div>
+        <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-12 mob-mb1">
+          <select class="form-select w-100">
+            <option>Exam Name</option>
+            <option>Result</option>
+          </select>
         </div>
         <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
-          <button type="button" class="btn btn-success btn sm">Search</button>
+          <button type="button" class="btn btn-success btn sm w-100">Search</button>
         </div>
       </div>
     </div>

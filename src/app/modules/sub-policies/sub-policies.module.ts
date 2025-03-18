@@ -34,7 +34,7 @@ const routes: Routes = [
         component: QuestionListComponent,
       },
       {
-        path: 'terms-condition-admin',
+        path: 'terms-condition-admin/:id',
         component: TermsConditionAdminComponent,
       },
       {

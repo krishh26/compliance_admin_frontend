@@ -46,7 +46,8 @@
               let i = index">
                     <tr>
                       <td>
-                        <a routerLink="/policies/terms-conditions" class="text-dark">{{ item?.version }}</a>
+                        <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]" class="text-primary
+                        ">{{ item?.name }} ({{ item?.version }})</a>
                       </td>
                       <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                       <td>{{ item?.policySettings?.publishDate | date : "dd/MM/yyyy" }}</td>

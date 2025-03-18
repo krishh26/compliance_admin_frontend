@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
@@ -18,6 +19,8 @@ export class CompletedTestComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
+  sortby: FormControl = new FormControl();
 
   constructor(
     private router: Router,
@@ -33,6 +36,10 @@ export class CompletedTestComponent {
     this.getCompletedTestLists();
   }
 
+  searchData() {
+    this.getCompletedTestLists();
+  }
+
   paginate(page: number) {
     this.page = page;
     this.getCompletedTestLists();
@@ -43,9 +50,43 @@ export class CompletedTestComponent {
     return duration % 1 === 0 ? duration.toString() : duration.toFixed(2);
   }
 
+  convertDecimalMinutesToMinSec(decimalMinutes: number): string {
+    const totalSeconds = Math.round(decimalMinutes * 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const minPart = minutes > 0 ? `${minutes} Min` : '';
+    const secPart = seconds > 0 ? `${seconds} Sec` : '';
+
+    return `${minPart} ${secPart}`.trim();
+  }
+
+  calculateDaysDifference(passedDateString: string): string | number {
+    const passedDate = new Date(passedDateString);
+    const currentDate = new Date();
+
+    // Normalize time for comparison (set to 00:00:00)
+    passedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (currentDate > passedDate) {
+      return '';
+    } else {
+      const timeDiff = passedDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      return daysDiff;
+    }
+  }
+
+
   getCompletedTestLists() {
     let param = {
-      employeeId: this.loginUser._id
+      employeeId: this.loginUser._id,
+      pageNumber: this.page,
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value,
+      sortBy: this.sortby.value || '_id',
+      sortOrder: 'desc'
     }
     this.spinner.show();
     this.employeeService.getCompletedTestList(param).subscribe(

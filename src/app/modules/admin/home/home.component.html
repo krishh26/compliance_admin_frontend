@@ -13,30 +13,30 @@
       </a>
 
       <ul class="sidebar-nav">
-        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole === 'ADMIN'">
+        <li class="sidebar-item" [ngClass]="{ 'active': currentRoute.startsWith('/admin') }" *ngIf="loginRole === 'ADMIN'">
           <a class="sidebar-link" routerLink="/admin/employee-list">
             <i class="bi bi-people"></i><span class="align-middle">Employee</span>
           </a>
         </li>
-        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole === 'ADMIN'">
+        <li class="sidebar-item" *ngIf="loginRole === 'ADMIN'" [ngClass]="{ 'active': currentRoute.startsWith('/policies') || currentRoute.startsWith('/sub-policies') }">
           <a class="sidebar-link" routerLink="/policies/policies-list">
             <i class="bi bi-file-text"></i>
             <span class="align-middle">Policies</span>
           </a>
         </li>
-        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+        <li class="sidebar-item" *ngIf="loginRole !== 'ADMIN'" [ngClass]="{ 'active': currentRoute.startsWith('/compliance-test') }">
           <a class="sidebar-link" routerLink="/compliance-test/outstanding">
             <i class="bi bi-file-text"></i>
             <span class="align-middle">Compliance Test</span>
           </a>
         </li>
-        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+        <li class="sidebar-item" *ngIf="loginRole !== 'ADMIN'" [ngClass]="{ 'active': currentRoute.startsWith('/employee-policies') }">
           <a class="sidebar-link" routerLink="/employee-policies/employee-policies-list">
             <i class="bi bi-file-text"></i>
             <span class="align-middle">Policies</span>
           </a>
         </li>
-        <li class="sidebar-item" routerLinkActive="active" *ngIf="loginRole !== 'ADMIN'">
+        <li class="sidebar-item" *ngIf="loginRole !== 'ADMIN'" [ngClass]="{ 'active': currentRoute.startsWith('/support') }">
           <a class="sidebar-link" routerLink="/support/support">
             <i class="bi bi-file-text"></i>
             <span class="align-middle">Support</span>
@@ -62,7 +62,8 @@
               role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="assets/img/avatars/no-profile.jpg" class="avatar img-fluid full-rounded me-2 d-inline-block"
                 alt="Charles Hall" />
-              <div class="text-dark d-inline-block"><strong>{{ loginUser?.firstName }} {{ loginUser?.lastName }}</strong></div>
+              <div class="text-dark d-inline-block"><strong>{{ loginUser?.firstName }} {{ loginUser?.lastName
+                  }}</strong></div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
               <li>

@@ -18,16 +18,18 @@
           <label class="badge-light w-100 text-center">Compliance Result</label>
         </div> -->
         <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12 mob-mb1">
-          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Search by name, scroe, date">
+          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Search by name..." [formControl]="searchText">
         </div>
         <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-12 mob-mb1">
-          <select class="form-select w-100">
-            <option>Exam Name</option>
-            <option>Result</option>
+          <select class="form-select" id="orderBy" [formControl]="sortby">
+            <option value="name">Exam Name</option>
+            <option value="resultStatus">Result</option>
+            <option value="updatedAt">Date</option>
+            <option value="score">Score</option>
           </select>
         </div>
         <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
-          <button type="button" class="btn btn-success btn sm w-100">Search</button>
+          <button type="button" class="btn btn-success btn sm w-100" (click)="searchData()">Search</button>
         </div>
       </div>
     </div>
@@ -66,8 +68,15 @@
                 <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
                 <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
               </td>
-              <td>{{ getFormattedDuration(item?.latestResult?.duration) }} Minutes</td>
-              <td><a class="btn btn-danger btn-sm rounded"></a></td>
+              <!-- <td>{{ getFormattedDuration(item?.latestResult?.duration) }} Minutes</td> -->
+              <td> {{convertDecimalMinutesToMinSec(item?.latestResult?.duration)}}</td>
+              <td>
+                <a *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">
+                  <span>
+                    {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.dueDate) }} Days
+                  </span>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>

@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'employee-policies-list', component: PoliciesListComponent },
       { path: 'employee-sub-policies-list/:id', component: SubPoliciesListComponent, },
       { path: 'compilance-test', component: CompilanceTestComponent },
-      { path: 'terms-condition-employee', component: CompilanceTestComponent },
+      { path: 'terms-condition-employee/:id', component: TermsConditionEmployeeComponent },
     ],
   },
   {

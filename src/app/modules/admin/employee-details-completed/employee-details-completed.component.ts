@@ -21,6 +21,7 @@ export class EmployeeDetailsCompletedComponent {
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
+  sortby: FormControl = new FormControl();
 
   constructor(
     private route: ActivatedRoute,
@@ -34,9 +35,13 @@ export class EmployeeDetailsCompletedComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
-    this.searchText.valueChanges.subscribe(() => {
-      this.getCompletedTestLists();
-    })
+    // this.searchText.valueChanges.subscribe(() => {
+    //   this.getCompletedTestLists();
+    // })
+  }
+
+  searchData() {
+    this.getCompletedTestLists();
   }
 
   toggleDetails() {
@@ -55,12 +60,42 @@ export class EmployeeDetailsCompletedComponent {
     );
   }
 
+  convertDecimalMinutesToMinSec(decimalMinutes: number): string {
+    const totalSeconds = Math.round(decimalMinutes * 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const minPart = minutes > 0 ? `${minutes} Min` : '';
+    const secPart = seconds > 0 ? `${seconds} Sec` : '';
+
+    return `${minPart} ${secPart}`.trim();
+  }
+
+  calculateDaysDifference(passedDateString: string): string | number {
+    const passedDate = new Date(passedDateString);
+    const currentDate = new Date();
+
+    // Normalize time for comparison (set to 00:00:00)
+    passedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (currentDate > passedDate) {
+      return '';
+    } else {
+      const timeDiff = passedDate.getTime() - currentDate.getTime();
+      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      return daysDiff;
+    }
+  }
+
   getCompletedTestLists() {
     let param = {
       employeeId: this.employeeId,
       pageNumber: this.page,
       pageLimit: this.pagesize,
-      searchText: this.searchText.value
+      searchText: this.searchText.value,
+      sortBy: this.sortby.value || '_id',
+      sortOrder: 'desc'
     }
     this.showLoader = true;
     this.employeeService.getCompletedTestList(param).subscribe((response) => {

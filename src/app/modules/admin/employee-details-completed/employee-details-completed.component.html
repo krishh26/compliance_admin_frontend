@@ -115,24 +115,27 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" id="searchResults" class="form-control form-control-search" placeholder="Search by test name, score, date...">
+            <input type="text" id="searchResults" class="form-control form-control-search"
+              placeholder="Search by test name, score, date..." [formControl]="searchText">
           </div>
         </div>
         <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
           <div class="form-group">
-            <select class="form-select" id="orderBy">
-              <option>Exam Name</option>
-              <option>Result</option>
+            <select class="form-select" id="orderBy" [formControl]="sortby">
+              <option value="name">Exam Name</option>
+              <option value="resultStatus">Result</option>
+              <option value="updatedAt">Date</option>
+              <option value="score">Score</option>
             </select>
           </div>
         </div>
         <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-12">
           <div class="form-group">
-            <button type="button" class="btn btn-success w-100" [formControl]="searchText">Search</button>
+            <button type="button" class="btn btn-success w-100" (click)="searchData()">Search</button>
           </div>
         </div>
       </div>
-     
+
     </div>
 
     <div class="card-body">
@@ -168,8 +171,15 @@
                 <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
                 <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
               </td>
-              <td>{{item?.latestResult?.duration}} Minutes</td>
-              <td><a class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
+              <!-- <td> {{item?.latestResult?.duration}} Minutes</td> -->
+              <td> {{convertDecimalMinutesToMinSec(item?.latestResult?.duration)}}</td>
+              <td>
+                <a *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">
+                  <span>
+                    {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.dueDate) }} Days
+                  </span>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>

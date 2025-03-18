@@ -110,4 +110,22 @@ export class EmployeeListComponent {
       }
     });
   }
+
+  onToggleSwitch(employee: any) {
+    // const status = employee.isActive ? 'active' : 'inactive';
+    // console.log(`Employee ${employee.firstName} is now ${status}`);
+
+    // // Call API to update employee status
+    // this.employeeService.updateEmployeeStatus(employee._id, employee.isActive)
+    //   .subscribe(
+    //     (response) => {
+    //       console.log('Employee status updated successfully:', response);
+    //     },
+    //     (error) => {
+    //       console.error('Failed to update employee status:', error);
+    //     }
+    //   );
+  }
+
+
 }

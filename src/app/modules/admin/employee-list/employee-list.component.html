@@ -69,6 +69,13 @@
               <td>{{ employee.phone }}</td>
               <td>{{ employee.role }}</td>
               <td>
+                <label class="switch">
+                  <input type="checkbox" [(ngModel)]="employee.isActive" (ngModelChange)="onToggleSwitch(employee)">
+                  <span class="slider round"></span>
+                </label>
+              </td>
+
+              <td>
                 <a href="javascript:void(0);" (click)="deleteEmployee(employee._id)" class="btn btn-danger btn-sm">
                   <i class="bi bi-trash-fill"></i>
                 </a>

@@ -16,6 +16,8 @@ export class ChangePasswordComponent {
   submitted = false;
   token!: any;
   loginUser: any;
+  showPassword = false;
+  confirmPassword = false;
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
@@ -26,7 +28,7 @@ export class ChangePasswordComponent {
   ) {
     this.loginUser = this.localStorageService.getLogger();
     this.changeForm = this.fb.group({
-      password: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
     });
   }

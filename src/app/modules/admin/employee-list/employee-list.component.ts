@@ -110,4 +110,29 @@ export class EmployeeListComponent {
       }
     });
   }
+
+  onToggleSwitch(employee: any) {
+    const payload = {
+      id: employee._id,
+      isActive: employee.isActive ? 1 : 0 // Ensuring correct format for API
+    };
+
+    this.spinner.show();
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(payload));
+
+    this.employeeService.updateEmp(formData).subscribe(
+      (response) => {
+        this.spinner.hide();
+        this.notificationService.showSuccess(response?.message || 'Employee updated successfully');
+        this.getEmployees();
+       // this.router.navigate(['/admin/employee-details-outstanding', employee._id]);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      }
+    );
+  }
+
 }

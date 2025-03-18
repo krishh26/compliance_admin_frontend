@@ -97,8 +97,8 @@
   <div class="card">
     <div class="card-header">
       <div class="row align-items-center">
-        <div class="col-8">
-          <ul class="OutstandingTab mb-4">
+        <div class="col-lg-8 col-xl-8 col-md-8 col-sm-8 col-12">
+          <ul class="OutstandingTab mb-3">
             <li>
               <a class="first-child active">
                 <img src="assets/img/icons/outstanding-icon.png" />
@@ -112,9 +112,9 @@
             </li>
           </ul>
         </div>
-        <div class="col-4">
-          <div class="form-group mb-4">
-            <span class="input-icon-left">
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+          <div class="form-group mob-mb1">
+            <span class="input-icon-left" style="top:25px">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                 class="feather feather-search align-middle">
@@ -122,8 +122,8 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" class="form-control form-control-search" style="width: 350px;"
-              placeholder="Search by employee name, email, date of joining..."  [formControl]="searchText"/>
+            <input type="text" class="form-control form-control-search"
+              placeholder="Search by employee name, email, date of joining..."  [formControl]="searchText" style="padding: 1.5rem 1rem 1.5rem 2.5rem"/>
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@
               <!-- <a class="btn btn-primary btn-sm">Edit</a> -->
               <div class="input-group">
                 <input type="date" #dateInput class="form-control" [(ngModel)]="item.policySettingDetails[0].examTimeLimit" (change)="onDateChange(item.policySettingDetails[0].examTimeLimit, item?._id)" hidden/>
-                <button class="btn btn-primary" (click)="openDatePicker(dateInput)">📅 Edit</button>
+                <a class="edit-btn" (click)="openDatePicker(dateInput)">📅 Edit</a>
               </div>
             </td>
           </tr>

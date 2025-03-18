@@ -104,29 +104,35 @@
           </a>
         </li>
       </ul>
-
-      <!-- Align everything in one row and push to the right -->
-      <div class="d-flex align-items-center justify-content-end gap-3 flex-wrap">
-
-        <!-- Search Results -->
-        <div class="d-flex align-items-center">
-          <label for="searchResults" class="me-2">Search</label>
-          <input type="text" id="searchResults" class="form-control" style="width: 250px;">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-12">
+          <div class="form-group">
+            <span class="input-icon-left">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-search align-middle">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="searchResults" class="form-control form-control-search" placeholder="Search by test name, score, date...">
+          </div>
         </div>
-
-        <!-- Order By -->
-        <div class="d-flex align-items-center">
-          <!-- <label for="orderBy" class="me-2">Order By</label> -->
-          <select class="form-select" id="orderBy" style="width: 200px;">
-            <option>Exam Name</option>
-            <option>Result</option>
-          </select>
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+          <div class="form-group">
+            <select class="form-select" id="orderBy">
+              <option>Exam Name</option>
+              <option>Result</option>
+            </select>
+          </div>
         </div>
-
-        <!-- Search Button -->
-        <button type="button" class="btn btn-success" [formControl]="searchText">Search</button>
-
+        <div class="col-lg-2 col-xl-2 col-md-2 col-sm-2 col-12">
+          <div class="form-group">
+            <button type="button" class="btn btn-success w-100" [formControl]="searchText">Search</button>
+          </div>
+        </div>
       </div>
+     
     </div>
 
     <div class="card-body">

@@ -206,6 +206,15 @@ ul,ol{
     padding: 0.75rem;
     color: #4285F4;
 }
+.trash-btn{
+    color: red;
+}
+.edit-btn{
+    color: #4285F4;
+}
+.trash-btn:hover, .edit-btn:hover{
+    text-decoration: none;
+}
 /*===================================
 Nav Tabs CSS
 ====================================*/
@@ -635,6 +644,16 @@ ul.Employeedetails li{
 .padding-5{
     padding: 3rem;
 }
+.desktop-float-end{
+    float: right;
+}
+.modal-title {
+    line-height: var(--bs-modal-title-line-height);
+    margin-bottom: 0;
+    font-weight: 700;
+    color: #FFF;
+}
+
 /*==================================
   Media Query
   ====================================*/
@@ -676,5 +695,14 @@ ul.Employeedetails li{
         display: inline-block;
         margin-right: 5px;
         width: 32px;
+    }
+    .desktop-float-end{
+        float: none;
+    }
+    .w-94{
+        width: 94%;
+    }
+    .mob-w100{
+        width: 100%;
     }
 }

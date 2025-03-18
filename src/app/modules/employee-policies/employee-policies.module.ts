@@ -9,6 +9,7 @@ import { PoliciesListComponent } from './policies-list/policies-list.component';
 import { CompilanceTestComponent } from './compilance-test/compilance-test.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TermsConditionEmployeeComponent } from './terms-condition-employee/terms-condition-employee.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-policies-list', pathMatch: 'full' },
@@ -17,11 +18,9 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: 'employee-policies-list', component: PoliciesListComponent },
-      {
-        path: 'employee-sub-policies-list/:id',
-        component: SubPoliciesListComponent,
-      },
+      { path: 'employee-sub-policies-list/:id', component: SubPoliciesListComponent, },
       { path: 'compilance-test', component: CompilanceTestComponent },
+      { path: 'terms-condition-employee', component: CompilanceTestComponent },
     ],
   },
   {
@@ -36,6 +35,7 @@ const routes: Routes = [
     PoliciesListComponent,
     SubPoliciesListComponent,
     CompilanceTestComponent,
+    TermsConditionEmployeeComponent,
   ],
   imports: [CommonModule,
     SharedModule,

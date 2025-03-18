@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,7 @@ import { APIInterceptor } from './utility/interceptor/ApiInterceptor';
 import { ComplianceTestModule } from './modules/compliance-test/compliance-test.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CreatePasswordComponent } from './modules/auth/create-password/create-password.component';
+import { NgxEditorModule } from 'ngx-editor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,14 +42,16 @@ import { CreatePasswordComponent } from './modules/auth/create-password/create-p
     }),
     SharedModule,
     ComplianceTestModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    NgxEditorModule
   ],
-  providers: [ { provide: LocationStrategy, useClass: HashLocationStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: APIInterceptor,
-      multi: true
-    }],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: APIInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

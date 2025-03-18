@@ -54,8 +54,17 @@ export class SubPoliciesSettingComponent {
   getSettingDetails() {
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
       if (response?.data) {
+        const formattedExamTimeLimit = response?.data?.examTimeLimit
+          ? new Date(response?.data?.examTimeLimit).toISOString().split('T')[0]
+          : '';
+        const formattedPublish = response?.data?.publishDate
+          ? new Date(response?.data?.publishDate)
+            .toISOString()
+            .split('T')[0]
+          : '';
+
         this.testSettingsForm.patchValue({
-          examTimeLimit: response?.data?.examTimeLimit,
+          examTimeLimit: formattedExamTimeLimit,
           maximumRettemptDaysLeft: response?.data?.maximumRettemptDaysLeft,
           maximumAttempt: response?.data?.maximumAttempt,
           maximumMarks: response?.data?.maximumMarks,
@@ -63,7 +72,7 @@ export class SubPoliciesSettingComponent {
           maximumScore: response?.data?.maximumScore,
           timeLimit: response?.data?.timeLimit,
           PassingScore: response?.data?.PassingScore,
-          publishDate: response?.data?.publishDate,
+          publishDate: formattedPublish,
           skipWeekDays: response?.data?.skipWeekDays,
         });
       } else {
@@ -109,7 +118,7 @@ export class SubPoliciesSettingComponent {
     if (!this.testSettingsForm.valid) {
       return;
     }
-    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId , dueDate : this.testSettingsForm.get('examTimeLimit')?.value };
+    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value };
     this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
       this.notificationService.showSuccess(response?.message || 'Setting Updated Successfully.');
     }, (error) => {

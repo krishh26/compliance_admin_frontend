@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SubPoliciesListComponent } from './sub-policies-list/sub-policies-list.component';
 import { SharedModule } from '../../utility/shared/shared.module';
@@ -15,6 +15,7 @@ import { SubPolicyCompletedComponent } from './sub-policy-completed/sub-policy-c
 import { BulyEntryQuestionComponent } from './buly-entry-question/buly-entry-question.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TermsConditionAdminComponent } from './terms-condition-admin/terms-condition-admin.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -77,7 +78,9 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
     NgxSpinnerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgxEditorModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SubPoliciesModule { }

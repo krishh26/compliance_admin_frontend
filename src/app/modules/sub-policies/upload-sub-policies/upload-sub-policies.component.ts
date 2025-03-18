@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
+import { Editor, Toolbar } from 'ngx-editor';
 
 @Component({
   selector: 'app-upload-sub-policies',
@@ -20,6 +21,18 @@ export class UploadSubPoliciesComponent {
   submitted: boolean = false;
   policyList: any[] = [];
   subPolicyId: any;
+  editor!: Editor;
+  html = '';
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['underline', 'strike'],
+    ['code', 'blockquote'],
+    ['ordered_list', 'bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+    ['link', 'image'],
+    ['text_color', 'background_color'],
+    ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +44,7 @@ export class UploadSubPoliciesComponent {
     private policyService: PolicyService,
     private spinner: NgxSpinnerService
   ) {
+    this.editor = new Editor();
     this.policyForm = this.fb.group({
       policyId: ['', Validators.required],
       name: ['', Validators.required],
@@ -39,6 +53,7 @@ export class UploadSubPoliciesComponent {
       isActive: [1],
     });
   }
+
   get f() {
     return this.policyForm.controls;
   }
@@ -53,6 +68,11 @@ export class UploadSubPoliciesComponent {
       this.subPolicyId = subpolicyId;
       this.getSubPolicyDetails();
     }
+  }
+
+  // make sure to destory the editor
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
 
   back() {
@@ -107,7 +127,7 @@ export class UploadSubPoliciesComponent {
     if (!this.policyForm.valid) {
       return;
     }
-    if(this.subPolicyId) {
+    if (this.subPolicyId) {
       return this.update();
     }
     this.showLoader = true;

@@ -50,10 +50,10 @@
                 </td>
                 <td>{{ item?.status }}</td>
                 <td>
-                  <a style="margin-left: 2px;" [routerLink]="['/policies/upload-policy', item._id]" class="btn btn-primary btn-sm">
+                  <a style="margin-left: 2px;" [routerLink]="['/policies/upload-policy', item._id]" class="edit-btn me-2">
                     <i class="bi bi-pencil-square"></i>
                   </a>
-                  <a style="margin-left: 2px;" (click)="deletePolicy(item._id)" class="btn btn-danger btn-sm">
+                  <a style="margin-left: 2px;" (click)="deletePolicy(item._id)" class="trash-btn">
                     <i class="bi bi-trash-fill"></i>
                   </a>
                 </td>

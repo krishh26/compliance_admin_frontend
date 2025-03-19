@@ -1,8 +1,9 @@
 <div class="container-fluid p-0">
   <div class="page-title  mb-3">
-    <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyDetails?.policyId]" class="me-2 text-dark"><i
+    <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyDetails?.policyId]"
+        [queryParams]="{ version: subPolicyDetails?.version }" class="me-2 text-dark"><i
           class="bi bi-arrow-left-circle"></i></a> Privacy
-      and Data Policy Completed</h2>
+      and Data Policy Completed (Version : {{subPolicyDetails?.version}})</h2>
   </div>
 
   <div class="card">
@@ -29,7 +30,8 @@
               <label for="inputPassword6" class="col-form-label">Search</label>
             </div>
             <div class="col-lg-9 col-xl-9 col-sm-9 col-md-9 col-12">
-              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="search">
+              <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline"
+                placeholder="search">
             </div>
           </div>
         </div>

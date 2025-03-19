@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -15,6 +16,9 @@ export class SubPoliciesSettingComponent {
   submitted: boolean = false;
   subPolicyId!: any;
   showLoader: boolean = false;
+  subPolicyDetails: any;
+  subPolicyList: any[] = [];
+  latestPolicy: any = {};
 
   constructor(
     private fb: FormBuilder,
@@ -22,11 +26,14 @@ export class SubPoliciesSettingComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
+    private spinner: NgxSpinnerService,
+    private router: Router
   ) {
     this.route.paramMap.subscribe((params) => {
       this.subPolicyId = String(params.get('id'));
       if (this.subPolicyId) {
         this.getSettingDetails();
+        this.getSubPolicyDetails();
       }
     });
 
@@ -40,7 +47,7 @@ export class SubPoliciesSettingComponent {
       timeLimit: ['', [Validators.required]],
       PassingScore: ['', [Validators.required]],
       publishDate: ['', [Validators.required]],
-      skipWeekDays: [1, [Validators.required]],
+      skipWeekDays: ["0", [Validators.required]],
     });
 
     this.testSettingsForm.get('maximumMarks')?.valueChanges.subscribe(() => this.calculateValues());
@@ -51,8 +58,63 @@ export class SubPoliciesSettingComponent {
     return this.testSettingsForm.controls;
   }
 
-  getSettingDetails() {
-    this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
+  getSubPolicyDetails() {
+    this.spinner.hide();
+    this.subPoliciesService.getPolicyDetails(this.subPolicyId).subscribe((response) => {
+      if (response?.statusCode == 200 || response?.statusCode == 201) {
+        this.subPolicyDetails = response?.data;
+        this.getSubPolicyList();
+      }
+      setTimeout(() => { this.spinner.hide(); }, 1000);
+    }, (error) => {
+      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    })
+  }
+
+  copyLatestSetting() {
+    this.getSettingDetails(this.latestPolicy?._id);
+  }
+
+  getSubPolicyList() {
+    this.spinner.show();
+    this.subPolicyList = [];
+
+    this.subPoliciesService.getSubPolicyList({
+      policyId: this.subPolicyDetails?.policyId, pageLimit: 10000, pageNumber: 1
+    }).subscribe(
+      (response) => {
+        setTimeout(() => { this.spinner.hide(); }, 2000);
+
+        this.subPolicyList = response?.data?.subPolicyList || [];
+
+        if (this.subPolicyList.length) {
+          const sortedPolicies = [...this.subPolicyList].sort(
+            (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+          const validPolicy = sortedPolicies.find(policy => policy.policySettings);;
+          if (validPolicy) {
+            this.latestPolicy = validPolicy;
+          }
+        }
+      },
+      (error) => {
+        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      }
+    );
+  }
+
+  getSettingDetails(id?: string) {
+    const payload = {
+      subPolicyId: this.subPolicyId
+    }
+
+    if (id) {
+      payload['subPolicyId'] = id
+    }
+
+    this.subPoliciesService.getPolicySetting(payload).subscribe((response) => {
       if (response?.data) {
         const formattedExamTimeLimit = response?.data?.examTimeLimit
           ? new Date(response?.data?.examTimeLimit).toISOString().split('T')[0]
@@ -64,7 +126,7 @@ export class SubPoliciesSettingComponent {
           : '';
 
         this.testSettingsForm.patchValue({
-          examTimeLimit: formattedExamTimeLimit,
+          examTimeLimit: id ? "" : formattedExamTimeLimit,
           maximumRettemptDaysLeft: response?.data?.maximumRettemptDaysLeft,
           maximumAttempt: response?.data?.maximumAttempt,
           maximumMarks: response?.data?.maximumMarks,
@@ -72,7 +134,7 @@ export class SubPoliciesSettingComponent {
           maximumScore: response?.data?.maximumScore,
           timeLimit: response?.data?.timeLimit,
           PassingScore: response?.data?.PassingScore,
-          publishDate: formattedPublish,
+          publishDate: id ? "" : formattedPublish,
           skipWeekDays: response?.data?.skipWeekDays,
         });
       } else {
@@ -94,14 +156,7 @@ export class SubPoliciesSettingComponent {
     const maxQuestions = Number(this.testSettingsForm.get('maximumQuestions')?.value) || 1; // Avoid division by zero
 
     // Calculate passing marks and max score
-    const passingMarks = Math.floor((maxMarks * 33) / 100);
     const maxScore = (maxMarks / maxQuestions).toFixed(2);
-
-    // Set values in the form
-    // this.testSettingsForm.patchValue({
-    //   PassingScore: passingMarks,
-    //   maximumScore: maxScore,
-    // });
 
     this.testSettingsForm.patchValue({
       maximumScore: maxScore,
@@ -115,12 +170,30 @@ export class SubPoliciesSettingComponent {
   onSubmit() {
     this.showLoader = true;
     this.submitted = true;
+
     if (!this.testSettingsForm.valid) {
       return;
     }
+
+    if(this.testSettingsForm.get('skipWeekDays')?.value) {
+      this.testSettingsForm.patchValue({
+        skipWeekDays : "1"
+      })
+    } else {
+      this.testSettingsForm.patchValue({
+        skipWeekDays : "0"
+      })
+    }
+
     const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value };
+
     this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
-      this.notificationService.showSuccess(response?.message || 'Setting Updated Successfully.');
+      if (response?.statusCode == 200 || response?.statusCode == 201) {
+        this.notificationService.showSuccess(response?.message || 'Setting Updated Successfully.');
+        this.router.navigateByUrl(`/sub-policies/sub-policies-list/${this.subPolicyDetails?.policyId}`);
+      } else {
+        this.notificationService.showError(response?.message || 'Something went wrong!');
+      }
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     })

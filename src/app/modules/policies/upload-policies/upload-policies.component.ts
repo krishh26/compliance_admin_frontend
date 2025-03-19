@@ -25,9 +25,9 @@ export class UploadPoliciesComponent implements OnInit {
   ) {
     this.policyForm = this.fb.group({
       name: ['', Validators.required],
-      version: ['', Validators.required],
-      description: ['', Validators.required],
-      userGroup: ['', Validators.required],
+      version: ['0.0.0'],
+      description: ['Test'],
+      userGroup: ['1,2'],
       policyType: ['', Validators.required],
       status: ['Pending'],
     })

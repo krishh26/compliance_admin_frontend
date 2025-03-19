@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,7 +13,7 @@ import { Editor, Toolbar } from 'ngx-editor';
   templateUrl: './upload-sub-policies.component.html',
   styleUrls: ['./upload-sub-policies.component.css'],
 })
-export class UploadSubPoliciesComponent {
+export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
   policyForm: FormGroup;
   policyID!: any;
   showLoader: boolean = false;
@@ -47,7 +47,7 @@ export class UploadSubPoliciesComponent {
     this.editor = new Editor();
     this.policyForm = this.fb.group({
       policyId: ['', Validators.required],
-      name: ['', Validators.required],
+      name: ['Test', Validators.required],
       version: ['', Validators.required],
       description: [''],
       isActive: [1],
@@ -73,6 +73,7 @@ export class UploadSubPoliciesComponent {
   // make sure to destory the editor
   ngOnDestroy(): void {
     this.editor.destroy();
+    localStorage.removeItem('subPolicyId');
   }
 
   back() {

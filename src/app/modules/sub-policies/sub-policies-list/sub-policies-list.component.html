@@ -8,7 +8,7 @@
         <h2>
           <a routerLink="/policies/policies-list" class="me-2 text-dark">
             <i class="bi bi-arrow-left-circle"></i></a>
-          Sub Policies
+          {{policyDetails?.name || 'Sub Policies'}}
         </h2>
       </div>
     </div>
@@ -66,7 +66,8 @@
           <thead class="table-light">
             <tr>
               <th scope="col">Version History</th>
-              <th scope="col">Sub Policy Date</th>
+              <th scope="col">Published Date</th>
+              <th scope="col">Created Date</th>
               <th scope="col">Action</th>
               <th></th>
             </tr>
@@ -81,18 +82,17 @@
             <ng-container
               *ngFor="let item of policyList | paginate: {itemsPerPage: pagesize, currentPage: page, totalItems: totalRecords};let i = index">
               <tr>
-                <!-- [ngClass]="!item?.policySettings ? 'setting-pending' : ''" -->
                 <td>
-                  <!-- <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.name }} ({{ item?.version }})</a> -->
                   <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.version }}</a>
                 </td>
+                <td>{{ item?.policySettings?.publishDate | date : "dd/MM/yyyy" }}</td>
                 <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                 <td class="action-col">
                   <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-2"><i
                       class="bi bi-gear-fill"></i> </a>
-                  <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)" class="edit-btn me-2">
+                  <!-- <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)" class="edit-btn me-2">
                     <i class="bi bi-pencil-square"></i>
-                  </a>
+                  </a> -->
                   <a (click)="deleteSubPolicy(item._id)" class="trash-btn">
                     <i class="bi bi-trash-fill"></i>
                   </a>

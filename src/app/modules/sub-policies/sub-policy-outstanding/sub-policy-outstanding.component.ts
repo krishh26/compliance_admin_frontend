@@ -91,7 +91,6 @@ export class SubPolicyOutstandingComponent {
       setTimeout(() => { this.spinner.hide(); }, 1000);
       this.countDetails = response?.data;
       this.outStandingList = this.countDetails?.empOutStadingList || [];
-      console.log(this.countDetails)
     }, (error) => {
       setTimeout(() => { this.spinner.hide(); }, 1000);
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');

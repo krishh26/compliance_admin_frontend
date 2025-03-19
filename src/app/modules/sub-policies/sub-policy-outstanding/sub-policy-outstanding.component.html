@@ -1,8 +1,9 @@
 <div class="container-fluid p-0">
   <div class="page-title  mb-3">
-    <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyDetails?.policyId]" class="me-2 text-dark"><i
+    <h2><a [routerLink]="[ '/sub-policies/sub-policies-list/', subPolicyDetails?.policyId]"
+        [queryParams]="{ version: subPolicyDetails?.version }" class="me-2 text-dark"><i
           class="bi bi-arrow-left-circle"></i></a> Privacy
-      and Data Policy Outstanding</h2>
+      and Data Policy Outstanding (Version : {{subPolicyDetails?.version}})</h2>
   </div>
 
   <div class="card">
@@ -45,8 +46,7 @@
                 <td>{{ settingDetails?.examTimeLimit | date : 'dd MMM YYYY'}}</td>
                 <td>
                   <div class="input-group">
-                    <input type="date" #dateInput class="form-control"
-                      [(ngModel)]="item.examTimeLimit"
+                    <input type="date" #dateInput class="form-control" [(ngModel)]="item.examTimeLimit"
                       (change)="onDateChange(item.examTimeLimit, item?._id)" hidden />
                     <button class="btn btn-primary" (click)="openDatePicker(dateInput)">📅 Edit</button>
                   </div>

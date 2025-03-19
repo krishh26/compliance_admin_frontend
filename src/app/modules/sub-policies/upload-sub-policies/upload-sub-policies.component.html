@@ -38,14 +38,13 @@
 
         <!-- Row 2: Name & Description -->
         <div class="row mb-3">
-          <div class="col-md-6 mb-3">
+          <!-- <div class="col-md-6 mb-3">
             <label class="fw-bold">Name:</label>
             <input type="text" class="form-control" placeholder="Enter sub-policy name" formControlName="name" />
             <small class="text-danger" *ngIf="submitted && f['name'].errors?.['required']">
               Name is required
             </small>
-          </div>
-          <div class="col-md-6 mb-3"></div>
+          </div> -->
           <div class="col-md-12">
             <label class="fw-bold">Description :</label>
             <div class="NgxEditor__Wrapper">
@@ -53,11 +52,7 @@
               <ngx-editor [editor]="editor" rows="5" formControlName="description" [disabled]="false"
                 [placeholder]="'Type here...'"></ngx-editor>
             </div>
-            <!-- <textarea class="form-control" rows="2" placeholder="Enter detailed description"
-              formControlName="description"></textarea> -->
           </div>
-
-          
         </div>
 
         <!-- Submit Button: Right Aligned & 1/4 Width -->

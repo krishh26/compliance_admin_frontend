@@ -4,10 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NoRecordFoundComponent } from './common/no-record-found/no-record-found.component';
 import { CustomValidation } from './constant/custome-validation';
+import { GmtDatePipe } from '../pipes/gmt-date.pipe';
 
 @NgModule({
   declarations: [
     NoRecordFoundComponent,
+    GmtDatePipe
   ],
   imports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { CustomValidation } from './constant/custome-validation';
     FormsModule,
     ReactiveFormsModule,
     NoRecordFoundComponent,
+    GmtDatePipe
   ],
   providers: [
     CustomValidation

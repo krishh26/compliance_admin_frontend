@@ -25,7 +25,7 @@ import { NgxEditorModule } from 'ngx-editor';
     LoginComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
-    CreatePasswordComponent,
+    CreatePasswordComponent
   ],
   imports: [
     BrowserModule,

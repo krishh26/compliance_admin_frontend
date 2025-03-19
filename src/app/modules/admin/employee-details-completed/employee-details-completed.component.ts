@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-employee-details-completed',
   templateUrl: './employee-details-completed.component.html',
-  styleUrls: ['./employee-details-completed.component.css']
+  styleUrls: ['./employee-details-completed.component.css'],
 })
 export class EmployeeDetailsCompletedComponent {
   employeeId: any = null;
@@ -28,16 +28,16 @@ export class EmployeeDetailsCompletedComponent {
     private router: Router,
     private employeeService: EmployeeService,
     private notificationService: NotificationService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
-    // this.searchText.valueChanges.subscribe(() => {
-    //   this.getCompletedTestLists();
-    // })
+    this.searchText.valueChanges.subscribe(() => {
+      this.getCompletedTestLists();
+    });
   }
 
   searchData() {
@@ -50,13 +50,17 @@ export class EmployeeDetailsCompletedComponent {
 
   getOneEmployee() {
     this.showLoader = true;
-    this.employeeService.getOneEmployee(this.employeeId).subscribe((response) => {
-      this.employeeData = response?.data;
-      this.getCompletedTestLists();
-    }, (error) => {
-      this.showLoader = false;
-      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
-    }
+    this.employeeService.getOneEmployee(this.employeeId).subscribe(
+      (response) => {
+        this.employeeData = response?.data;
+        this.getCompletedTestLists();
+      },
+      (error) => {
+        this.showLoader = false;
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
+        );
+      }
     );
   }
 
@@ -95,35 +99,42 @@ export class EmployeeDetailsCompletedComponent {
       pageLimit: this.pagesize,
       searchText: this.searchText.value,
       sortBy: this.sortby.value || '_id',
-      sortOrder: 'desc'
-    }
+      sortOrder: 'desc',
+    };
     this.showLoader = true;
-    this.employeeService.getCompletedTestList(param).subscribe((response) => {
-      this.showLoader = false;
-      this.completedTestList = response?.data?.subPolicyList || [];
-      this.completedTestList = this.completedTestList?.map((policy) => {
-        let sortedResults = policy.resultDetails.sort(
-          (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    this.employeeService.getCompletedTestList(param).subscribe(
+      (response) => {
+        this.showLoader = false;
+        this.completedTestList = response?.data?.subPolicyList || [];
+        this.completedTestList = this.completedTestList?.map((policy) => {
+          let sortedResults = policy.resultDetails.sort(
+            (a: any, b: any) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+
+          // Extract the latest result
+          const latestResult = sortedResults.length ? sortedResults[0] : null;
+
+          return {
+            ...policy,
+            latestResult, // Set the latest result in the root object
+            resultDetails: sortedResults, // Keep sorted result details
+          };
+        });
+      },
+      (error) => {
+        this.showLoader = false;
+        this.notificationService.showError(
+          error?.error?.message || 'Something went wrong!'
         );
-
-        // Extract the latest result
-        const latestResult = sortedResults.length ? sortedResults[0] : null;
-
-        return {
-          ...policy,
-          latestResult,  // Set the latest result in the root object
-          resultDetails: sortedResults  // Keep sorted result details
-        };
-      });
-    }, (error) => {
-      this.showLoader = false;
-      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
-    }
+      }
     );
   }
 
   gotoOutStandingPage() {
-    this.router.navigateByUrl(`/admin/employee-details-outstanding/${this.employeeId}`);
+    this.router.navigateByUrl(
+      `/admin/employee-details-outstanding/${this.employeeId}`
+    );
   }
 
   paginate(page: number) {
@@ -131,5 +142,4 @@ export class EmployeeDetailsCompletedComponent {
     this.getCompletedTestLists();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
 }

@@ -9,6 +9,7 @@ export enum EmployeeEndPoint {
   DELETE_EMP = '/employee',
   GET_EMPLOYEE = '/employee',
   UPDATE_EMPLOYEE = '/employee/update',
+  INACTIVE_EMPLOYEE = '/employee/inactive-user',
   COMPLETED_TEST_LIST = '/result/list',
   OUTSTANDING_TEST_LIST = '/result/out-stading-list',
   CREATE_PASSWORD = '/auth/create-password',
@@ -48,21 +49,32 @@ export class EmployeeService {
 
   getHeaderWithoutContentType(): HttpHeaders {
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this.localStorageService.getLoggerToken()); // Example token
+    headers = headers.set(
+      'Authorization',
+      'Bearer ' + this.localStorageService.getLoggerToken()
+    ); // Example token
 
     return headers;
   }
 
   getCompletedTestList(param: any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST, param, {
-      headers: this.getHeader(),
-    });
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST,
+      param,
+      {
+        headers: this.getHeader(),
+      }
+    );
   }
 
   getOutstandingTestList(param: any): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST, param, {
-      headers: this.getHeader(),
-    });
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST,
+      param,
+      {
+        headers: this.getHeader(),
+      }
+    );
   }
 
   getOneEmployee(id: string): Observable<any> {
@@ -85,7 +97,15 @@ export class EmployeeService {
   updateEmp(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + EmployeeEndPoint.UPDATE_EMPLOYEE,
-      payload);
+      payload
+    );
+  }
+
+  inActiveEmployee(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.INACTIVE_EMPLOYEE,
+      payload
+    );
   }
 
   createPassowrd(payload: any, token: string): Observable<any> {

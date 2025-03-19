@@ -15,25 +15,30 @@ import { FormControl } from '@angular/forms';
 })
 export class EmployeeListComponent {
   employees: any[] = [];
+  filteredEmployees: any[] = [];
   showLoader: boolean = false;
   page: number = pagination.page;
-  pagesize = pagination.itemsPerPage;
+  pagesize = 1000;
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
+  filterEmployee = false;
+  filterLineManager = false;
+  sortBy: string = '_id';
+  sortOrder: string = 'desc';
 
   constructor(
     private router: Router,
     private notificationService: NotificationService,
     private employeeService: EmployeeService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal,
-  ) { }
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.getEmployees();
     this.searchText.valueChanges.subscribe(() => {
       this.getEmployees();
-    })
+    });
   }
 
   paginate(page: number) {
@@ -42,13 +47,25 @@ export class EmployeeListComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  sortTable(column: string) {
+    if (this.sortBy === column) {
+      this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc'; // Toggle sorting order
+    } else {
+      this.sortBy = column;
+      this.sortOrder = 'asc'; // Default to ascending when a new column is clicked
+    }
+    this.getEmployees();
+  }
+
   getEmployees() {
     this.spinner.show();
 
     const params = {
       pageNumber: this.page,
       pageLimit: this.pagesize,
-      searchText: this.searchText.value
+      searchText: this.searchText.value,
+      sortOrder: this.sortOrder,
+      sortBy: this.sortBy,
     };
 
     this.employeeService.getEmployee(params).subscribe(
@@ -58,6 +75,8 @@ export class EmployeeListComponent {
         }, 1000);
 
         this.employees = response?.data?.employeeList;
+        this.filteredEmployees = response?.data?.employeeList;
+        this.checkBoxChange()
 
         // Ensure totalRecords is updated
         this.totalRecords = response?.data?.count || 0;
@@ -73,7 +92,6 @@ export class EmployeeListComponent {
       }
     );
   }
-
 
   openAddTeamModal() {
     this.modalService.open(BulkEntryEmployeeComponent, { size: 'l' });
@@ -112,27 +130,67 @@ export class EmployeeListComponent {
   }
 
   onToggleSwitch(employee: any) {
-    const payload = {
-      id: employee._id,
-      isActive: employee.isActive ? 1 : 0 // Ensuring correct format for API
-    };
-
-    this.spinner.show();
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(payload));
-
-    this.employeeService.updateEmp(formData).subscribe(
-      (response) => {
-        this.spinner.hide();
-        this.notificationService.showSuccess(response?.message || 'Employee updated successfully');
-        this.getEmployees();
-       // this.router.navigate(['/admin/employee-details-outstanding', employee._id]);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to Inactive this employee?',
+      icon: 'warning',
+      input: 'text',
+      inputPlaceholder: 'Enter Resoan',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'Resoan is required!';
+        }
+        return null;
       },
-      (error) => {
-        this.spinner.hide();
-        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+      showCancelButton: true,
+      confirmButtonColor: '#00B96F',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Inactive!',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+        const payload = {
+          id: employee._id,
+          reason: result.value,
+        };
+        this.employeeService.inActiveEmployee(payload).subscribe(
+          (response) => {
+            this.spinner.hide();
+            this.notificationService.showSuccess(
+              response?.message || 'Employee Inactive successfully'
+            );
+            this.getEmployees();
+          },
+          (error) => {
+            this.spinner.hide();
+            this.notificationService.showError(
+              error?.error?.message || 'Something went wrong!'
+            );
+          }
+        );
+      } else {
+        this.getEmployees();
       }
-    );
+    });
   }
+  checkBoxChange() {
+    this.filteredEmployees = this.employees; // Reset to original list
 
+    if (this.filterEmployee && !this.filterLineManager) {
+      // Show only Employees
+      this.filteredEmployees = this.employees.filter(
+        (emp) => emp.role === 'EMPLOYEE'
+      );
+    } else if (!this.filterEmployee && this.filterLineManager) {
+      // Show only Line Managers
+      this.filteredEmployees = this.employees.filter(
+        (emp) => emp.role === 'LINEMANAGER'
+      );
+    } else if (this.filterEmployee && this.filterLineManager) {
+      // Show both Employee & Line Manager
+      this.filteredEmployees = this.employees.filter(
+        (emp) => emp.role === 'EMPLOYEE' || emp.role === 'LINEMANAGER'
+      );
+    }
+  }
 }

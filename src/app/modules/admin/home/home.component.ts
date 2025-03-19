@@ -25,7 +25,7 @@ export class HomeComponent {
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.currentRoute = event.urlAfterRedirects;
-      console.log("currentRoutecurrentRoute", this.currentRoute)
+
     });
   }
 
@@ -33,7 +33,7 @@ export class HomeComponent {
     this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       this.currentRoute = event.urlAfterRedirects;
-      console.log("currentRoutecurrentRoute", this.currentRoute)
+
     });
   }
 

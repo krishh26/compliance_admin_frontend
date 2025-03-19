@@ -56,7 +56,7 @@ export class EmployeeListComponent {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        console.log('This is employee', response);
+
         this.employees = response?.data?.employeeList;
 
         // Ensure totalRecords is updated

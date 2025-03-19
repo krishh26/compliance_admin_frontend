@@ -18,7 +18,7 @@ export class AddEmployeeComponent {
   showLoader: boolean = false;
   employeeId!: any;
   employeeData: any;
-  imagePreview: string = 'assets/img/avatars/avatar-4.jpg';
+  imagePreview: string = 'assets/img/avatars/no-profile.jpg';
   isUpload: boolean = false;
   baseImageURL = environment.baseUrl;
 

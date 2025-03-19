@@ -83,7 +83,8 @@
               <tr>
                 <!-- [ngClass]="!item?.policySettings ? 'setting-pending' : ''" -->
                 <td>
-                  <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.name }} ({{ item?.version }})</a>
+                  <!-- <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.name }} ({{ item?.version }})</a> -->
+                  <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.version }}</a>
                 </td>
                 <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                 <td class="action-col">

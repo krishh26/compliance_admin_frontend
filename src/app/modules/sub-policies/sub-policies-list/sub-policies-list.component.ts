@@ -72,9 +72,9 @@ export class SubPoliciesListComponent {
       (response) => {
         setTimeout(() => { this.spinner.hide(); }, 2000);
 
-        console.log('API Response:', response);
+
         this.policyList = response?.data?.subPolicyList || [];
-        console.log('Extracted subPolicyList:', this.policyList);
+
 
         if (this.policyList.length) {
           const sortedPolicies = [...this.policyList].sort(

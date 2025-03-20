@@ -34,6 +34,9 @@ export class CompletedTestComponent {
 
   ngOnInit() {
     this.getCompletedTestLists();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getCompletedTestLists();
+    })
   }
 
   searchData() {

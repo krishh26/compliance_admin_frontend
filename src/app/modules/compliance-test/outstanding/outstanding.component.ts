@@ -53,6 +53,7 @@ export class OutstandingComponent {
       searchText: this.searchText.value
     }
     this.spinner.show();
+    this.outstandingtestlist = [];
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         this.spinner.hide();

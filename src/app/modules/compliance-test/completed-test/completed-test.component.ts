@@ -92,6 +92,7 @@ export class CompletedTestComponent {
       sortOrder: 'desc'
     }
     this.spinner.show();
+    this.completedtestlist = [];
     this.employeeService.getCompletedTestList(param).subscribe(
       (response) => {
         this.spinner.hide();

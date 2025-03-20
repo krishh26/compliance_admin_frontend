@@ -49,7 +49,7 @@ export class SubPoliciesListComponent {
         this.policyDetails = response?.data;
       }
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     })
   }
@@ -148,10 +148,10 @@ export class SubPoliciesListComponent {
   getSubPolicyCountAndData() {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyCountAndData({ subPolicyId: this.latestPolicy?._id }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.countDetails = response?.data;
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }

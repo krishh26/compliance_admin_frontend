@@ -44,15 +44,11 @@ export class PoliciesListComponent implements OnInit {
     this.policyList = [];
     this.policyService.getPolicyList().subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.policyList = response?.data?.policyList || [];
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

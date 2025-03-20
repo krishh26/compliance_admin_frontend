@@ -8,7 +8,7 @@
               <h2>
                 <a routerLink="/employee-policies/employee-policies-list" class="me-2 text-dark">
                   <i class="bi bi-arrow-left-circle"></i></a>
-                Sub Policies Name
+                {{policyDetails?.name || "Sub Policies Name"}}
               </h2>
             </div>
           </div>
@@ -26,7 +26,7 @@
                 <thead class="table-light">
                   <tr>
                     <th scope="col">Version History</th>
-                    <th scope="col">Policy Date</th>
+                    <th scope="col">Published Date</th>
                     <th scope="col">Date Stamp</th>
                   </tr>
                 </thead>
@@ -48,7 +48,8 @@
                       <td>
                         <!-- <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]" class="text-primary
                         ">{{ item?.name }} ({{ item?.version }})</a> -->
-                        <a [routerLink]="['/sub-policies/terms-condition-admin/', item._id]">{{ item?.version }}</a>
+                        <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
+                          class="text-primary">{{ item?.version }}</a>
                       </td>
                       <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
                       <td>{{ item?.policySettings?.publishDate | date : "dd/MM/yyyy" }}</td>

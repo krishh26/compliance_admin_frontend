@@ -18,9 +18,10 @@
           <thead class="table-light">
             <tr>
               <th scope="col">Policies Name</th>
+              <th scope="col">Latest Version</th>
               <th scope="col">Last Updated Date</th>
               <th scope="col">Policy Type</th>
-              <th scope="col">Date Stamp</th>
+              <!-- <th scope="col">Date Stamp</th> -->
             </tr>
           </thead>
           <tbody>
@@ -30,25 +31,23 @@
               </td>
             </tr>
 
-            <ng-container *ngFor="let item of policyList | paginate
-            : {
+            <ng-container *ngFor="let item of policyList | paginate : {
                 itemsPerPage: pagesize,
                 currentPage: page,
                 totalItems: totalRecords
-              };
-        let i = index">
+              }; let i = index">
               <tr>
                 <td>
                   <a [routerLink]="[ '/employee-policies/employee-sub-policies-list', item._id ]">{{ item?.name
                     }}</a>
                 </td>
-                <td> {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt |
-                  date : "dd/MM/yyyy") : (item?.createdAt |
-                  date : "dd/MM/yyyy") }}</td>
+                <td> {{ item?.subPolicyDetail?.[0]?.length > 0 ? item?.subPolicyDetail?.[0]?.[0].version : "" }}</td>
+                <td> {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt | gmtDate) :
+                  (item?.createdAt | gmtDate ) }}</td>
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
                 </td>
-                <td scope="col">{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
+                <!-- <td scope="col">{{ item?.createdAt | gmtDate }}</td> -->
               </tr>
             </ng-container>
           </tbody>

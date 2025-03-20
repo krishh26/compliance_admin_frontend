@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
@@ -18,29 +19,45 @@ export class SubPoliciesListComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  policyDetails: any;
 
   constructor(
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private router: Router,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private policyService: PolicyService
   ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.policyId = params.get('id');
+      if (this.policyId) {
+        this.getPolicyDetails();
+        this.getSubPolicyList();
+      }
     });
-    this.getPolicyList();
   }
 
   paginate(page: number) {
     this.page = page;
-    this.getPolicyList();
+    this.getSubPolicyList();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  getPolicyList() {
+  getPolicyDetails() {
+    this.policyService.getPolicyDetails(this.policyId).subscribe((response) => {
+      if (response?.statusCode == 200 || response?.statusCode == 201) {
+        this.policyDetails = response?.data;
+      }
+    }, (error) => {
+      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    })
+  }
+
+  getSubPolicyList() {
     this.spinner.show();
     this.policyList = [];
     this.subPoliciesService
@@ -94,7 +111,7 @@ export class SubPoliciesListComponent {
             this.notificationService.showSuccess(
               'Delete Sub Policy successfully'
             );
-            this.getPolicyList();
+            this.getSubPolicyList();
           },
           (error) => {
             setTimeout(() => {

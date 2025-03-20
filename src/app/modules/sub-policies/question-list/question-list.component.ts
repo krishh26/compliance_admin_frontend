@@ -68,14 +68,14 @@ export class QuestionListComponent implements OnInit {
         this.showLoader = false;
         if (response?.data) {
           this.questions = response?.data?.questionList?.map((question: any) => ({
+            answers: question?.answer?.split(',').map((str: string) => Number(str.trim())),
             id: question._id,
             questionText: question.questionText, // Corrected property name
             questionType: this.getAnswerType(question.questionType), // Mapped to readable type
-            options:
-              question.optionsDetails?.map(
-                (option: any) => option.optionText
-              ) || [],
-
+            options: question.optionsDetails?.map((option: any) => ({
+              index: option?.optionIndex,
+              text: option?.optionText,
+            })) || [],
           }));
           this.totalRecords = response?.data?.count || 0;
           console.log(this.totalRecords);

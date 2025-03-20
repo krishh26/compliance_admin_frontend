@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
@@ -16,6 +17,7 @@ export class PoliciesListComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
 
   constructor(
     private notificationService: NotificationService,
@@ -25,6 +27,9 @@ export class PoliciesListComponent {
 
   ngOnInit(): void {
     this.getPolicyList();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getPolicyList();
+    });
   }
 
   paginate(page: number) {
@@ -36,8 +41,15 @@ export class PoliciesListComponent {
 
   getPolicyList() {
     this.spinner.show();
+
+    const params = {
+      pageNumber: this.page,
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value,
+     }
+
     this.policyList = [];
-    this.policyService.getPolicyList().subscribe(
+    this.policyService.getPolicyList(params).subscribe(
       (response) => {
         setTimeout(() => {
           this.spinner.hide();

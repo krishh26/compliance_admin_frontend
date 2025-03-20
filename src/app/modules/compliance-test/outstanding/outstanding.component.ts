@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
@@ -18,20 +19,24 @@ export class OutstandingComponent {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
-
+  searchText: FormControl = new FormControl();
 
   constructor(
     private router: Router,
     private notificationService: NotificationService,
     private employeeService: EmployeeService,
     private localStorageService: LocalStorageService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute,
   ) {
     this.loginUser = this.localStorageService.getLogger();
   }
 
   ngOnInit() {
     this.getOutstandingTestLists();
+    this.searchText.valueChanges.subscribe(() => {
+      this.getOutstandingTestLists();
+    })
   }
 
   paginate(page: number) {
@@ -42,9 +47,13 @@ export class OutstandingComponent {
 
   getOutstandingTestLists() {
     let param = {
-      employeeId: this.loginUser._id
+      employeeId: this.loginUser._id,
+      pageNumber: 1,
+      pageLimit: this.pagesize,
+      searchText: this.searchText.value
     }
     this.spinner.show();
+    this.outstandingtestlist = [];
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         this.spinner.hide();

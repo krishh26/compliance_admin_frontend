@@ -8,6 +8,20 @@
           Policies Name
         </h2>
       </div>
+      <div class="col-lg-6 col-xl-6 col-md-8 col-sm-8 col-12 mob-mb1">
+        <div class="form-group mb-0 position-relative">
+          <input type="text" class="form-control form-control-search search-input" [formControl]="searchText"
+            placeholder="Search by employee name, email, date of joining..." />
+          <span class="search-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="feather feather-search">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -53,13 +67,13 @@
           </tbody>
         </table>
       </div>
-      <div class="row mt-3 align-items-center">
+      <!-- <div class="row mt-3 align-items-center">
         <div class="row">
           <div class="pagination">
             <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

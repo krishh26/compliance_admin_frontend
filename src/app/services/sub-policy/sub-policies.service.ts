@@ -18,7 +18,8 @@ export enum SubPolicyEndPoint {
   SAVE_ANS = '/answer/save',
   GET_COUNT_DATA = '/result/admin-test-employee-list',
   SUB_POLICY_DETAILS = '/sub-policy/detail',
-  UPDATE_SUB_POLICY = '/sub-policy/update/'
+  UPDATE_SUB_POLICY = '/sub-policy/update/',
+  TEST_QUESTION_LIST = '/answer/get-test-question-list'
 }
 
 @Injectable({
@@ -41,6 +42,16 @@ export class SubPoliciesService {
       Authorization: token ? `Bearer ${token}` : '', // Add token if it exists
     });
     return headers;
+  }
+
+  getTestQuestionList(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.TEST_QUESTION_LIST,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
+    );
   }
 
   getSubPolicyList(payload: any): Observable<any> {

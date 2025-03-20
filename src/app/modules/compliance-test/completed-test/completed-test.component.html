@@ -1,35 +1,35 @@
 <div class="container-fluid p-0">
   <div class="card">
     <div class="card-header">
-      <ul class="OutstandingTab mb-3">
-        <li>
-          <a routerLink="/compliance-test/outstanding" class="first-child">
-            <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
-          </a>
-        </li>
-        <li>
-          <a routerLink="/compliance-test/completed" class="second-child active">
-            <img src="assets/img/icons/completed-icon.png" /> Completed
-          </a>
-        </li>
-      </ul>
-      <div class="row align-items-center justify-content-between">
-        <!-- <div class="col-lg-2 col-xl-2 col-md-6 col-sm-6 col-12">
-          <label class="badge-light w-100 text-center">Compliance Result</label>
-        </div> -->
-        <div class="col-lg-5 col-xl-5 col-md-6 col-sm-6 col-12 mob-mb1">
-          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline" placeholder="Search by name..." [formControl]="searchText">
+
+      <div class="row align-items-center">
+        <div class="col-lg-8 col-xl-8 col-md-8 col-sm-8 col-6">
+          <ul class="OutstandingTab mb-3">
+            <li>
+              <a routerLink="/compliance-test/outstanding" class="first-child">
+                <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
+              </a>
+            </li>
+            <li>
+              <a routerLink="/compliance-test/completed" class="second-child active">
+                <img src="assets/img/icons/completed-icon.png" /> Completed
+              </a>
+            </li>
+          </ul>
         </div>
-        <div class="col-lg-4 col-xl-4 col-md-6 col-sm-6 col-12 mob-mb1">
-          <select class="form-select" id="orderBy" [formControl]="sortby">
-            <option value="name">Exam Name</option>
-            <option value="resultStatus">Result</option>
-            <option value="updatedAt">Date</option>
-            <option value="score">Score</option>
-          </select>
-        </div>
-        <div class="col-lg-2 col-xl-2 col-sm-6 col-md-6 col-12">
-          <button type="button" class="btn btn-success btn sm w-100" (click)="searchData()">Search</button>
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+          <div class="form-group mob-mb1">
+            <span class="input-icon-left" style="top: 25px">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-search align-middle">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" class="form-control form-control-search" placeholder="Search by Test Name..."
+              [formControl]="searchText" style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
+          </div>
         </div>
       </div>
     </div>
@@ -61,7 +61,11 @@
                 totalItems: totalRecords
               };
               let i = index">
-              <td>{{item?.name}} ({{ item?.version }})</td>
+
+              <td>
+                <a [routerLink]="[ '/compliance-test/show-exam-questions/',item?.resultDetails?.[0]?._id]">{{ item?.name
+                  }}({{ item?.version }})</a>
+              </td>
               <td>{{item?.latestResult?.score}}</td>
               <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
               <td>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
+import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,6 +13,9 @@ import Swal from 'sweetalert2';
 export class CompilanceTestComponent {
   policyList: any[] = [];
   showLoader: boolean = false;
+  page: number = pagination.page;
+  pagesize = pagination.itemsPerPage;
+  totalRecords: number = pagination.totalRecords;
 
   constructor(
     private notificationService: NotificationService,
@@ -25,8 +29,12 @@ export class CompilanceTestComponent {
 
   getPolicyList() {
     this.spinner.show();
+    const params = {
+      pageNumber: this.page,
+      pageLimit: this.pagesize
+    };
     this.policyList = [];
-    this.policyService.getPolicyList().subscribe(
+    this.policyService.getPolicyList(params).subscribe(
       (response) => {
         setTimeout(() => {
           this.spinner.hide();

@@ -1,7 +1,8 @@
 <div class="container-fluid p-0">
   <div class="page-title mb-3">
     <h2><a [routerLink]="['/employee-policies/employee-sub-policies-list/',subPolicyData?.policyId]"
-        class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>{{subPolicyData?.version}} Terms & Conditions</h2>
+        class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>{{subPolicyData?.version}} Terms & Conditions
+    </h2>
   </div>
 
   <div class="card">
@@ -12,15 +13,15 @@
       <div class="row align-items-center">
         <div class="col-10">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="acceptTerms">
             <label class="form-check-label" for="flexCheckDefault">
               I have read all the instructions carefully and have understood them.
             </label>
           </div>
         </div>
         <div class="col-2">
-          <button type="button" class="btn btn-primary w-100"
-            [routerLink]="['/employee-policies/employee-sub-policies-list/',subPolicyData?.policyId]">Submit</button>
+          <!-- [routerLink]="['/employee-policies/employee-sub-policies-list/',subPolicyData?.policyId]" -->
+          <button type="button" class="btn btn-primary w-100" (click)="submitTerms()">Submit</button>
         </div>
       </div>
     </div>

@@ -27,9 +27,8 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" class="form-control form-control-search"
-              placeholder="Search by Test Name..." [formControl]="searchText"
-              style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
+            <input type="text" class="form-control form-control-search" placeholder="Search by Test Name..."
+              [formControl]="searchText" style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
           </div>
         </div>
       </div>
@@ -62,7 +61,11 @@
                 totalItems: totalRecords
               };
               let i = index">
-              <td>{{item?.name}} ({{ item?.version }})</td>
+
+              <td>
+                <a [routerLink]="[ '/compliance-test/show-exam-questions' ]">{{ item?.name
+                  }}({{ item?.version }})</a>
+              </td>
               <td>{{item?.latestResult?.score}}</td>
               <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
               <td>

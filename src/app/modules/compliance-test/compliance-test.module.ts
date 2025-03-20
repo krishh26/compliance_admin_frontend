@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExamComponent } from './exam/exam.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ShowExamQuestionsComponent } from './show-exam-questions/show-exam-questions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'outstanding', pathMatch: 'full' },
@@ -33,6 +34,10 @@ const routes: Routes = [
         path: 'start-exam/:id',
         component: ExamComponent,
       },
+      {
+        path: 'show-exam-questions',
+        component: ShowExamQuestionsComponent,
+      },
     ],
   },
   {
@@ -47,7 +52,8 @@ const routes: Routes = [
     OutstandingComponent,
     CompletedTestComponent,
     ExamIntructionComponent,
-    ExamComponent
+    ExamComponent,
+    ShowExamQuestionsComponent
   ],
   imports: [
     CommonModule,

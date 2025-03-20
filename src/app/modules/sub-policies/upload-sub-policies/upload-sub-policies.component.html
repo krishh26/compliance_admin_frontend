@@ -45,14 +45,15 @@
               Name is required
             </small>
           </div> -->
-          <div class="col-md-12">
-            <label class="fw-bold">Description :</label>
-            <div class="NgxEditor__Wrapper">
-              <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
-              <ngx-editor [editor]="editor" rows="5" formControlName="description" [disabled]="false"
-                [placeholder]="'Type here...'"></ngx-editor>
-            </div>
+
+          <label class="fw-bold">Description :</label>
+          <div class="NgxEditor__Wrapper">
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" style="padding: 15px !important;">
+            </ngx-editor-menu>
+            <ngx-editor [editor]="editor" rows="5" formControlName="description" [disabled]="false"
+              [placeholder]="'Type here...'"></ngx-editor>
           </div>
+
         </div>
 
         <!-- Submit Button: Right Aligned & 1/4 Width -->

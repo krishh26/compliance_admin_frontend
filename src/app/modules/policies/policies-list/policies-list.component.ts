@@ -42,7 +42,7 @@ export class PoliciesListComponent implements OnInit {
     };
 
     this.policyList = [];
-    this.policyService.getPolicyList().subscribe(
+    this.policyService.getPolicyList(params).subscribe(
       (response) => {
         setTimeout(() => {
           this.spinner.hide();

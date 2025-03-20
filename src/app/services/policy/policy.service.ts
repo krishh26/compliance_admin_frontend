@@ -32,10 +32,10 @@ export class PolicyService {
     return headers;
   }
 
-  getPolicyList(): Observable<any> {
+  getPolicyList(params:any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + PolicyEndPoint.POLICY_LIST,
-      {},
+      params,
       {
         headers: this.getHeader(),
       }

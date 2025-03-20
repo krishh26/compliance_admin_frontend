@@ -26,8 +26,6 @@ export class ShowExamQuestionsComponent {
     private route: ActivatedRoute,
     private notificationService: NotificationService,
     private subPoliciesService: SubPoliciesService,
-    private router: Router,
-    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
@@ -50,19 +48,11 @@ export class ShowExamQuestionsComponent {
       pageNumber: this.page,
       pageLimit: this.pagesize,
     };
-
+    this.questions = [];
     this.subPoliciesService.getTestQuestionList(payload).subscribe(
       (response) => {
         if (response?.data) {
-          this.questions = response?.data?.answerList?.map((question: any) => ({
-            id: question._id,
-
-            options:
-              question.optionsDetails?.map(
-                (option: any) => option.optionText
-              ) || [],
-
-          }));
+          this.questions = response?.data?.answerList || [];
           this.totalRecords = response?.data?.count || 0;
           console.log(this.totalRecords);
 

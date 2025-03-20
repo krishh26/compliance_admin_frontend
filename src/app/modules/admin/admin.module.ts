@@ -13,6 +13,7 @@ import { EmployeeProfileComponent } from './employee-profile/employee-profile.co
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { BulkEntryEmployeeComponent } from './bulk-entry-employee/bulk-entry-employee.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ShowExamQuestionsAdminComponent } from './show-exam-questions-admin/show-exam-questions-admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -39,6 +40,10 @@ const routes: Routes = [
         path: 'change-password',
         component: ChangePasswordComponent,
       },
+      {
+        path: 'show-exam-questions-admin/:id',
+        component: ShowExamQuestionsAdminComponent,
+      },
     ],
   },
   {
@@ -57,7 +62,8 @@ const routes: Routes = [
     AddEmployeeComponent,
     EmployeeProfileComponent,
     ChangePasswordComponent,
-    BulkEntryEmployeeComponent
+    BulkEntryEmployeeComponent,
+    ShowExamQuestionsAdminComponent
   ],
   imports: [
     CommonModule,

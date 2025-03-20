@@ -193,7 +193,10 @@
                   let i = index
                 "
               >
-                <td>{{ item?.version }}</td>
+              <td>
+                <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{ item?.name
+                  }}({{ item?.version }})</a>
+              </td>
                 <td>{{ item?.latestResult?.score }}</td>
                 <td>
                   {{ item?.latestResult?.submitDate | date : "dd/MM/yyyy" }}

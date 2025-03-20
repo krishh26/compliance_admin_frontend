@@ -35,7 +35,7 @@ const routes: Routes = [
         component: ExamComponent,
       },
       {
-        path: 'show-exam-questions',
+        path: 'show-exam-questions/:id',
         component: ShowExamQuestionsComponent,
       },
     ],

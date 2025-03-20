@@ -63,7 +63,7 @@
               let i = index">
 
               <td>
-                <a [routerLink]="[ '/compliance-test/show-exam-questions' ]">{{ item?.name
+                <a [routerLink]="[ '/compliance-test/show-exam-questions/',item?.resultDetails?.[0]?._id]">{{ item?.name
                   }}({{ item?.version }})</a>
               </td>
               <td>{{item?.latestResult?.score}}</td>

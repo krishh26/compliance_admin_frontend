@@ -196,4 +196,8 @@ export class SubPoliciesService {
       }
     );
   }
+
+  getCurrentIp(): Observable<any> {
+    return this.httpClient.get<any>('https://api.ipify.org/?format=json');
+  }
 }

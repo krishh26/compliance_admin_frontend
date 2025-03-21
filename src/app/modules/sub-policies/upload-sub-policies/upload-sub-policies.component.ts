@@ -66,6 +66,9 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.policyID = params.get('id');
+      this.policyForm.patchValue({
+        policyId: this.policyID
+      });
     });
     this.getPolicyList();
     const subpolicyId = localStorage.getItem('subPolicyId');

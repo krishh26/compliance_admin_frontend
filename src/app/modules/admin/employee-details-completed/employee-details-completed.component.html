@@ -49,7 +49,7 @@
             <li>
               <p>Date of Birth</p>
               <p class="mb-0 text-muted">
-                {{ employeeData?.birthDate | date }}
+                {{ employeeData?.birthDate | gmtDate }}
               </p>
             </li>
             <li>
@@ -70,7 +70,7 @@
               <li>
                 <p>Date of Joining</p>
                 <p class="mb-0 text-muted">
-                  {{ employeeData?.dateOfJoining | date }}
+                  {{ employeeData?.dateOfJoining | gmtDate }}
                 </p>
               </li>
               <li>
@@ -194,12 +194,11 @@
                 "
               >
               <td>
-                <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{ item?.name
-                  }}({{ item?.version }})</a>
+                <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{ item?.version }})</a>
               </td>
                 <td>{{ item?.latestResult?.score }}</td>
                 <td>
-                  {{ item?.latestResult?.submitDate | date : "dd/MM/yyyy" }}
+                  {{ item?.latestResult?.submitDate | gmtDate }}
                 </td>
                 <td>
                   <span

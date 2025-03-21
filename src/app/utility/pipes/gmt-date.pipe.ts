@@ -10,8 +10,17 @@ export class GmtDatePipe implements PipeTransform {
     const date = new Date(value);
     if (isNaN(date.getTime())) return '';
 
-    // Format: e.g., "Wed, 20 Mar 2025 14:30:00 GMT"
-    return date.toUTCString();
+     // Example output: "Sun, 23 Mar 2025 00:00:00 GMT"
+     const utcString = date.toUTCString();
+
+     // Remove time portion: keep only "Day, DD Mon YYYY GMT"
+    // Split by spaces and reconstruct the needed parts
+    const parts = utcString.split(' '); // ["Sun,", "23", "Mar", "2025", "00:00:00", "GMT"]
+    if (parts.length >= 6) {
+      return `${parts[0]} ${parts[1]} ${parts[2]} ${parts[3]}`;
+    }
+
+    return ''; // Fallback if something goes wrong
   }
 
 }

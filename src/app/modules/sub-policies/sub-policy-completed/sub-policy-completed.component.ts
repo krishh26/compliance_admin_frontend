@@ -53,7 +53,7 @@ export class SubPolicyCompletedComponent {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyDetails({ id: this.subPolicyId }).subscribe((response) => {
       setTimeout(() => { this.spinner.hide(); }, 1000);
-      this.subPolicyDetails = response?.data || {};
+      this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
     }, (error) => {
       setTimeout(() => { this.spinner.hide(); }, 1000);
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');

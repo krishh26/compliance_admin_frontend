@@ -26,9 +26,8 @@
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" class="form-control form-control-search"
-              placeholder="Search by Test Name..." [formControl]="searchText"
-              style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
+            <input type="text" class="form-control form-control-search" placeholder="Search by Test Name..."
+              [formControl]="searchText" style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
           </div>
         </div>
       </div>
@@ -59,10 +58,13 @@
                 totalItems: totalRecords
               };
               let i = index">
-              <td>{{item?.name}} ({{item?.version}})</td>
-              <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | date : "dd/MM/yyyy" }}</td>
-              <td><a [routerLink]="['/compliance-test/instruction', item._id]"
-                  class="btn btn-primary btn-sm">Begin</a></td>
+              <td>{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</td>
+              <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}</td>
+              <td>
+                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'" [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
+                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" class="text-secondary">For Information</a>
+                <div *ngIf="!item?.conditionDetail || item?.conditionDetail?.length == 0"  class="info-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Please first accept the terms and conditions !">i</div>
+              </td>
             </tr>
           </tbody>
         </table>

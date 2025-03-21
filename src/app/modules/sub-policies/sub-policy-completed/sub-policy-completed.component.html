@@ -52,7 +52,7 @@
                 <!-- <td>{{ item?.firstName }} {{ item?.lastName }} </td> -->
                 <td>Version {{ subPolicyDetails?.version }}</td>
                 <td>{{ item?.latestResult?.score }}</td>
-                <td>{{ item?.latestResult?.submitDate | date:'dd MMM YYYY' }}</td>
+                <td>{{ item?.latestResult?.submitDate | gmtDate }}</td>
                 <td>
                   <span *ngIf="item?.latestResult?.resultStatus == '2'"
                     class="btn btn-danger btn-sm rounded">Fail</span>

@@ -1,3 +1,4 @@
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +20,7 @@ export class TermsConditionEmployeeComponent {
   latitude!: number;
   longitude!: number;
   ipAddress!: string;
+  loginUser: any;
 
   constructor(
     private router: Router,
@@ -26,8 +28,10 @@ export class TermsConditionEmployeeComponent {
     private subPoliciesService: SubPoliciesService,
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private localStorageService: LocalStorageService
   ) {
+    this.loginUser = this.localStorageService.getLogger();
     this.route.paramMap.subscribe((params) => {
       this.subPolicyID = String(params.get('id'));
       if (this.subPolicyID) {
@@ -40,8 +44,8 @@ export class TermsConditionEmployeeComponent {
 
   getSubPolicyDetails() {
     this.spinner.show();
-    this.subPoliciesService.getPolicyDetails(this.subPolicyID).subscribe((response) => {
-      this.subPolicyData = response?.data;
+    this.subPoliciesService.getPolicyDetails(this.subPolicyID, { employeeId: this.loginUser?._id }).subscribe((response) => {
+      this.subPolicyData = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
       if (this.subPolicyData?.description) {
         this.safeDescription = this.sanitizer.bypassSecurityTrustHtml(this.subPolicyData.description);
       }
@@ -71,8 +75,6 @@ export class TermsConditionEmployeeComponent {
         (position) => {
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
-          console.log('Latitude:', this.latitude);
-          console.log('Longitude:', this.longitude);
         },
         (error) => {
           console.error('Error getting location:', error);
@@ -94,17 +96,23 @@ export class TermsConditionEmployeeComponent {
       confirmButtonText: 'Accept',
     }).then((result: any) => {
       if (result?.value) {
-        console.log("kdgjkfghsdjfh", result.value);
-        const data = this.subPoliciesService.getCurrentIp()
-        console.log('asdasda', data);
-        // const payload = { id: id };
-        // this.subPoliciesService.deleteQuestion(payload).subscribe(
-        //   (response) => {
-        //     this.notificationService.showSuccess('Delete Question successfully');
-        //   }, (error) => {
-        //     this.notificationService.showError(error?.error?.message || 'Something went wrong!');
-        //   }
-        // );
+        const payload = {
+          employeeId: this.loginUser?._id,
+          subPolicyId: this.subPolicyID,
+          ipAddress: "198.0.0.1",
+          location: `${this.latitude},${this.longitude}`
+        };
+        this.subPoliciesService.acceptTerms(payload).subscribe(
+          (response) => {
+            if (response?.statusCode == 200 || response?.statusCode == 201) {
+              this.notificationService.showSuccess('Accept Successfully');
+            } else {
+              this.notificationService.showError("Please retry !");
+            }
+          }, (error) => {
+            this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          }
+        );
       } else {
         this.acceptTerms = false;
       }
@@ -112,14 +120,13 @@ export class TermsConditionEmployeeComponent {
   }
 
   getIpAddress() {
-    // this.subPoliciesService.getCurrentIp().subscribe({
-    //   next: (response) => {
-    //     // this.currentIp = response?.ip;
-    //     console.log('Current IP:', response);
-    //   },
-    //   error: (err) => {
-    //     console.error('Failed to get IP:', err);
-    //   },
-    // });
+    this.subPoliciesService.getCurrentIp().subscribe({
+      next: (response) => {
+        this.ipAddress = response?.ip;
+      },
+      error: (err) => {
+        console.error('Failed to get IP:', err);
+      },
+    });
   }
 }

@@ -28,6 +28,7 @@
                     <th scope="col">Version History</th>
                     <th scope="col">Published Date</th>
                     <th scope="col">Date Stamp</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,8 +52,18 @@
                         <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
                           class="text-primary">{{ item?.version }}</a>
                       </td>
-                      <td>{{ item?.createdAt | date : "dd/MM/yyyy" }}</td>
-                      <td>{{ item?.policySettings?.publishDate | date : "dd/MM/yyyy" }}</td>
+                      <td>{{ item?.policySettings?.publishDate | gmtDate }}</td>
+                      <td>
+                        <span *ngIf="item?.conditionDetail">
+                          {{ item?.conditionDetail?.updatedAt | gmtDate }}
+                        </span>
+
+                      </td>
+                      <td>
+                        <span *ngIf="!item?.conditionDetail">
+                          <a class="btn btn-danger btn-sm"></a>
+                        </span>
+                      </td>
                     </tr>
                   </ng-container>
                 </tbody>

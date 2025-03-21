@@ -15,6 +15,10 @@ import { ShowExamQuestionsComponent } from './show-exam-questions/show-exam-ques
 const routes: Routes = [
   { path: '', redirectTo: 'outstanding', pathMatch: 'full' },
   {
+    path: 'start-exam/:id',
+    component: ExamComponent,
+  },
+  {
     path: '',
     component: HomeComponent,
     children: [
@@ -30,10 +34,10 @@ const routes: Routes = [
         path: 'instruction/:id',
         component: ExamIntructionComponent,
       },
-      {
-        path: 'start-exam/:id',
-        component: ExamComponent,
-      },
+      // {
+      //   path: 'start-exam/:id',
+      //   component: ExamComponent,
+      // },
       {
         path: 'show-exam-questions/:id',
         component: ShowExamQuestionsComponent,

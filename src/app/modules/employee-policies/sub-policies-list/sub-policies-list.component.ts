@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
@@ -20,6 +21,7 @@ export class SubPoliciesListComponent {
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
   policyDetails: any;
+  loginUser: any;
 
   constructor(
     private notificationService: NotificationService,
@@ -27,8 +29,11 @@ export class SubPoliciesListComponent {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private policyService: PolicyService
-  ) { }
+    private policyService: PolicyService,
+    private localStorageService: LocalStorageService
+  ) {
+    this.loginUser = this.localStorageService.getLogger();
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -64,7 +69,8 @@ export class SubPoliciesListComponent {
       .getSubPolicyList({
         policyId: this.policyId,
         isActive: 1,
-        isFrontEndRequest: 1
+        isFrontEndRequest: 1,
+        employeeId : this.loginUser?._id
       })
       .subscribe(
         (response) => {

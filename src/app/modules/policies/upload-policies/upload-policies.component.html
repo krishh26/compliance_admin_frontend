@@ -13,7 +13,7 @@
           </div>
           <div class="col-lg-10 col-xl-10 col-12">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Data security" formControlName="name"
+              <input type="text" class="form-control" placeholder="Please enter policy name" formControlName="name"
                 required="">
               <small class="text-danger" *ngIf="submitted && f['name'].errors?.['required']">
                 Policy name is required
@@ -70,7 +70,7 @@
           <div class="col-lg-10 col-xl-10 col-12">
             <div class="form-group">
               <select class="form-select" formControlName="policyType">
-                <option value="" selected hidden readonly>select Policy Type</option>
+                <option value="" selected hidden readonly>Select policy type</option>
                 <option value="For Information">For Information</option>
                 <option value="For Action">For Action</option>
               </select>

@@ -9,7 +9,7 @@
     <div class="card-body">
       <span [innerHTML]="safeDescription"></span>
     </div>
-    <div class="card-footer border-top">
+    <div class="card-footer border-top" *ngIf="!subPolicyData?.conditionDetail">
       <div class="row align-items-center">
         <div class="col-10">
           <div class="form-check">

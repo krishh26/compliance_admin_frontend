@@ -63,11 +63,10 @@
               let i = index">
 
               <td>
-                <a [routerLink]="[ '/compliance-test/show-exam-questions/',item?.resultDetails?.[0]?._id]">{{ item?.name
-                  }}({{ item?.version }})</a>
+                <a [routerLink]="[ '/compliance-test/show-exam-questions/',item?.resultDetails?.[0]?._id]">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{ item?.version }})</a>
               </td>
               <td>{{item?.latestResult?.score}}</td>
-              <td>{{item?.latestResult?.submitDate | date : "dd/MM/yyyy"}}</td>
+              <td>{{item?.latestResult?.submitDate | gmtDate }}</td>
               <td>
                 <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
                 <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>

@@ -42,8 +42,8 @@
                 </td>
                 <td>
                   {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt |
-                  date : "dd/MM/yyyy") : (item?.createdAt |
-                  date : "dd/MM/yyyy") }}
+                  gmtDate) : (item?.createdAt |
+                  gmtDate) }}
                 </td>
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>

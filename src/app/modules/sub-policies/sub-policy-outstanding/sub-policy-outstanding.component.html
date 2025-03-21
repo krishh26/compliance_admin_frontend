@@ -43,7 +43,7 @@
               <tr>
                 <td>{{ item?.firstName }} {{ item?.lastName }}</td>
                 <td>Version {{ subPolicyDetails?.version }}</td>
-                <td>{{ settingDetails?.examTimeLimit | date : 'dd MMM YYYY'}}</td>
+                <td>{{ settingDetails?.examTimeLimit | gmtDate }}</td>
                 <td>
                   <div class="input-group">
                     <input type="date" #dateInput class="form-control" [(ngModel)]="item.examTimeLimit"

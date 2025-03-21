@@ -62,7 +62,7 @@ export class SubPoliciesSettingComponent {
     this.spinner.hide();
     this.subPoliciesService.getPolicyDetails(this.subPolicyId).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
-        this.subPolicyDetails = response?.data;
+        this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
         this.getSubPolicyList();
       }
       setTimeout(() => { this.spinner.hide(); }, 1000);

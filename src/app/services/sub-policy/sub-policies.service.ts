@@ -19,7 +19,8 @@ export enum SubPolicyEndPoint {
   GET_COUNT_DATA = '/result/admin-test-employee-list',
   SUB_POLICY_DETAILS = '/sub-policy/detail',
   UPDATE_SUB_POLICY = '/sub-policy/update/',
-  TEST_QUESTION_LIST = '/answer/get-test-question-list'
+  TEST_QUESTION_LIST = '/answer/get-test-question-list',
+  ACCEPT_TERMS = "/accept-term-condition/save",
 }
 
 @Injectable({
@@ -84,11 +85,11 @@ export class SubPoliciesService {
     );
   }
 
-  getPolicyDetails(id: string): Observable<any> {
+  getPolicyDetails(id: string, payload?: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + SubPolicyEndPoint.SUB_POLICY + '/detail',
       {
-        id
+        id, ...payload
       },
       { headers: this.getHeader() }
     );
@@ -138,6 +139,17 @@ export class SubPoliciesService {
       }
     );
   }
+
+  acceptTerms(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.ACCEPT_TERMS,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
+    );
+  }
+
 
   createQuestion(payload: any): Observable<any> {
     return this.httpClient.post<any>(
@@ -198,6 +210,11 @@ export class SubPoliciesService {
   }
 
   getCurrentIp(): Observable<any> {
-    return this.httpClient.get<any>('https://api.ipify.org/?format=json');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    return this.httpClient.get<any>('https://api.ipify.org/?format=json', httpOptions);
   }
 }

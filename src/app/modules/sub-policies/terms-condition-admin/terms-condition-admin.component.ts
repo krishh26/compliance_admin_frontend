@@ -34,7 +34,7 @@ export class TermsConditionAdminComponent {
   getSubPolicyDetails() {
     this.spinner.show();
     this.subPoliciesService.getPolicyDetails(this.subPolicyID).subscribe((response) => {
-      this.subPolicyData = response?.data;
+      this.subPolicyData = response?.data?.length > 0 ? response?.data?.[0] : response?.data;;
       if (this.subPolicyData?.description) {
         this.safeDescription = this.sanitizer.bypassSecurityTrustHtml(this.subPolicyData.description);
       }

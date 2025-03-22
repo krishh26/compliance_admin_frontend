@@ -27,23 +27,32 @@
               </h4>
             </div>
           </div>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-11">
               <h4>
                 <span class="text-primary p-600">Answer : </span>
                 {{ question?.answer }}
               </h4>
             </div>
-          </div>
-          <!-- <div class="row">
+          </div> -->
+          <div class="row mb-2">
             <div class="col-11">
               <div class="row">
-                <div *ngFor="let option of question.options; let i = index" class="col-6">
-                  <p>{{ getOptionLabel(i) }}. {{ option }}</p>
+                <div *ngFor="let option of question?.questionDetails?.[0]?.options; let i = index" class="col-6" [ngClass]="{ 'result-active' : question?.answers?.includes(option?.optionIndex)}">
+                  <p>{{ getOptionLabel(i) }}. {{ option?.optionText }}</p>
                 </div>
               </div>
             </div>
-          </div> -->
+          </div>
+          <div class="row">
+            <div class="col-11">
+              <h4>
+                <span class="text-primary p-600">Answer : </span>
+                <span class="text-primary" style="background-color: rgb(144, 251, 144);"> {{ getAnswer(question?.questionDetails?.[0]?.answer, question?.questionDetails?.[0]?.options) }} </span>
+
+              </h4>
+            </div>
+          </div>
         </div>
       </div>
     </div>

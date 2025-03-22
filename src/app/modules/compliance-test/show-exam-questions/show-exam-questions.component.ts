@@ -53,6 +53,9 @@ export class ShowExamQuestionsComponent {
       (response) => {
         if (response?.data) {
           this.questions = response?.data?.answerList || [];
+          this.questions?.map((element) => {
+            element['answers'] = element?.answer?.split(',').map((str: string) => Number(str.trim()))
+          })
           this.totalRecords = response?.data?.count || 0;
           console.log(this.totalRecords);
 
@@ -86,6 +89,23 @@ export class ShowExamQuestionsComponent {
       default:
         return 'Unknown';
     }
+  }
+
+  getAnswer(index: any, options: any) {
+    let result: string = "";
+    index = index?.split(',').map((str: string) => Number(str.trim()));
+
+    console.log("", options, index);
+    options?.map((element: any) => {
+      if (index?.includes(element?.optionIndex)) {
+        if(result) {
+          result = String(result) + ',' + String(element?.optionText);
+        } else {
+          result = String(element?.optionText);
+        }
+      }
+    })
+    return result;
   }
 
   getOptionLabel(index: number): string {

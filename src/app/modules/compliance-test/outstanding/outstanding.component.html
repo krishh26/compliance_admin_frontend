@@ -58,12 +58,29 @@
                 totalItems: totalRecords
               };
               let i = index">
-              <td>{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</td>
+              <td>
+                <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
+                  class="text-primary">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</a>
+              </td>
               <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}</td>
               <td>
-                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'" [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
-                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" class="text-secondary">For Information</a>
-                <div *ngIf="!item?.conditionDetail || item?.conditionDetail?.length == 0"  class="info-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Please first accept the terms and conditions !">i</div>
+                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'"
+                  [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
+                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'"
+                  class="text-secondary">For Information</a>
+
+                <ng-container *ngIf="!item?.conditionDetail || item?.conditionDetail?.length == 0">
+                  <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'" class="info-icon"
+                    data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. Once acknowledged, you will be able to take the exam." (click)="showTooltip($event)">
+                    i
+                  </div>
+                  <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" class="info-icon"
+                    data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. No further action is required." (click)="showTooltip($event)">
+                    i
+                  </div>
+                </ng-container>
               </td>
             </tr>
           </tbody>

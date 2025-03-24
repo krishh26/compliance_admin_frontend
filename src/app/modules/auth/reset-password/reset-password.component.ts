@@ -29,7 +29,6 @@ export class ResetPasswordComponent {
   }
   ngOnInit(): void {
     this.token = this.route.snapshot.queryParamMap.get('token');
-    console.log('Token:', this.token); // Debugging purpose
   }
 
   // Getter for easy access to form controls in the template
@@ -61,7 +60,6 @@ export class ResetPasswordComponent {
         },
         (error) => {
           this.showLoader = false;
-          console.log('this is error', error);
           this.notificationService.showError(error?.error?.message || 'Something went wrong!');
         }
       );

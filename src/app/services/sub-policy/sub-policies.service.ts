@@ -21,6 +21,7 @@ export enum SubPolicyEndPoint {
   UPDATE_SUB_POLICY = '/sub-policy/update/',
   TEST_QUESTION_LIST = '/answer/get-test-question-list',
   ACCEPT_TERMS = "/accept-term-condition/save",
+  GET_ACCEPT_TERMS_DETAILS = "/accept-term-condition/detail",
 }
 
 @Injectable({
@@ -217,4 +218,15 @@ export class SubPoliciesService {
     };
     return this.httpClient.get<any>('https://api.ipify.org/?format=json', httpOptions);
   }
+
+  getAcceptTermsDetails(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.GET_ACCEPT_TERMS_DETAILS,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
+    );
+  }
+
 }

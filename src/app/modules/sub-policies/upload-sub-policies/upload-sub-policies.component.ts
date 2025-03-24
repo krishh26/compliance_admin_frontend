@@ -108,14 +108,12 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
           this.spinner.hide();
         }, 1000);
         this.policyList = response?.data?.policyList || [];
-        console.log('this is my policies services', this.policyList);
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
       },
       (error) => {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

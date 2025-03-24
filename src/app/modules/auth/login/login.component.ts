@@ -57,7 +57,6 @@ export class LoginComponent {
         },
         (error) => {
           this.showLoader = false;
-          console.log('this is error', error);
           this.notificationService.showError(
             error?.error?.message || 'Something went wrong!'
           );
@@ -67,7 +66,6 @@ export class LoginComponent {
   }
 
   togglePassword() {
-    console.log('this is called');
     this.showPassword = !this.showPassword;
   }
 }

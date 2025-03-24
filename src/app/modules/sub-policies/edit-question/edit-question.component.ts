@@ -21,7 +21,7 @@ export class EditQuestionComponent {
   showLoader!: boolean;
   questionTypes = [
     {
-      name: 'MCQ',
+      name: 'Single Choice',
       value: '3',
     },
     {
@@ -70,7 +70,7 @@ export class EditQuestionComponent {
         (response) => {
           this.showLoader = false;
           if (response?.data) {
-            this.questionData = response.data[0];
+            this.questionData = response?.data[0];
             this.initForm();
           }
         },
@@ -89,10 +89,8 @@ export class EditQuestionComponent {
       .split(',')
       .map(
         (index: string) =>
-          this.questionData.optionsDetails[parseInt(index)].optionText
+          this.questionData?.optionsDetails[parseInt(index)]?.optionText
       );
-
-    console.log('selected answe is', selectedAnswers);
 
     this.questionForm = this.fb.group({
       questionType: [this.questionData.questionType, Validators.required],
@@ -212,7 +210,6 @@ export class EditQuestionComponent {
       payload.options = optionList;
     }
 
-    console.log('Formatted Payload:', payload);
     return payload;
   }
 

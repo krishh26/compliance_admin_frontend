@@ -85,7 +85,6 @@ export class EmployeeListComponent {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        console.log('This is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -119,7 +118,6 @@ export class EmployeeListComponent {
           },
           (error) => {
             this.showLoader = false;
-            console.log('this is error', error);
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

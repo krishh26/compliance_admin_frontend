@@ -6,6 +6,39 @@
     </h2>
   </div>
 
+  <div class="mt-3">
+    <div class="card">
+      <div class="card border">
+        <div class="card-header">
+          <h4>
+            Details
+          </h4>
+        </div>
+        <div class="card-body">
+          <div class="row" *ngIf="acceptTermsDetails">
+            <div class="col-md-4 col-sm-6">
+              <strong>IP Address:</strong>
+              <div>{{ acceptTermsDetails?.ipAddress }}</div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <strong>Location:</strong>
+              <div>
+                {{ acceptTermsDetails?.location }}
+                <i (click)="openMap(acceptTermsDetails.location)" title="Open Location On Map." class="bi bi-geo-alt-fill text-primary ms-2" style="cursor: pointer;" onclick="openMap()"></i>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <strong>Accept Date:</strong>
+              <div>{{ acceptTermsDetails?.createdAt | gmtDate }}</div>
+            </div>
+          </div>
+          <div class="row" *ngIf="!acceptTermsDetails">
+            <div class="col-12">No Details Found.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Question List -->
   <div class="mt-3" *ngIf="questions.length > 0">
     <div
@@ -30,7 +63,8 @@
           <div class="row mb-2">
             <div class="col-11">
               <div class="row">
-                <div *ngFor="let option of question?.questionDetails?.[0]?.options; let i = index" class="col-6" [ngClass]="{ 'result-active' : question?.answers?.includes(option?.optionIndex)}">
+                <div *ngFor="let option of question?.questionDetails?.[0]?.options; let i = index" class="col-6"
+                  [ngClass]="{ 'result-active' : question?.answers?.includes(option?.optionIndex)}">
                   <p>{{ getOptionLabel(i) }}. {{ option?.optionText }}</p>
                 </div>
               </div>
@@ -40,7 +74,8 @@
             <div class="col-11">
               <h4>
                 <span class="text-primary p-600">Answer : </span>
-                <span class="text-primary" style="background-color: rgb(144, 251, 144);"> {{ getAnswer(question?.questionDetails?.[0]?.answer, question?.questionDetails?.[0]?.options) }} </span>
+                <span class="text-primary" style="background-color: rgb(144, 251, 144);"> {{
+                  getAnswer(question?.questionDetails?.[0]?.answer, question?.questionDetails?.[0]?.options) }} </span>
 
               </h4>
             </div>

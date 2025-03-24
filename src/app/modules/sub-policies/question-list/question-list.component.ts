@@ -8,6 +8,7 @@ import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.ser
 import Swal from 'sweetalert2';
 import { BulyEntryQuestionComponent } from '../buly-entry-question/buly-entry-question.component';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-question-list',
@@ -22,6 +23,7 @@ export class QuestionListComponent implements OnInit {
   page: number = pagination.page;
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
+  searchText: FormControl = new FormControl();
 
   constructor(
     private location: Location,
@@ -41,6 +43,9 @@ export class QuestionListComponent implements OnInit {
         this.getQuestionList();
       }
     });
+    this.searchText.valueChanges.subscribe(() => {
+      this.getQuestionList();
+    });
   }
 
   paginate(page: number) {
@@ -51,7 +56,10 @@ export class QuestionListComponent implements OnInit {
 
 
   openAddTeamModal() {
-    this.modalService.open(BulyEntryQuestionComponent, { size: 'l' });
+    const modalRef = this.modalService.open(BulyEntryQuestionComponent, { size: 'l' });
+    // Pass data like this
+    modalRef.componentInstance.subPolicyId = this.subPolicyId;
+    modalRef.componentInstance.userGroup = this.userGroup;
   }
 
   getQuestionList() {
@@ -61,6 +69,7 @@ export class QuestionListComponent implements OnInit {
       userGroup: this.userGroup,
       pageNumber: this.page,
       pageLimit: this.pagesize,
+      searchText: this.searchText.value
     };
 
     this.subPoliciesService.getQuestionList(payload).subscribe(
@@ -78,7 +87,6 @@ export class QuestionListComponent implements OnInit {
             })) || [],
           }));
           this.totalRecords = response?.data?.count || 0;
-          console.log(this.totalRecords);
 
         } else {
           this.questions = [];
@@ -122,7 +130,6 @@ export class QuestionListComponent implements OnInit {
       if (result?.value) {
         this.showLoader = true;
         const payload = { id: id };
-        console.log('this is payload', payload);
         this.subPoliciesService.deleteQuestion(payload).subscribe(
           (response) => {
             this.showLoader = false;
@@ -133,7 +140,6 @@ export class QuestionListComponent implements OnInit {
           },
           (error) => {
             this.showLoader = false;
-            console.log('this is error', error);
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );
@@ -150,7 +156,7 @@ export class QuestionListComponent implements OnInit {
       case QUESTION_TYPE.BOOLEAN:
         return 'Boolean';
       case QUESTION_TYPE.MCQ:
-        return 'MCQ';
+        return 'Single Choice';
       default:
         return 'Unknown';
     }

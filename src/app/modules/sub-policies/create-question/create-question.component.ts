@@ -20,7 +20,7 @@ export class CreateQuestionComponent {
   questionForm!: FormGroup;
   questionTypes = [
     {
-      name: 'MCQ',
+      name: 'Single Choice',
       value: '3',
     },
     {

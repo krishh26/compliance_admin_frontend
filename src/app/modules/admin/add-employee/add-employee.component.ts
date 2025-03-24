@@ -190,7 +190,6 @@ export class AddEmployeeComponent {
       },
       (error) => {
         this.showLoader = false;
-        console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -251,7 +250,6 @@ export class AddEmployeeComponent {
       },
       (error) => {
         this.spinner.hide();
-        console.log('Error:', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

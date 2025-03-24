@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -13,18 +13,24 @@ import * as XLSX from 'xlsx';
   templateUrl: './buly-entry-question.component.html',
   styleUrls: ['./buly-entry-question.component.css']
 })
-export class BulyEntryQuestionComponent {
+export class BulyEntryQuestionComponent implements OnInit {
 
   showLoader: boolean = false;
+  subPolicyId!: string;
+  userGroup: string | null = null;
 
   constructor(
     private employeeService: EmployeeService,
     private notificationService: NotificationService,
     private router: Router,
-   private subPoliciesService: SubPoliciesService,
+    private subPoliciesService: SubPoliciesService,
     private activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+  }
+
+  ngOnInit(): void {
+  }
 
   onFileChange(event: any) {
     const target: DataTransfer = <DataTransfer>(event.target);
@@ -51,11 +57,41 @@ export class BulyEntryQuestionComponent {
 
       // Function to replace null or undefined values with empty strings
       const replaceNullWithEmptyString = (value: any) => value == null ? "" : value;
+      const replaceQuestionType = (item: string) => {
+        const value = item?.trim()?.toLocaleLowerCase();
+        if (value == 'singlechoice' || value == 'single') {
+          return '3';
+        }
+
+        if (value == 'multiplechoice' || value == 'multichoice' || value == 'multiple') {
+          return '1';
+        }
+
+        if (value == 'truefalse' || value == 'boolean') {
+          return '2';
+        }
+        return "3";
+      }
+
+      const getAnswer = (answer: any, options: any) => {
+        if (!answer) return "";
+
+        // Ensure answer is a string
+        const answerStr = typeof answer === 'string' ? answer : String(answer);
+
+        const answerArray = answerStr.split(',').map(item => item.trim().toLowerCase());
+
+        const matchedIndices = options
+          .filter((option: any) => answerArray.includes(option.value.toLowerCase()))
+          .map((option: any) => option.index);
+
+        return matchedIndices.join(',');
+      }
 
       // Map data to API structure
       const questions = data.map(row => {
         // Extract question type and text
-        const questionType = replaceNullWithEmptyString(row[0]); // Column A (questionType)
+        const questionType = replaceQuestionType(row[0]); // Column A (questionType)
         const questionText = replaceNullWithEmptyString(row[1]); // Column B (questionText)
 
         // Extract options dynamically (from C to F)
@@ -67,7 +103,7 @@ export class BulyEntryQuestionComponent {
         }
 
         // Extract answer from column G (index 6)
-        const answer = replaceNullWithEmptyString(row[6]);
+        const answer = getAnswer(row[6], options);
 
         return {
           questionType,
@@ -78,16 +114,17 @@ export class BulyEntryQuestionComponent {
         };
       });
 
+      const questionsList = questions?.filter(element => !!element?.questionText);
+
       // Prepare payload
       const payload = {
-        questions,
-        subPolicyId: "67d1f9f0b4eef0ee913a46d6",
-        userGroup: "1"
+        questions: questionsList,
+        subPolicyId: this.subPolicyId,
+        userGroup: this.userGroup
       };
 
-      console.log(payload); // Check the formatted payload before sending
-
       this.spinner.show();
+
       this.subPoliciesService.createQuestion(payload).subscribe(
         (res) => {
           this.spinner.hide();
@@ -113,6 +150,5 @@ export class BulyEntryQuestionComponent {
   close() {
     this.activeModal.close();
   }
-
 }
 

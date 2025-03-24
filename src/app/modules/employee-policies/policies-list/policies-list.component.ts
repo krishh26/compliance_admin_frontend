@@ -61,7 +61,6 @@ export class PoliciesListComponent {
         setTimeout(() => {
           this.spinner.hide();
         }, 1000);
-        console.log('this is error', error);
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -93,7 +92,6 @@ export class PoliciesListComponent {
             setTimeout(() => {
               this.spinner.hide();
             }, 1000);
-            console.log('this is error', error);
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

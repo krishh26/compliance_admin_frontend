@@ -62,12 +62,25 @@ export class TermsConditionEmployeeComponent {
   }
 
   submitTerms() {
-    console.log(this.acceptTerms);
     if (!this.acceptTerms) {
       return this.notificationService.showError('Please select acceptance checkbox !');
     }
     this.acceptTermsAndCondition();
   }
+
+  openMap(location: string): void {
+    if (!location) return;
+
+    const [lat, lon] = location.split(',').map(coord => coord.trim());
+
+    if (lat && lon) {
+      const url = `https://www.google.com/maps?q=${lat},${lon}`;
+      window.open(url, '_blank');
+    } else {
+      console.error('Invalid location format');
+    }
+  }
+
 
   getCurrentLocation() {
     if (navigator.geolocation) {
@@ -106,6 +119,7 @@ export class TermsConditionEmployeeComponent {
           (response) => {
             if (response?.statusCode == 200 || response?.statusCode == 201) {
               this.notificationService.showSuccess('Accept Successfully');
+              this.getSubPolicyDetails();
             } else {
               this.notificationService.showError("Please retry !");
             }

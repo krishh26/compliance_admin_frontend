@@ -87,7 +87,6 @@ export class BulkEntryEmployeeComponent {
         };
       });
 
-      console.log(jsonData);
       this.spinner.show();
       this.employeeService.bulkUpload(jsonData).subscribe(
         (res) => {

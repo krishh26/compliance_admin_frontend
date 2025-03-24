@@ -14,7 +14,6 @@ export class ViewDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('userDetails', this.documentData);
   }
 
   close(flag?: boolean): void {

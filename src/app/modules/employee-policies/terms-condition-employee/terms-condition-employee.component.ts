@@ -143,4 +143,8 @@ export class TermsConditionEmployeeComponent {
       },
     });
   }
+
+  goBack() {
+    window.history.back();
+  }
 }

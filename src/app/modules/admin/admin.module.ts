@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { BulkEntryEmployeeComponent } from './bulk-entry-employee/bulk-entry-employee.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ShowExamQuestionsAdminComponent } from './show-exam-questions-admin/show-exam-questions-admin.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const routes: Routes = [
   { path: '', redirectTo: 'employee-list', pathMatch: 'full' },
@@ -71,7 +72,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     SharedModule,
     NgxSpinnerModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    NgbModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

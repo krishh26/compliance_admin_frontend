@@ -5,6 +5,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { PolicyService } from 'src/app/services/policy/policy.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-policies-list',
@@ -32,6 +33,22 @@ export class PoliciesListComponent {
     });
   }
 
+  ngAfterViewInit() {
+    // Initialize all tooltips globally in this component
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }
+
+  showTooltip(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const tooltipInstance = bootstrap.Tooltip.getInstance(target) || new bootstrap.Tooltip(target);
+
+    // Show tooltip on click
+    tooltipInstance.show();
+  }
+
   paginate(page: number) {
     this.page = page;
     this.getPolicyList();
@@ -46,7 +63,7 @@ export class PoliciesListComponent {
       pageNumber: this.page,
       pageLimit: this.pagesize,
       searchText: this.searchText.value,
-     }
+    }
 
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(

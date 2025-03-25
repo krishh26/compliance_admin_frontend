@@ -74,7 +74,15 @@ export class OutstandingComponent implements AfterViewInit {
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         this.spinner.hide();
-        this.outstandingtestlist = response?.data?.subPolicyList;
+        // this.outstandingtestlist = response?.data?.subPolicyList;
+        response?.data?.subPolicyList?.map((element: any) => {
+          if (element?.conditionDetail?.length > 0 && element?.policyDetail?.[0]?.[0]?.policyType == 'For Information') {
+
+          } else {
+            this.outstandingtestlist.push(element);
+          }
+        })
+
         this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
         this.totalRecords = response?.data?.count || 0;
       },

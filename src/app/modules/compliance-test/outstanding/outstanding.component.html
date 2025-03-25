@@ -6,13 +6,11 @@
           <ul class="OutstandingTab">
             <li>
               <a routerLink="/compliance-test/outstanding" class="first-child active">
-                <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
-              </a>
+                <img src="assets/img/icons/outstanding-icon.png" /> Outstanding </a>
             </li>
             <li>
               <a routerLink="/compliance-test/completed" class="second-child">
-                <img src="assets/img/icons/completed-icon.png" /> Completed
-              </a>
+                <img src="assets/img/icons/completed-icon.png" /> Completed </a>
             </li>
           </ul>
         </div>
@@ -32,7 +30,6 @@
         </div>
       </div>
     </div>
-
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered table-striped mb-0">
@@ -44,45 +41,44 @@
             </tr>
           </thead>
           <tbody>
-
             <tr>
               <td *ngIf="!outstandingtestlist?.length" colspan="6">
                 <app-no-record-found></app-no-record-found>
               </td>
             </tr>
-
-            <tr *ngFor="let item of outstandingtestlist | paginate
+            <ng-container *ngFor="let item of outstandingtestlist | paginate
             : {
                 itemsPerPage: pagesize,
                 currentPage: page,
                 totalItems: totalRecords
               };
               let i = index">
-              <td>
-                <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
-                  class="text-primary">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</a>
-              </td>
-              <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}</td>
-              <td>
-                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'"
-                  [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
-                <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'"
-                  class="text-secondary">For Information</a>
-
-                <ng-container *ngIf="!item?.conditionDetail || item?.conditionDetail?.length == 0">
-                  <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'" class="info-icon"
-                    data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Please read and acknowledge the company policy document. Once acknowledged, you will be able to take the exam." (click)="showTooltip($event)">
-                    i
-                  </div>
-                  <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" class="info-icon"
-                    data-bs-toggle="tooltip" data-bs-placement="top"
-                    title="Please read and acknowledge the company policy document. No further action is required." (click)="showTooltip($event)">
-                    i
-                  </div>
-                </ng-container>
-              </td>
-            </tr>
+              <tr>
+                <td>
+                  <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
+                    class="text-primary">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</a>
+                </td>
+                <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}</td>
+                <td>
+                  <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'"
+                    [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
+                  <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'"
+                    class="text-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. No further action is required."
+                    (click)="showTooltip($event)">For Information</a>
+                  <ng-container *ngIf="!item?.conditionDetail || item?.conditionDetail?.length == 0">
+                    <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'" class="info-icon"
+                      data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="Please read and acknowledge the company policy document. Once acknowledged, you will be able to take the exam."
+                      (click)="showTooltip($event)"> i </div>
+                    <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Please read and acknowledge the company policy document. No further action is required."
+                      (click)="showTooltip($event)"> For Information </div>
+                  </ng-container>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>

@@ -4,8 +4,7 @@
       <div class="page-title">
         <h2>
           <!-- <a href="employee-list.html" class="me-2 text-dark">
-            <i class="bi bi-arrow-left-circle"></i></a> -->
-          Policies Name
+            <i class="bi bi-arrow-left-circle"></i></a> --> Policies Name
         </h2>
       </div>
       <div class="col-lg-6 col-xl-6 col-md-8 col-sm-8 col-12 mob-mb1">
@@ -24,7 +23,6 @@
       </div>
     </div>
   </div>
-
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
@@ -44,7 +42,6 @@
                 <app-no-record-found></app-no-record-found>
               </td>
             </tr>
-
             <ng-container *ngFor="let item of policyList | paginate : {
                 itemsPerPage: pagesize,
                 currentPage: page,
@@ -59,7 +56,14 @@
                 <td> {{ item?.subPolicyDetail?.[0]?.length > 0 ? (item?.subPolicyDetail?.[0]?.[0].updatedAt | gmtDate) :
                   (item?.createdAt | gmtDate ) }}</td>
                 <td>
-                  <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
+                  <a class="btn btn-primary btn-sm" *ngIf="item?.policyType == 'For Information'"
+                    data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. No further action is required."
+                    (click)="showTooltip($event)">{{ item?.policyType }}</a>
+                  <a class="btn btn-primary btn-sm" *ngIf="item?.policyType !== 'For Information'"
+                    data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. Once acknowledged, you will be able to take the exam."
+                    (click)="showTooltip($event)">{{ item?.policyType }}</a>
                 </td>
                 <!-- <td scope="col">{{ item?.createdAt | gmtDate }}</td> -->
               </tr>

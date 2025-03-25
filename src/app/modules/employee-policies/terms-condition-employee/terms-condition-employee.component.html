@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
               <strong>Accept Date:</strong>
-              <div>{{ subPolicyData?.conditionDetail?.createdAt | gmtDate }}</div>
+              <div>{{ subPolicyData?.conditionDetail?.createdAt | gmtDate }} {{ subPolicyData?.conditionDetail?.createdAt | date:'shortTime' }}</div>
             </div>
           </div>
         </div>

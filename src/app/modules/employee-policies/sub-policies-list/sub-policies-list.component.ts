@@ -69,7 +69,7 @@ export class SubPoliciesListComponent {
       .getSubPolicyList({
         policyId: this.policyId,
         isActive: 1,
-        isFrontEndRequest: 1,
+        // isFrontEndRequest: 1,
         employeeId : this.loginUser?._id
       })
       .subscribe(

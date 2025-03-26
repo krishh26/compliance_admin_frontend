@@ -57,15 +57,15 @@
 
       <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align align-items-center">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="javscript:;" id="adminDropdown"
-              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <li class="nav-item dropdown" ngbDropdown>
+            <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="javascript:;" id="adminDropdown"
+              ngbDropdownToggle>
               <img src="assets/img/avatars/no-profile.jpg" class="avatar img-fluid full-rounded me-2 d-inline-block"
                 alt="Charles Hall" />
               <div class="text-dark d-inline-block"><strong>{{ loginUser?.firstName }} {{ loginUser?.lastName
                   }}</strong></div>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="adminDropdown">
               <li>
                 <a class="dropdown-item" routerLink="/admin/employee-profile">
                   <i class="align-middle me-1" data-feather="user"></i> My Profile

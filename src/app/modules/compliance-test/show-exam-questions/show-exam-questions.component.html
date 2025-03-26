@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-4 col-sm-6">
               <strong>Accept Date:</strong>
-              <div>{{ acceptTermsDetails?.createdAt | gmtDate }}</div>
+              <div>{{ acceptTermsDetails?.createdAt | gmtDate }} {{ acceptTermsDetails?.createdAt | date:'shortTime' }}</div>
             </div>
           </div>
           <div class="row" *ngIf="!acceptTermsDetails">

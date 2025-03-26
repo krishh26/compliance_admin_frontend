@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
-
 @Component({
   selector: 'app-create-password',
   templateUrl: './create-password.component.html',
@@ -26,14 +25,14 @@ export class CreatePasswordComponent {
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService
   ) {
-    this.loginUser = this.localStorageService.getLogger();
+    this.token = this.route?.snapshot?.queryParamMap?.get('token');
     this.createForm = this.fb.group({
       password: ['', [Validators.required, Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')]],
       confirmPassword: ['', [Validators.required]],
     });
   }
   ngOnInit(): void {
-    this.token = this.loginUser?.email
+
   }
 
   // Getter for easy access to form controls in the template

@@ -67,7 +67,8 @@ export class OutstandingComponent implements AfterViewInit {
       employeeId: this.loginUser._id,
       pageNumber: 1,
       pageLimit: this.pagesize,
-      searchText: this.searchText.value
+      searchText: this.searchText.value,
+      isFrontEndRequest: 1
     }
     this.spinner.show();
     this.outstandingtestlist = [];
@@ -79,7 +80,9 @@ export class OutstandingComponent implements AfterViewInit {
           if (element?.conditionDetail?.length > 0 && element?.policyDetail?.[0]?.[0]?.policyType == 'For Information') {
 
           } else {
-            this.outstandingtestlist.push(element);
+            if (element?.policySettingDetails?.[0]?.publishDate && new Date(element.policySettingDetails[0].publishDate) <= new Date()) {
+              this.outstandingtestlist.push(element);
+            }
           }
         })
 

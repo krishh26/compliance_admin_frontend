@@ -1,5 +1,5 @@
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -40,6 +40,12 @@ export class TermsConditionEmployeeComponent {
     });
     this.getCurrentLocation();
     this.getIpAddress();
+  }
+
+  @HostListener('document:copy', ['$event'])
+  disableCopy(event: ClipboardEvent) {
+    event.preventDefault();
+    alert("Copying content is disabled!");
   }
 
   getSubPolicyDetails() {

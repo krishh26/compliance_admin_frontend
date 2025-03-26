@@ -1,4 +1,4 @@
-<div class="container-fluid p-0">
+<div class="container-fluid p-0 no-copy">
   <div class="page-title mb-3">
     <h2><a (click)="goBack()" class="me-2 text-dark" style="cursor: pointer;"><i class="bi bi-arrow-left-circle"></i></a>{{subPolicyData?.version}}
     </h2>
@@ -14,7 +14,7 @@
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" [(ngModel)]="acceptTerms">
             <label class="form-check-label" for="flexCheckDefault">
-              I have read all the instructions carefully and have understood them.
+              I acknowledge that I have received, read, and understood this Policy. I agree to comply with the guidelines, rules, and procedures outlined within this document. I understand that it is my responsibility to remain informed of any updates or changes and to abide by the policy at all times during my employment.
             </label>
           </div>
         </div>
@@ -49,7 +49,7 @@
               </div>
             </div>
             <div class="col-md-4 col-sm-6">
-              <strong>Accept Date:</strong>
+              <strong>Accepted Date:</strong>
               <div>{{ subPolicyData?.conditionDetail?.createdAt | gmtDate }} {{ subPolicyData?.conditionDetail?.createdAt | date:'shortTime' }}</div>
             </div>
           </div>

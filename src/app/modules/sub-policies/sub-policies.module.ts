@@ -16,6 +16,7 @@ import { BulyEntryQuestionComponent } from './buly-entry-question/buly-entry-que
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TermsConditionAdminComponent } from './terms-condition-admin/terms-condition-admin.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { SubPolicySettingInformationComponent } from './sub-policy-setting-information/sub-policy-setting-information.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'setting-sub-policies/:id',
         component: SubPoliciesSettingComponent,
+      },
+      {
+        path: 'setting-sub-policies-for-information/:id',
+        component: SubPolicySettingInformationComponent,
       },
       {
         path: 'question-list',
@@ -73,6 +78,7 @@ const routes: Routes = [
     SubPolicyCompletedComponent,
     BulyEntryQuestionComponent,
     TermsConditionAdminComponent,
+    SubPolicySettingInformationComponent,
   ],
   imports: [CommonModule,
     SharedModule,

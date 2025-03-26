@@ -88,8 +88,14 @@
                 <td>{{ item?.policySettings?.publishDate | gmtDate }}</td>
                 <td>{{ item?.createdAt | gmtDate }}</td>
                 <td class="action-col">
-                  <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-2"><i
+                  <span *ngIf="policyDetails?.policyType !== 'For Information'">
+                    <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-2"><i
                       class="bi bi-gear-fill"></i> </a>
+                  </span>
+                  <span *ngIf="policyDetails?.policyType == 'For Information'">
+                    <a [routerLink]="[ '/sub-policies/setting-sub-policies-for-information/', item._id]" class="text-dark me-2"><i
+                      class="bi bi-gear-fill"></i> </a>
+                  </span>
                   <!-- <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)" class="edit-btn me-2">
                     <i class="bi bi-pencil-square"></i>
                   </a> -->

@@ -49,7 +49,7 @@ export class AuthServiceService {
   }
 
   resetUser(payload: any, token: string): Observable<any> {
-    return this.httpClient.post<any>(
+    return this.httpClient.patch<any>(
       `${this.baseUrl}${AuthEndPoint.RESET_PASSWORD}?token=${token}`,
       payload,
       { headers: this.getHeader() }

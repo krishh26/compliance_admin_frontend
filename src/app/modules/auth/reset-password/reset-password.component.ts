@@ -40,7 +40,6 @@ export class ResetPasswordComponent {
 
   onSubmit() {
     this.submitted = true;
-    debugger
     if (this.forgotForm.invalid) {
       return;
     }

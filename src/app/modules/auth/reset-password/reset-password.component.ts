@@ -14,6 +14,8 @@ export class ResetPasswordComponent {
   showLoader: boolean = false;
   submitted = false;
   token!: any;
+  showPassword = false;
+  confirmPassword = false;
 
   constructor(
     private fb: FormBuilder,

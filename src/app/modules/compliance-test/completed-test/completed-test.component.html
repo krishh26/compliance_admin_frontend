@@ -65,18 +65,18 @@
               <td>
                 <a [routerLink]="[ '/compliance-test/show-exam-questions/',item?.resultDetails?.[0]?._id]">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{ item?.version }})</a>
               </td>
-              <td>{{item?.latestResult?.score}}</td>
-              <td>{{item?.latestResult?.submitDate | gmtDate }}</td>
+              <td>{{item?.resultDetails?.[0]?.score}}</td>
+              <td>{{item?.resultDetails?.[0]?.submitDate | gmtDate }}</td>
               <td>
-                <span *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
-                <span *ngIf="item?.latestResult?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
+                <span *ngIf="item?.resultDetails?.[0]?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">Fail</span>
+                <span *ngIf="item?.resultDetails?.[0]?.resultStatus == '1'" class="btn btn-success btn-sm rounded">Pass</span>
               </td>
-              <!-- <td>{{ getFormattedDuration(item?.latestResult?.duration) }} Minutes</td> -->
-              <td> {{convertDecimalMinutesToMinSec(item?.latestResult?.duration)}}</td>
+              <!-- <td>{{ getFormattedDuration(item?.resultDetails?.[0]?.duration) }} Minutes</td> -->
+              <td> {{convertDecimalMinutesToMinSec(item?.resultDetails?.[0]?.duration)}}</td>
               <td>
-                <a *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">
+                <a *ngIf="item?.resultDetails?.[0]?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">
                   <span>
-                    {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.dueDate) }} Days
+                    {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.maximumAttempt, item?.resultDetails?.[0]?.subPolicyId) }} Attempt
                   </span>
                 </a>
               </td>

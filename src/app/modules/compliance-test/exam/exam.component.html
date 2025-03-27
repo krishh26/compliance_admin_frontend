@@ -6,7 +6,7 @@
           <!-- <h2><a routerLink="/compliance-test/outstanding" (click)="resetLocal()" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a></h2> -->
         </div>
         <div class="col-6 text-end">
-          <span class="badge bg-success ps-3 pe-3 pt-2 pb-2">{{ formattedTime }}</span>
+          <span class="badge bg-success ps-3 pe-3 pt-2 pb-2" *ngIf="questions.length > 0">{{ formattedTime }}</span>
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="card-header text-center bg-light">
         <h2 class="mb-0 p-600">Data Analysis Exam</h2>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="questions.length > 0">
         <div class="row align-items-center mb-3">
           <div class="col-6">
             <p><strong>Read Questions Carefully.</strong></p>
@@ -58,6 +58,9 @@
           </div>
           <p class="text-center">{{ currentQuestionIndex + 1 }}/{{ questions.length }} Completed</p>
         </div>
+      </div>
+      <div class="card-body" *ngIf="questions.length == 0">
+        <app-no-record-found></app-no-record-found>
       </div>
     </div>
   </div>

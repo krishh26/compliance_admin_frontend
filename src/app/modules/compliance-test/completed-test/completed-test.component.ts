@@ -64,21 +64,28 @@ export class CompletedTestComponent {
     return `${minPart} ${secPart}`.trim();
   }
 
-  calculateDaysDifference(passedDateString: string): string | number {
-    const passedDate = new Date(passedDateString);
-    const currentDate = new Date();
+  calculateDaysDifference(maximumAttempt: number, subPolicyId: string): any {
+    // const passedDate = new Date(passedDateString);
+    // const currentDate = new Date();
 
-    // Normalize time for comparison (set to 00:00:00)
-    passedDate.setHours(0, 0, 0, 0);
-    currentDate.setHours(0, 0, 0, 0);
+    // // Normalize time for comparison (set to 00:00:00)
+    // passedDate.setHours(0, 0, 0, 0);
+    // currentDate.setHours(0, 0, 0, 0);
 
-    if (currentDate > passedDate) {
-      return '';
-    } else {
-      const timeDiff = passedDate.getTime() - currentDate.getTime();
-      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      return daysDiff;
-    }
+    // if (currentDate > passedDate) {
+    //   return '';
+    // } else {
+    //   const timeDiff = passedDate.getTime() - currentDate.getTime();
+    //   const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    //   return daysDiff;
+    // }
+    const subList = this.completedtestlist?.filter((element : any) => element?._id == subPolicyId);
+
+    const reCount = Number(subList?.length) - 1;
+
+    const attemp = maximumAttempt - reCount;
+
+    return `${String(attemp)}/${String(maximumAttempt)}`
   }
 
 
@@ -97,6 +104,7 @@ export class CompletedTestComponent {
       (response) => {
         this.spinner.hide();
         this.completedtestlist = response?.data?.subPolicyList;
+        this.completedtestlist = this.splitPolicies(this.completedtestlist);
         this.completedtestlist = this.completedtestlist.map((policy) => {
           let sortedResults = policy.resultDetails.sort(
             (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -111,6 +119,8 @@ export class CompletedTestComponent {
             resultDetails: sortedResults  // Keep sorted result details
           };
         });
+
+        console.log("this.completedtestlist", this.completedtestlist);
       },
       (error) => {
         this.spinner.hide();
@@ -119,4 +129,22 @@ export class CompletedTestComponent {
     );
   }
 
+  splitPolicies(policies: any[]): any[] {
+    const result: any[] = [];
+
+    policies.forEach(policy => {
+      if (policy.resultDetails.length > 1) {
+        policy.resultDetails.forEach((detail: any) => {
+          result.push({
+            ...policy,
+            resultDetails: [detail],
+          });
+        });
+      } else {
+        result.push(policy);
+      }
+    });
+
+    return result;
+  }
 }

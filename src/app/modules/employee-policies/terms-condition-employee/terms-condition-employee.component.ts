@@ -55,13 +55,9 @@ export class TermsConditionEmployeeComponent {
       if (this.subPolicyData?.description) {
         this.safeDescription = this.sanitizer.bypassSecurityTrustHtml(this.subPolicyData.description);
       }
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 1000);
+      this.spinner.hide();
     }, (error) => {
-      setTimeout(() => {
-        this.spinner.hide();
-      }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     }
     );

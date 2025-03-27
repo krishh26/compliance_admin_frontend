@@ -30,9 +30,9 @@ export class EmployeeProfileComponent {
     this.spinner.show();
     this.employeeService.getOneEmployee(this.loginUser?._id).subscribe((response) => {
       this.employeeData = response?.data;
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     }
     );

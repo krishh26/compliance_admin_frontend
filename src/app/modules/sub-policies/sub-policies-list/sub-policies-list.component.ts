@@ -66,7 +66,7 @@ export class SubPoliciesListComponent {
 
     this.subPoliciesService.getSubPolicyList({ policyId: this.policyId }).subscribe(
       (response) => {
-        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.spinner.hide();
 
         this.policyList = response?.data?.subPolicyList || [];
 
@@ -93,7 +93,7 @@ export class SubPoliciesListComponent {
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
-        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.spinner.hide();
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );

@@ -104,16 +104,12 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.policyList = response?.data?.policyList || [];
         // this.notificationService.showSuccess(response?.message || 'Get Policy successfully');
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -151,9 +147,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
     this.showLoader = true;
     this.subPoliciesService.createPolicy(this.policyForm.value).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showSuccess(
           response?.message || 'Sub Policy Create successfully'
         );
@@ -164,9 +158,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
         ]);
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -178,9 +170,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
     this.spinner.show();
     this.subPoliciesService.updatePolicy(this.subPolicyId, this.policyForm.value).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showSuccess(
           response?.message || 'Sub Policy updated successfully'
         );
@@ -191,9 +181,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
         ]);
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

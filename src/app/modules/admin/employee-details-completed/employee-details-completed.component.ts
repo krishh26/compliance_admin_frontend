@@ -64,6 +64,30 @@ export class EmployeeDetailsCompletedComponent {
     );
   }
 
+  calculateDaysDifference(maximumAttempt: number, subPolicyId: string): any {
+    // const passedDate = new Date(passedDateString);
+    // const currentDate = new Date();
+
+    // // Normalize time for comparison (set to 00:00:00)
+    // passedDate.setHours(0, 0, 0, 0);
+    // currentDate.setHours(0, 0, 0, 0);
+
+    // if (currentDate > passedDate) {
+    //   return '';
+    // } else {
+    //   const timeDiff = passedDate.getTime() - currentDate.getTime();
+    //   const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    //   return daysDiff;
+    // }
+    const subList = this.completedTestList?.filter((element : any) => element?._id == subPolicyId);
+
+    const reCount = Number(subList?.length) - 1;
+
+    const attemp = maximumAttempt - reCount;
+
+    return `${String(attemp)}/${String(maximumAttempt)}`
+  }
+
   convertDecimalMinutesToMinSec(decimalMinutes: number): string {
     const totalSeconds = Math.round(decimalMinutes * 60);
     const minutes = Math.floor(totalSeconds / 60);
@@ -73,23 +97,6 @@ export class EmployeeDetailsCompletedComponent {
     const secPart = seconds > 0 ? `${seconds} Sec` : '';
 
     return `${minPart} ${secPart}`.trim();
-  }
-
-  calculateDaysDifference(passedDateString: string): string | number {
-    const passedDate = new Date(passedDateString);
-    const currentDate = new Date();
-
-    // Normalize time for comparison (set to 00:00:00)
-    passedDate.setHours(0, 0, 0, 0);
-    currentDate.setHours(0, 0, 0, 0);
-
-    if (currentDate > passedDate) {
-      return '';
-    } else {
-      const timeDiff = passedDate.getTime() - currentDate.getTime();
-      const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-      return daysDiff;
-    }
   }
 
   getCompletedTestLists() {
@@ -106,6 +113,7 @@ export class EmployeeDetailsCompletedComponent {
       (response) => {
         this.showLoader = false;
         this.completedTestList = response?.data?.subPolicyList || [];
+        this.completedTestList = this.splitPolicies(this.completedTestList);
         this.completedTestList = this.completedTestList?.map((policy) => {
           let sortedResults = policy.resultDetails.sort(
             (a: any, b: any) =>
@@ -141,5 +149,24 @@ export class EmployeeDetailsCompletedComponent {
     this.page = page;
     this.getCompletedTestLists();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  splitPolicies(policies: any[]): any[] {
+    const result: any[] = [];
+
+    policies.forEach(policy => {
+      if (policy.resultDetails.length > 1) {
+        policy.resultDetails.forEach((detail: any) => {
+          result.push({
+            ...policy,
+            resultDetails: [detail],
+          });
+        });
+      } else {
+        result.push(policy);
+      }
+    });
+
+    return result;
   }
 }

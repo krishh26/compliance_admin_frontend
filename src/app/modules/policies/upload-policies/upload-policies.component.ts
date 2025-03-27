@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { PolicyService } from 'src/app/services/policy/policy.service';
 
@@ -21,7 +22,8 @@ export class UploadPoliciesComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private policyService: PolicyService
+    private policyService: PolicyService,
+    private spinner: NgxSpinnerService
   ) {
     this.policyForm = this.fb.group({
       name: ['', Validators.required],
@@ -42,6 +44,7 @@ export class UploadPoliciesComponent implements OnInit {
   }
 
   getPolicyDetails() {
+    this.spinner.show();
     this.showLoader = true;
     this.policyService.getPolicyDetails(this.policyID).subscribe((response) => {
       this.policyData = response?.data;
@@ -55,7 +58,9 @@ export class UploadPoliciesComponent implements OnInit {
           status: this.policyData.status
         });
       }
+      this.spinner.hide();
     }, (error) => {
+      this.spinner.hide();
       this.showLoader = false;
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     }
@@ -74,14 +79,14 @@ export class UploadPoliciesComponent implements OnInit {
     if (this.policyID) {
       return this.update();
     }
-    this.showLoader = true;
-
+    this.spinner.show();
     this.policyService.createPolicy(this.policyForm.value).subscribe((response) => {
       this.showLoader = false;
       this.notificationService.showSuccess(response?.message || 'Policy Create successfully');
+      this.spinner.hide();
       this.router.navigate(['/policies/policies-list']);
     }, (error) => {
-      this.showLoader = false;
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }
@@ -92,12 +97,14 @@ export class UploadPoliciesComponent implements OnInit {
       return;
     }
     this.showLoader = true;
-
+    this.spinner.show();
     this.policyService.updatePolicy(this.policyID, this.policyForm.value).subscribe((response) => {
       this.showLoader = false;
       this.notificationService.showSuccess(response?.message || 'Policy updated successfully');
+      this.spinner.hide();
       this.router.navigate(['/policies/policies-list']);
     }, (error) => {
+      this.spinner.hide();
       this.showLoader = false;
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });

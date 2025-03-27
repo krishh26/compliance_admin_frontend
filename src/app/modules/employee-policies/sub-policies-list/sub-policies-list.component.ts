@@ -57,7 +57,7 @@ export class SubPoliciesListComponent {
         this.policyDetails = response?.data;
       }
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     })
   }
@@ -74,16 +74,12 @@ export class SubPoliciesListComponent {
       })
       .subscribe(
         (response) => {
-          setTimeout(() => {
-            this.spinner.hide();
-          }, 1000);
+          this.spinner.hide();
           this.policyList = response?.data?.subPolicyList || [];
           this.totalRecords = response?.data?.count || 0;
         },
         (error) => {
-          setTimeout(() => {
-            this.spinner.hide();
-          }, 1000);
+          this.spinner.hide();
           this.notificationService.showError(
             error?.error?.message || 'Something went wrong!'
           );
@@ -110,18 +106,14 @@ export class SubPoliciesListComponent {
         const payload = { id: id };
         this.subPoliciesService.deleteSubPolicy(payload).subscribe(
           (response) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showSuccess(
               'Delete Sub Policy successfully'
             );
             this.getSubPolicyList();
           },
           (error) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

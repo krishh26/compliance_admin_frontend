@@ -50,9 +50,7 @@ export class SubPolicyOutstandingComponent {
     }
     this.employeeService.dueDateSetting(payload).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 2000);
+        this.spinner.hide();
         this.getSubPolicyDetails();
       },
       (error) => {
@@ -77,10 +75,10 @@ export class SubPolicyOutstandingComponent {
   getSubPolicyDetails() {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyDetails({ id: this.subPolicyId }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }
@@ -88,11 +86,11 @@ export class SubPolicyOutstandingComponent {
   getSubPolicyCountAndData() {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyCountAndData({ subPolicyId: this.subPolicyId }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.countDetails = response?.data;
       this.outStandingList = this.countDetails?.empOutStadingList || [];
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }

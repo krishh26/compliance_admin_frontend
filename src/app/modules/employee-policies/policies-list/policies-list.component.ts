@@ -68,16 +68,12 @@ export class PoliciesListComponent {
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.policyList = response?.data?.policyList || [];
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -99,16 +95,12 @@ export class PoliciesListComponent {
         this.spinner.show();
         this.policyService.deletePolicy(id).subscribe(
           (response) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showSuccess('Delete Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

@@ -70,9 +70,7 @@ export class EmployeeListComponent {
 
     this.employeeService.getEmployee(params).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
 
         this.employees = response?.data?.employeeList;
         this.filteredEmployees = response?.data?.employeeList;
@@ -82,9 +80,7 @@ export class EmployeeListComponent {
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

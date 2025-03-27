@@ -1,9 +1,7 @@
 <div class="container-fluid p-0">
   <div class="page-title">
     <h2>
-      <a routerLink="/admin/employee-list" class="me-2 text-dark"
-        ><i class="bi bi-arrow-left-circle"></i
-      ></a>
+      <a routerLink="/admin/employee-list" class="me-2 text-dark"><i class="bi bi-arrow-left-circle"></i></a>
       {{ employeeData?.role }}
     </h2>
   </div>
@@ -13,10 +11,7 @@
         <div class="col-lg-2 col-xl-2 col-md-2 col-12">
           <div class="profile-image">
             <ng-container *ngIf="employeeData?.profileImg">
-              <img
-                [src]="baseImageURL + employeeData?.profileImg"
-                class="img-fluid"
-              />
+              <img [src]="baseImageURL + employeeData?.profileImg" class="img-fluid" />
             </ng-container>
             <ng-container *ngIf="!employeeData?.profileImg">
               <img src="assets/img/avatars/no-profile.jpg" class="img-fluid" />
@@ -96,17 +91,10 @@
 
           <!-- Flex container for buttons -->
           <div class="d-flex justify-content-end gap-2">
-            <a
-              [routerLink]="['/admin/edit-employee', employeeId]"
-              class="btn btn-sm btn-secondary"
-            >
+            <a [routerLink]="['/admin/edit-employee', employeeId]" class="btn btn-sm btn-secondary">
               <i class="bi bi-pencil-square"></i> Edit
             </a>
-            <a
-              href="javascript:;"
-              class="btn btn-sm btn-primary"
-              (click)="toggleDetails()"
-            >
+            <a href="javascript:;" class="btn btn-sm btn-primary" (click)="toggleDetails()">
               {{ showAllDetails ? "Hide Details" : "All Details" }}
             </a>
           </div>
@@ -134,29 +122,16 @@
         <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
           <div class="form-group mob-mb1">
             <span class="input-icon-left" style="top: 25px">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="feather feather-search align-middle"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="feather feather-search align-middle">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input
-              type="text"
-              class="form-control form-control-search"
-              placeholder="Search by employee name, email, date of joining..."
-              [formControl]="searchText"
-              style="padding: 1.5rem 1rem 1.5rem 2.5rem"
-            />
+            <input type="text" class="form-control form-control-search"
+              placeholder="Search by employee name, email, date of joining..." [formControl]="searchText"
+              style="padding: 1.5rem 1rem 1.5rem 2.5rem" />
           </div>
         </div>
       </div>
@@ -181,8 +156,7 @@
                 </td>
               </tr>
 
-              <tr
-                *ngFor="
+              <tr *ngFor="
                   let item of completedTestList
                     | paginate
                       : {
@@ -191,41 +165,32 @@
                           totalItems: totalRecords
                         };
                   let i = index
-                "
-              >
-              <td>
-                <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{ item?.version }})</a>
-              </td>
+                ">
+                <td>
+                  <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{item?.policyDetail?.[0]?.[0]?.name}}
+                    - ({{ item?.version }})</a>
+                </td>
                 <td>{{ item?.latestResult?.score }}</td>
                 <td>
                   {{ item?.latestResult?.submitDate | gmtDate }}
                 </td>
                 <td>
-                  <span
-                    *ngIf="item?.latestResult?.resultStatus == '2'"
-                    class="btn btn-danger btn-sm rounded"
-                    >Fail</span
-                  >
-                  <span
-                    *ngIf="item?.latestResult?.resultStatus == '1'"
-                    class="btn btn-success btn-sm rounded"
-                    >Pass</span
-                  >
+                  <span *ngIf="item?.latestResult?.resultStatus == '2'"
+                    class="btn btn-danger btn-sm rounded">Fail</span>
+                  <span *ngIf="item?.latestResult?.resultStatus == '1'"
+                    class="btn btn-success btn-sm rounded">Pass</span>
                 </td>
                 <!-- <td> {{item?.latestResult?.duration}} Minutes</td> -->
                 <td>
                   {{
-                    convertDecimalMinutesToMinSec(item?.latestResult?.duration)
+                  convertDecimalMinutesToMinSec(item?.latestResult?.duration)
                   }}
                 </td>
                 <td>
-                  <a
-                    *ngIf="item?.latestResult?.resultStatus == '2'"
-                    class="btn btn-danger btn-sm rounded"
-                  >
+                  <a *ngIf="item?.latestResult?.resultStatus == '2'" class="btn btn-danger btn-sm rounded">
                     <span>
-                      {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.dueDate) }}
-                      Days
+                      {{ calculateDaysDifference(item?.policySettingDetails?.[0]?.maximumAttempt,
+                      item?.resultDetails?.[0]?.subPolicyId) }} Attempt
                     </span>
                   </a>
                 </td>
@@ -245,12 +210,7 @@
       </div>
     </div>
   </div>
-  <ngx-spinner
-    bdColor="rgba(51,51,51,0.8)"
-    size="medium"
-    color="#fff"
-    type="ball-scale-multiple"
-  >
+  <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
     <p style="font-size: 20px; color: white">Loading...</p>
   </ngx-spinner>
 </div>

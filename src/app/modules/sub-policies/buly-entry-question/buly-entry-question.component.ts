@@ -74,8 +74,6 @@ export class BulyEntryQuestionComponent implements OnInit {
       }
 
       const getAnswer = (answer: any, options: any) => {
-        if (!answer) return "";
-
         // Ensure answer is a string
         const answerStr = typeof answer === 'string' ? answer : String(answer);
 

@@ -52,10 +52,10 @@ export class SubPolicyCompletedComponent {
   getSubPolicyDetails() {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyDetails({ id: this.subPolicyId }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }
@@ -63,7 +63,7 @@ export class SubPolicyCompletedComponent {
   getSubPolicyCountAndData() {
     this.spinner.show();
     this.subPoliciesService.getSubPolicyCountAndData({ subPolicyId: this.subPolicyId }).subscribe((response) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.countDetails = response?.data;
       this.dataList = this.countDetails?.empCompletedList || [];
       this.dataList = this.dataList?.map((policy) => {
@@ -81,7 +81,7 @@ export class SubPolicyCompletedComponent {
         };
       });
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
   }

@@ -60,8 +60,19 @@
                 </td>
                 <td>{{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}</td>
                 <td>
-                  <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'"
-                    [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
+                  <span
+                    *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType != 'For Information'">
+                    <a *ngIf="item?.resultDetails?.[0]?.length == 0"
+                      [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Begin</a>
+
+                    <div *ngIf="item?.resultDetails?.[0]?.length > 0" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                      <a [routerLink]="['/compliance-test/instruction', item._id]" class="btn btn-primary btn-sm">Re
+                        Exam</a>
+                      <a class="text-danger"> 2 Days Left </a>
+                    </div>
+                  </span>
+
+
                   <a *ngIf="item?.conditionDetail?.length && item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'"
                     class="text-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
                     title="Please read and acknowledge the company policy document. No further action is required."

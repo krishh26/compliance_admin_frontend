@@ -65,9 +65,9 @@ export class SubPoliciesSettingComponent {
         this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
         this.getSubPolicyList();
       }
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
     }, (error) => {
-      setTimeout(() => { this.spinner.hide(); }, 1000);
+      this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     })
   }
@@ -84,7 +84,7 @@ export class SubPoliciesSettingComponent {
       policyId: this.subPolicyDetails?.policyId, pageLimit: 10000, pageNumber: 1
     }).subscribe(
       (response) => {
-        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.spinner.hide();
 
         this.subPolicyList = response?.data?.subPolicyList || [];
 
@@ -99,7 +99,7 @@ export class SubPoliciesSettingComponent {
         }
       },
       (error) => {
-        setTimeout(() => { this.spinner.hide(); }, 2000);
+        this.spinner.hide();
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
@@ -185,7 +185,7 @@ export class SubPoliciesSettingComponent {
       })
     }
 
-    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value };
+    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value, policyType : "1" };
 
     this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {

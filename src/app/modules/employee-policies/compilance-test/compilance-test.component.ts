@@ -36,16 +36,12 @@ export class CompilanceTestComponent {
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.policyList = response?.data || [];
 
       },
       (error) => {
-        setTimeout(() => {
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -67,16 +63,12 @@ export class CompilanceTestComponent {
         this.spinner.show();
         this.policyService.deletePolicy(id).subscribe(
           (response) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showSuccess('Delete Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-            setTimeout(() => {
-              this.spinner.hide();
-            }, 1000);
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

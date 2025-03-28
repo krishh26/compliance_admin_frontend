@@ -12,11 +12,11 @@
               </h2>
             </div>
           </div>
-          <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
+          <!-- <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
             <a [routerLink]="['/employee-policies/employee-policies-list']" class="btn btn-primary w-100">
               Back
             </a>
-          </div>
+          </div> -->
         </div>
 
         <div class="card">
@@ -54,14 +54,14 @@
                       </td>
                       <td>{{ item?.policySettings?.publishDate | gmtDate }}</td>
                       <td>
-                        <span *ngIf="item?.conditionDetail">
-                          {{ item?.conditionDetail?.updatedAt | gmtDate }}
+                        <span *ngIf="item?.conditionDetail?.length">
+                          {{ item?.conditionDetail?.[0]?.updatedAt | gmtDate }}
                         </span>
 
                       </td>
                       <td>
-                        <span *ngIf="!item?.conditionDetail">
-                          <a class="btn btn-danger btn-sm"></a>
+                        <span *ngIf="!item?.conditionDetail?.length">
+                          <a class="btn btn-danger btn-sm">Accept Pending</a>
                         </span>
                       </td>
                     </tr>

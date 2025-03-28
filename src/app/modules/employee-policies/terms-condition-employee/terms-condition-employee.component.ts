@@ -19,7 +19,8 @@ export class TermsConditionEmployeeComponent {
   acceptTerms: boolean = false;
   latitude!: number;
   longitude!: number;
-  ipAddress!: string;
+  ipAddress: string = 'Retrieving...';
+  ipAddressRetrieved: boolean = false;
   loginUser: any;
 
   constructor(
@@ -32,14 +33,16 @@ export class TermsConditionEmployeeComponent {
     private localStorageService: LocalStorageService
   ) {
     this.loginUser = this.localStorageService.getLogger();
+    this.getIpAddress();
+
     this.route.paramMap.subscribe((params) => {
       this.subPolicyID = String(params.get('id'));
       if (this.subPolicyID) {
         this.getSubPolicyDetails();
       }
     });
+
     this.getCurrentLocation();
-    this.getIpAddress();
   }
 
   @HostListener('document:copy', ['$event'])
@@ -67,7 +70,14 @@ export class TermsConditionEmployeeComponent {
     if (!this.acceptTerms) {
       return this.notificationService.showError('Please select acceptance checkbox !');
     }
-    this.acceptTermsAndCondition();
+
+    if (!this.ipAddressRetrieved) {
+      this.getIpAddress(() => {
+        this.acceptTermsAndCondition();
+      });
+    } else {
+      this.acceptTermsAndCondition();
+    }
   }
 
   openMap(location: string): void {
@@ -101,6 +111,11 @@ export class TermsConditionEmployeeComponent {
   }
 
   acceptTermsAndCondition() {
+    if (!this.ipAddressRetrieved) {
+      this.notificationService.showError("Could not determine your IP address. Please refresh the page and try again.");
+      return;
+    }
+
     Swal.fire({
       title: 'Confirmation',
       text: `I have read all the instructions carefully and have understood them.`,
@@ -111,14 +126,19 @@ export class TermsConditionEmployeeComponent {
       confirmButtonText: 'Accept',
     }).then((result: any) => {
       if (result?.value) {
+        this.spinner.show();
         const payload = {
           employeeId: this.loginUser?._id,
           subPolicyId: this.subPolicyID,
-          ipAddress: "198.0.0.1",
-          location: `${this.latitude},${this.longitude}`
+          ipAddress: this.ipAddress,
+          location: this.latitude && this.longitude ? `${this.latitude},${this.longitude}` : "Location not available"
         };
+
+        console.log('Sending acceptance with payload:', payload);
+
         this.subPoliciesService.acceptTerms(payload).subscribe(
           (response) => {
+            this.spinner.hide();
             if (response?.statusCode == 200 || response?.statusCode == 201) {
               this.notificationService.showSuccess('Accept Successfully');
               this.getSubPolicyDetails();
@@ -126,6 +146,7 @@ export class TermsConditionEmployeeComponent {
               this.notificationService.showError("Please retry !");
             }
           }, (error) => {
+            this.spinner.hide();
             this.notificationService.showError(error?.error?.message || 'Something went wrong!');
           }
         );
@@ -135,15 +156,58 @@ export class TermsConditionEmployeeComponent {
     });
   }
 
-  getIpAddress() {
+  getIpAddress(callback?: () => void) {
     this.subPoliciesService.getCurrentIp().subscribe({
       next: (response) => {
-        this.ipAddress = response?.ip;
+        if (response?.ip) {
+          this.ipAddress = response.ip;
+          this.ipAddressRetrieved = true;
+          console.log('Current IP address:', this.ipAddress);
+        } else {
+          this.getIpAddressFallback1(callback);
+        }
+
+        if (callback) {
+          callback();
+        }
       },
       error: (err) => {
-        console.error('Failed to get IP:', err);
+        console.error('Failed to get IP from primary service:', err);
+        this.getIpAddressFallback1(callback);
       },
     });
+  }
+
+  getIpAddressFallback1(callback?: () => void) {
+    this.subPoliciesService.getFallbackIp().subscribe({
+      next: (response: any) => {
+        if (response?.ip) {
+          this.ipAddress = response.ip;
+          this.ipAddressRetrieved = true;
+          console.log('Fallback IP address 1:', this.ipAddress);
+        } else {
+          this.getIpAddressFallback2(callback);
+        }
+
+        if (callback) {
+          callback();
+        }
+      },
+      error: (err: any) => {
+        console.error('Failed to get IP from fallback service 1:', err);
+        this.getIpAddressFallback2(callback);
+      }
+    });
+  }
+
+  getIpAddressFallback2(callback?: () => void) {
+    this.ipAddress = window.location.hostname || 'client-ip-unknown';
+    this.ipAddressRetrieved = true;
+    console.log('Using default IP address:', this.ipAddress);
+
+    if (callback) {
+      callback();
+    }
   }
 
   goBack() {

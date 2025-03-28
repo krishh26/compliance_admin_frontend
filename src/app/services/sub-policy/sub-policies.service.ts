@@ -219,6 +219,16 @@ export class SubPoliciesService {
     return this.httpClient.get<any>('https://api.ipify.org/?format=json', httpOptions);
   }
 
+  getFallbackIp(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    // Use a different IP service as fallback
+    return this.httpClient.get<any>('https://api.ipdata.co/?api-key=test', httpOptions);
+  }
+
   getAcceptTermsDetails(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + SubPolicyEndPoint.GET_ACCEPT_TERMS_DETAILS,

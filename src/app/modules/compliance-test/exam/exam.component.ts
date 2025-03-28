@@ -59,14 +59,16 @@ export class ExamComponent {
   }
 
   getQuestionList() {
-    this.spinner.show();
+
     const payload = {
       subPolicyId: this.subPolicyId,
       isActive: 1,
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       size: Number(this.settingDetails?.maximumQuestions) || 0
     }
+    this.spinner.show();
     this.subPoliciesService.getQuestionList(payload).subscribe((response) => {
+      this.spinner.hide();
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         if(!response?.data) {
           return this.notificationService.showError('Questions not found.');
@@ -79,10 +81,10 @@ export class ExamComponent {
       } else {
         this.notificationService.showError('Questions not found.');
       }
-      this.spinner.hide();
     }, (error) => {
-      this.notificationService.showError(error?.error?.message || 'Questions not found.');
       this.spinner.hide();
+      this.notificationService.showError(error?.error?.message || 'Questions not found.');
+
     })
   }
 

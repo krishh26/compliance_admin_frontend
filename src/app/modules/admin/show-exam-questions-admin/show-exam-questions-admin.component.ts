@@ -127,6 +127,7 @@ export class ShowExamQuestionsAdminComponent {
     return labels[index] || String.fromCharCode(97 + index); // Fallback for more options
   }
 
+
   getAcceptTermsConditionDetails(subPolicyId: string, employeeId: string) {
     const payload = {
       subPolicyId,
@@ -144,5 +145,34 @@ export class ShowExamQuestionsAdminComponent {
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       this.spinner.hide();
     });
+  }
+
+  // Helper method to check if an option is a correct answer
+  isCorrectAnswer(answerStr: string, optionIndex: number): boolean {
+    if (!answerStr) return false;
+    const correctAnswers = answerStr.split(',').map(str => Number(str.trim()));
+    return correctAnswers.includes(optionIndex);
+  }
+
+  // Helper method to check if user answered differently from correct answer
+  hasUserAnsweredDifferently(question: any): boolean {
+    if (!question?.answers || !question?.questionDetails?.[0]?.answer) return false;
+
+    const userAnswers = question.answers;
+    const correctAnswers = question.questionDetails[0].answer.split(',').map((str: string) => Number(str.trim()));
+
+    // Check if arrays have different lengths
+    if (userAnswers.length !== correctAnswers.length) return true;
+
+    // Check if arrays have different content
+    for (const answer of userAnswers) {
+      if (!correctAnswers.includes(answer)) return true;
+    }
+
+    for (const answer of correctAnswers) {
+      if (!userAnswers.includes(answer)) return true;
+    }
+
+    return false;
   }
 }

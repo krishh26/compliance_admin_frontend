@@ -58,30 +58,55 @@ export class BulyEntryQuestionComponent implements OnInit {
       // Function to replace null or undefined values with empty strings
       const replaceNullWithEmptyString = (value: any) => value == null ? "" : value;
       const replaceQuestionType = (item: string) => {
-        const value = item?.trim()?.toLocaleLowerCase();
-        if (value == 'singlechoice' || value == 'single') {
-          return '3';
+        const value = item?.trim()?.toLowerCase();
+        if (value === 'true false' || value === 'truefalse' || value === 'boolean') {
+          return 2;  // Return number instead of string
         }
-
-        if (value == 'multiplechoice' || value == 'multichoice' || value == 'multiple') {
-          return '1';
+        if (value === 'multi choice' || value === 'multichoice' || value === 'multiple') {
+          return 1;  // Return number instead of string
         }
-
-        if (value == 'truefalse' || value == 'boolean') {
-          return '2';
-        }
-        return "3";
+        return 3;  // Default to single choice
       }
 
-      const getAnswer = (answer: any, options: any) => {
-        // Ensure answer is a string
-        const answerStr = typeof answer === 'string' ? answer : String(answer);
+      const getAnswer = (answer: any, options: any, questionType: number) => {
+        // If answer is undefined or null
+        if (answer === undefined || answer === null) {
+          // For True/False questions (type 2), default to "1" (False)
+          if (questionType === 2) {
+            return '1';
+          }
+          return '';
+        }
 
-        const answerArray = answerStr.split(',').map(item => item.trim().toLowerCase());
+        // Convert answer to string and trim
+        const answerStr = String(answer).trim();
 
+        // If answer is empty string
+        if (answerStr === '') {
+          // For True/False questions (type 2), default to "1" (False)
+          if (questionType === 2) {
+            return '1';
+          }
+          return '';
+        }
+
+        // Special handling for True/False questions
+        if (questionType === 2) {
+          if (answerStr.toUpperCase() === 'TRUE') {
+            return '0';
+          } else if (answerStr.toUpperCase() === 'FALSE') {
+            return '1';
+          } else {
+            // If it's neither TRUE nor FALSE explicitly, default to "1" (False)
+            return '1';
+          }
+        }
+
+        // For other question types
+        const answerArray = answerStr.split(',').map(item => item.trim());
         const matchedIndices = options
-          .filter((option: any) => answerArray.includes(option.value.toLowerCase()))
-          .map((option: any) => option.index);
+          .filter((option: any) => answerArray.includes(option.value))
+          .map((option: any) => option.index.toString());
 
         return matchedIndices.join(',');
       }
@@ -92,23 +117,36 @@ export class BulyEntryQuestionComponent implements OnInit {
         const questionType = replaceQuestionType(row[0]); // Column A (questionType)
         const questionText = replaceNullWithEmptyString(row[1]); // Column B (questionText)
 
-        // Extract options dynamically (from C to F)
-        const options = [];
-        for (let i = 2; i <= 5; i++) { // Columns C to F (option1 to option4)
-          if (row[i]) {
-            options.push({ index: i - 2, value: row[i].toString().trim() });
+        let options = [];
+
+        // Handle options based on question type
+        if (questionType === 2) {
+          // For True/False questions, always include both options
+          options = [
+            { index: 0, value: "True" },
+            { index: 1, value: "False" }
+          ];
+        } else {
+          // For other question types, extract options from Excel
+          for (let i = 2; i <= 5; i++) { // Columns C to F (option1 to option4)
+            if (row[i]) {
+              options.push({
+                index: i - 2,
+                value: row[i].toString().trim()
+              });
+            }
           }
         }
 
         // Extract answer from column G (index 6)
-        const answer = getAnswer(row[6], options);
+        const answer = getAnswer(row[6], options, questionType);
 
         return {
-          questionType,
           questionText,
-          options,
-          isActive: "1", // Default to active
+          questionType,
           answer,
+          isActive: 1,  // Number instead of string
+          options,
         };
       });
 
@@ -118,7 +156,7 @@ export class BulyEntryQuestionComponent implements OnInit {
       const payload = {
         questions: questionsList,
         subPolicyId: this.subPolicyId,
-        userGroup: this.userGroup
+        userGroup: Number(this.userGroup) || 1  // Convert to number
       };
 
       this.spinner.show();

@@ -137,14 +137,27 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
   }
 
   submitForm() {
-    this.spinner.show();
+    if(!this.policyForm?.get('policyId')?.value) {
+      return this.notificationService.showError("Please select policy");
+    }
+
+    if(!this.policyForm?.get('version')?.value) {
+      return this.notificationService.showError("Please enter the version of policy.");
+    }
+
+    if(!this.policyForm?.get('description')?.value) {
+      return this.notificationService.showError("Please enter the description of policy.");
+    }
+
     if (!this.policyForm.valid) {
       return;
     }
+
     if (this.subPolicyId) {
       return this.update();
     }
-    this.showLoader = true;
+
+    this.spinner.show();
     this.subPoliciesService.createPolicy(this.policyForm.value).subscribe(
       (response) => {
         this.spinner.hide();

@@ -69,13 +69,18 @@ export class SubPoliciesListComponent {
       .getSubPolicyList({
         policyId: this.policyId,
         isActive: 1,
-        // isFrontEndRequest: 1,
+        isFrontEndRequest: 1,
         employeeId : this.loginUser?._id
       })
       .subscribe(
         (response) => {
           this.spinner.hide();
-          this.policyList = response?.data?.subPolicyList || [];
+          response?.data?.subPolicyList?.map((element : any) => {
+            if(element?.policySettings || element?.policySettings?.[0]) {
+              this.policyList.push(element);
+            }
+          })
+          // this.policyList = response?.data?.subPolicyList || [];
           this.totalRecords = response?.data?.count || 0;
         },
         (error) => {

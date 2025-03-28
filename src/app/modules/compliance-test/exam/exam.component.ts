@@ -83,10 +83,18 @@ export class ExamComponent {
 
   ngOnDestroy() {
     clearInterval(this.timerInterval);
+    localStorage.removeItem('timeLeft');
+    localStorage.removeItem('questions');
+    localStorage.removeItem('questions');
+    localStorage.removeItem('answers');
   }
 
 
   ngOnInit() {
+    localStorage.removeItem('timeLeft');
+    localStorage.removeItem('questions');
+    localStorage.removeItem('questions');
+    localStorage.removeItem('answers');
     this.loadAnswers();
     this.startTimer();
   }
@@ -172,6 +180,9 @@ export class ExamComponent {
 
   completeExam() {
     this.showLoader = true;
+    if (this.answers?.length == 0) {
+      return this.notificationService.showError("Please select one answers");
+    }
     const transformedArray = this.answers.map(item => ({
       questionId: item.questionId,
       answer: Array.isArray(item.answer) ? item.answer.join(",") : item.answer.toString()
@@ -185,7 +196,7 @@ export class ExamComponent {
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       passingScore: this.settingDetails?.PassingScore,
       marksPerQuestion: this.settingDetails?.maximumScore,
-      duration: duration !== 0 ?  Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
+      duration: duration !== 0 ? Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
       answers: transformedArray
     }
 

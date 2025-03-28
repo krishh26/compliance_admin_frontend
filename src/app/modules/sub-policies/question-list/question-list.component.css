@@ -83,6 +83,7 @@
   font-size: 14px;
   display: block;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 #navbar .dropdown ul li a:hover {
@@ -90,8 +91,150 @@
   border-radius: 5px;
 }
 
-
 .result-active {
   font-weight: bold;
-  background: #9ee480;
+  background-color: #eff291;
+  border-radius: 4px;
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Enhanced Question Styling */
+.question-card {
+  transition: all 0.3s ease;
+  border: none;
+  margin-bottom: 1.5rem;
+}
+
+.question-card .card-body {
+  padding: 1.25rem;
+}
+
+.question-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.question-text {
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.option-container {
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.option-container:hover {
+  background-color: #f8f9fa;
+}
+
+.option-container.correct-answer {
+  background-color: rgba(144, 251, 144, 0.5);
+  border-left: 4px solid #28a745;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons a {
+  cursor: pointer;
+  padding: 5px;
+  font-size: 1.1rem;
+  color: #6c757d;
+  transition: all 0.2s ease;
+}
+
+.action-buttons a:hover {
+  color: #007bff;
+}
+
+.action-buttons a.delete-btn:hover {
+  color: #dc3545;
+}
+
+.badge-question-type {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .card-body {
+    padding: 1rem;
+  }
+
+  .question-text {
+    font-size: 18px;
+  }
+
+  #navbar .btn-primary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .card-body {
+    padding: 0.75rem;
+  }
+
+  .question-text {
+    font-size: 16px;
+  }
+
+  .option-container {
+    padding: 6px;
+  }
+
+  .desktop-end {
+    margin-top: 15px;
+  }
+
+  .desktop-float-end {
+    float: none !important;
+  }
+
+  #navbar, #navbar ul.w-94 {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    padding: 0.5rem;
+  }
+
+  .question-text {
+    font-size: 15px;
+  }
+
+  .option-container {
+    margin-bottom: 8px;
+  }
+
+  .col-6 {
+    width: 100%;
+  }
+
+  .search-input {
+    margin-bottom: 15px;
+  }
 }

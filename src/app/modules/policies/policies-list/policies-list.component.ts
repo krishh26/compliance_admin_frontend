@@ -67,15 +67,15 @@ export class PoliciesListComponent implements OnInit {
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {
-        this.showLoader = true;
+        this.spinner.show();
         this.policyService.deletePolicy(id).subscribe(
           (response) => {
-            this.showLoader = false;
+            this.spinner.hide();
             this.notificationService.showSuccess('Delete Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-            this.showLoader = false;
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

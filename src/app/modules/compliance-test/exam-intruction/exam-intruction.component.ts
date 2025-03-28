@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -18,7 +19,8 @@ export class ExamIntructionComponent {
     private route: ActivatedRoute,
     private subPoliciesService: SubPoliciesService,
     private notificationService: NotificationService,
-    private router : Router
+    private router : Router,
+    private spinner: NgxSpinnerService,
 
   ) {
     this.route.paramMap.subscribe((params) => {
@@ -30,17 +32,17 @@ export class ExamIntructionComponent {
   }
 
   getPolicySettingDetails() {
-    this.showLoader = true;
+    this.spinner.show();
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
       if (response?.statusCode == 200) {
         this.settingDetails = response?.data;
       } else {
         this.notificationService.showError(response?.message || 'Policy instructions not found.');
       }
-      this.showLoader = false;
+      this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Policy instructions not found.');
-      this.showLoader = false;
+      this.spinner.hide();
     })
   }
 

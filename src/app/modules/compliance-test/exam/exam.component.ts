@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
@@ -27,7 +28,8 @@ export class ExamComponent {
     private subPoliciesService: SubPoliciesService,
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService,
   ) {
     this.loginUser = this.localStorageService.getLogger();
     this.route.paramMap.subscribe((params) => {
@@ -39,7 +41,7 @@ export class ExamComponent {
   }
 
   getPolicySettingDetails() {
-    this.showLoader = true;
+    this.spinner.show();
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
       if (response?.statusCode == 200) {
         this.settingDetails = response?.data;
@@ -49,15 +51,15 @@ export class ExamComponent {
       } else {
         this.notificationService.showError(response?.message || 'Policy instructions not found.');
       }
-      this.showLoader = false;
+      this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Policy instructions not found.');
-      this.showLoader = false;
+      this.spinner.hide();
     })
   }
 
   getQuestionList() {
-    this.showLoader = true;
+    this.spinner.show();
     const payload = {
       subPolicyId: this.subPolicyId,
       isActive: 1,
@@ -74,10 +76,10 @@ export class ExamComponent {
       } else {
         this.notificationService.showError('Questions not found.');
       }
-      this.showLoader = false;
+      this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Questions not found.');
-      this.showLoader = false;
+      this.spinner.hide();
     })
   }
 
@@ -171,7 +173,7 @@ export class ExamComponent {
   }
 
   completeExam() {
-    this.showLoader = true;
+    this.spinner.show();
     const transformedArray = this.answers.map(item => ({
       questionId: item.questionId,
       answer: Array.isArray(item.answer) ? item.answer.join(",") : item.answer.toString()
@@ -185,7 +187,7 @@ export class ExamComponent {
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       passingScore: this.settingDetails?.PassingScore,
       marksPerQuestion: this.settingDetails?.maximumScore,
-      duration: duration !== 0 ?  Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
+      duration: duration !== 0 ? Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
       answers: transformedArray
     }
 
@@ -199,10 +201,10 @@ export class ExamComponent {
       } else {
         this.notificationService.showError(response?.message || 'Something went wrong !');
       }
-      this.showLoader = false;
+      this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Something went wrong !');
-      this.showLoader = false;
+      this.spinner.hide();
     });
   }
 

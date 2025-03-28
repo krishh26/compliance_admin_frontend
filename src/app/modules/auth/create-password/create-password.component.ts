@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -17,13 +18,15 @@ export class CreatePasswordComponent {
   loginUser: any;
   showPassword = false;
   confirmPassword = false;
+
   constructor(
     private fb: FormBuilder,
     private authServiceService: AuthServiceService,
     private route: ActivatedRoute,
     private router: Router,
     private notificationService: NotificationService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+     private spinner: NgxSpinnerService,
   ) {
     this.token = this.route?.snapshot?.queryParamMap?.get('token');
     this.createForm = this.fb.group({
@@ -57,12 +60,12 @@ export class CreatePasswordComponent {
       this.showLoader = true;
       this.authServiceService.createPassowrd({ password: this.createForm.value.password }, this.token).subscribe(
         (response) => {
-          this.showLoader = false;
+          this.spinner.hide();
           this.router.navigate(['/login']);
           this.notificationService.showSuccess(response?.message || 'Password changed successfully');
         },
         (error) => {
-          this.showLoader = false;
+          this.spinner.hide();
           this.notificationService.showError(error?.error?.message || 'Something went wrong!');
         }
       );

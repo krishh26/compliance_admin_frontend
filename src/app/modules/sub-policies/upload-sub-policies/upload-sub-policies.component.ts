@@ -118,7 +118,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
   }
 
   getSubPolicyDetails() {
-    this.showLoader = true;
+    this.spinner.show();
     this.subPoliciesService.getPolicyDetails(this.subPolicyId).subscribe((response) => {
       const subPolicyData = response?.data;
       if (subPolicyData) {
@@ -130,7 +130,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
         });
       }
     }, (error) => {
-      this.showLoader = false;
+     this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     }
     );
@@ -144,7 +144,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
     if (this.subPolicyId) {
       return this.update();
     }
-    this.showLoader = true;
+    this.spinner.show();
     this.subPoliciesService.createPolicy(this.policyForm.value).subscribe(
       (response) => {
         this.spinner.hide();

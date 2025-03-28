@@ -150,7 +150,7 @@ export class AddEmployeeComponent {
   }
 
   getOneEmployee() {
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getOneEmployee(this.employeeId).subscribe(
       (response) => {
         this.employeeData = response?.data;
@@ -189,7 +189,7 @@ export class AddEmployeeComponent {
         }
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

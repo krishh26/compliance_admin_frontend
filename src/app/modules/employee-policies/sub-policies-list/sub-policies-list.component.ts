@@ -52,7 +52,9 @@ export class SubPoliciesListComponent {
   }
 
   getPolicyDetails() {
+    this.spinner.show();
     this.policyService.getPolicyDetails(this.policyId).subscribe((response) => {
+      this.spinner.hide();
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         this.policyDetails = response?.data;
       }

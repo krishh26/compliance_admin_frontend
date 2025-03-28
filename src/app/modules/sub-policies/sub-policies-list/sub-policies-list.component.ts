@@ -44,6 +44,7 @@ export class SubPoliciesListComponent {
   }
 
   getPolicyDetails() {
+    this.spinner.show();
     this.policyService.getPolicyDetails(this.policyId).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         this.policyDetails = response?.data;
@@ -125,16 +126,16 @@ export class SubPoliciesListComponent {
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {
-        this.showLoader = true;
+        this.spinner.show();
         const payload = { id: id };
         this.subPoliciesService.deleteSubPolicy(payload).subscribe(
           (response) => {
-            this.showLoader = false;
+           this.spinner.hide();
             this.notificationService.showSuccess('Delete Sub Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-            this.showLoader = false;
+           this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

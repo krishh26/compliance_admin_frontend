@@ -61,7 +61,6 @@ export class UploadPoliciesComponent implements OnInit {
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
-      this.showLoader = false;
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     }
     );
@@ -81,7 +80,6 @@ export class UploadPoliciesComponent implements OnInit {
     }
     this.spinner.show();
     this.policyService.createPolicy(this.policyForm.value).subscribe((response) => {
-      this.showLoader = false;
       this.notificationService.showSuccess(response?.message || 'Policy Create successfully');
       this.spinner.hide();
       this.router.navigate(['/policies/policies-list']);

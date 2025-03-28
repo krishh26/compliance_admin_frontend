@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { BulyEntryQuestionComponent } from '../buly-entry-question/buly-entry-question.component';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import { FormControl } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-question-list',
@@ -32,6 +33,7 @@ export class QuestionListComponent implements OnInit {
     private subPoliciesService: SubPoliciesService,
     private router: Router,
     private modalService: NgbModal,
+    private spinner: NgxSpinnerService,
   ) { }
 
   ngOnInit() {
@@ -63,7 +65,7 @@ export class QuestionListComponent implements OnInit {
   }
 
   getQuestionList() {
-    this.showLoader = true;
+    this.spinner.show();
     const payload = {
       subPolicyId: this.subPolicyId,
       userGroup: this.userGroup,
@@ -74,7 +76,7 @@ export class QuestionListComponent implements OnInit {
 
     this.subPoliciesService.getQuestionList(payload).subscribe(
       (response) => {
-        this.showLoader = false;
+        this.spinner.hide();
         if (response?.data) {
           this.questions = response?.data?.questionList?.map((question: any) => ({
             answers: question?.answer?.split(',').map((str: string) => Number(str.trim())),
@@ -93,7 +95,7 @@ export class QuestionListComponent implements OnInit {
         }
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.questions = [];
         if (error?.status !== 404) {
           this.notificationService.showError(
@@ -128,18 +130,18 @@ export class QuestionListComponent implements OnInit {
       confirmButtonText: 'Yes, Delete!',
     }).then((result: any) => {
       if (result?.value) {
-        this.showLoader = true;
+        this.spinner.show();
         const payload = { id: id };
         this.subPoliciesService.deleteQuestion(payload).subscribe(
           (response) => {
-            this.showLoader = false;
+            this.spinner.hide();
             this.notificationService.showSuccess(
               'Delete Question successfully'
             );
             this.getQuestionList();
           },
           (error) => {
-            this.showLoader = false;
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

@@ -32,7 +32,7 @@ export class EmployeeListComponent {
     private employeeService: EmployeeService,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getEmployees();
@@ -58,7 +58,7 @@ export class EmployeeListComponent {
   }
 
   getEmployees() {
-    this.spinner.show();
+
 
     const params = {
       pageNumber: this.page,
@@ -67,7 +67,7 @@ export class EmployeeListComponent {
       sortOrder: this.sortOrder,
       sortBy: this.sortBy,
     };
-
+    this.spinner.show();
     this.employeeService.getEmployee(params).subscribe(
       (response) => {
         this.spinner.hide();
@@ -106,14 +106,14 @@ export class EmployeeListComponent {
         this.showLoader = true;
         this.employeeService.deleteEmployee(id).subscribe(
           (response) => {
-            this.showLoader = false;
+            this.spinner.show();
             this.notificationService.showSuccess(
               response?.message || 'Delete Employee successfully'
             );
             this.getEmployees();
           },
           (error) => {
-            this.showLoader = false;
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );

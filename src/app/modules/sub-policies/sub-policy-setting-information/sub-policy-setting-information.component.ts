@@ -168,7 +168,6 @@ export class SubPolicySettingInformationComponent {
     }
 
     onSubmit() {
-      this.showLoader = true;
       this.submitted = true;
 
       if (!this.testSettingsForm.valid) {

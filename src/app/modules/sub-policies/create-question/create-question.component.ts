@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -42,7 +43,8 @@ export class CreateQuestionComponent {
     private subPoliciesService: SubPoliciesService,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private spinner: NgxSpinnerService,
   ) {
     this.initializeForm();
   }
@@ -141,9 +143,10 @@ export class CreateQuestionComponent {
     };
 
     const newPayload = this.formatePayload(payload);
+    this.spinner.show();
     this.subPoliciesService.createQuestion(newPayload).subscribe(
       (response) => {
-        this.showLoader = false;
+        this.spinner.hide();
 
         this.notificationService.showSuccess(
           response?.message || 'Questions Create successfully'
@@ -156,7 +159,7 @@ export class CreateQuestionComponent {
         });
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

@@ -52,6 +52,7 @@ export class EmployeeDetailsOutstandingComponent {
       employeeId: this.employeeId,
       dueDate: date
     }
+    this.spinner.show();
     this.employeeService.dueDateSetting(payload).subscribe(
       (response) => {
         this.spinner.hide();
@@ -65,14 +66,15 @@ export class EmployeeDetailsOutstandingComponent {
   }
 
   getOneEmployee() {
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getOneEmployee(this.employeeId).subscribe(
       (response) => {
+        this.spinner.hide();
         this.employeeData = response?.data;
         this.getOutstandingTestLists();
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -21,7 +22,8 @@ export class LoginComponent {
     private authServiceService: AuthServiceService,
     private router: Router,
     private notificationService: NotificationService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+     private spinner: NgxSpinnerService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -40,10 +42,10 @@ export class LoginComponent {
       return;
     }
     if (this.loginForm.valid) {
-      this.showLoader = true;
+      this.spinner.show();
       this.authServiceService.loginUser(this.loginForm.value).subscribe(
         (response) => {
-          this.showLoader = false;
+          this.spinner.hide();
           this.localStorageService.setLoginToken(response?.data?.access_token);
           this.localStorageService.setLogger(response.data);
           if (response.data.role === 'ADMIN') {
@@ -56,7 +58,7 @@ export class LoginComponent {
           );
         },
         (error) => {
-          this.showLoader = false;
+          this.spinner.hide();
           this.notificationService.showError(
             error?.error?.message || 'Something went wrong!'
           );

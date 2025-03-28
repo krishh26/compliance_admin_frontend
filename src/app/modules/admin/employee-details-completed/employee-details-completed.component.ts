@@ -5,6 +5,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 import { environment } from './../../../../environment/environment';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import { FormControl } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-employee-details-completed',
   templateUrl: './employee-details-completed.component.html',
@@ -27,8 +28,9 @@ export class EmployeeDetailsCompletedComponent {
     private route: ActivatedRoute,
     private router: Router,
     private employeeService: EmployeeService,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private spinner: NgxSpinnerService,
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -49,14 +51,15 @@ export class EmployeeDetailsCompletedComponent {
   }
 
   getOneEmployee() {
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getOneEmployee(this.employeeId).subscribe(
       (response) => {
+        this.spinner.hide();
         this.employeeData = response?.data;
         this.getCompletedTestLists();
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );
@@ -79,7 +82,7 @@ export class EmployeeDetailsCompletedComponent {
     //   const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     //   return daysDiff;
     // }
-    const subList = this.completedTestList?.filter((element : any) => element?._id == subPolicyId);
+    const subList = this.completedTestList?.filter((element: any) => element?._id == subPolicyId);
 
     const reCount = Number(subList?.length) - 1;
 
@@ -108,10 +111,10 @@ export class EmployeeDetailsCompletedComponent {
       sortBy: this.sortby.value || '_id',
       sortOrder: 'desc',
     };
-    this.showLoader = true;
+    this.spinner.show();
     this.employeeService.getCompletedTestList(param).subscribe(
       (response) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.completedTestList = response?.data?.subPolicyList || [];
         this.completedTestList = this.splitPolicies(this.completedTestList);
         this.completedTestList = this.completedTestList?.map((policy) => {
@@ -131,7 +134,7 @@ export class EmployeeDetailsCompletedComponent {
         });
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

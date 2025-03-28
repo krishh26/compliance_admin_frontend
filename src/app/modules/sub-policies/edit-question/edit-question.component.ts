@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
@@ -42,7 +43,8 @@ export class EditQuestionComponent {
     private route: ActivatedRoute,
     private subPoliciesService: SubPoliciesService,
     private notificationService: NotificationService,
-    private location: Location
+    private location: Location,
+    private spinner: NgxSpinnerService,
   ) {
     this.questionForm = this.fb.group({
       questionType: ['', Validators.required],
@@ -63,19 +65,19 @@ export class EditQuestionComponent {
   }
 
   getQuestionDetails() {
-    this.showLoader = true;
+    this.spinner.show();
     this.subPoliciesService
       .getQuestionDetails({ id: this.questionId })
       .subscribe(
         (response) => {
-          this.showLoader = false;
+          this.spinner.hide();
           if (response?.data) {
             this.questionData = response?.data[0];
             this.initForm();
           }
         },
         (error) => {
-          this.showLoader = false;
+          this.spinner.hide();
 
           this.notificationService.showError(
             error?.error?.message || 'Something went wrong!'
@@ -163,9 +165,10 @@ export class EditQuestionComponent {
     };
 
     const newPayload = this.formatePayload(payload);
+    this.spinner.show();
     this.subPoliciesService.updateQuestion(newPayload).subscribe(
       (response) => {
-        this.showLoader = false;
+        this.spinner.hide();
 
         this.notificationService.showSuccess(
           response?.message || 'Questions Edit successfully'
@@ -173,7 +176,7 @@ export class EditQuestionComponent {
         this.location.back();
       },
       (error) => {
-        this.showLoader = false;
+        this.spinner.hide();
         this.notificationService.showError(
           error?.error?.message || 'Something went wrong!'
         );

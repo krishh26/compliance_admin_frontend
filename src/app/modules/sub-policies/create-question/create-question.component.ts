@@ -33,8 +33,6 @@ export class CreateQuestionComponent {
       value: '1',
     },
   ];
-
-  showLoader: boolean = false;
   subPolicyId: string | null = null;
   userGroup: string | null = null;
   constructor(
@@ -135,7 +133,7 @@ export class CreateQuestionComponent {
       this.questionForm.markAllAsTouched(); // Show errors
       return;
     }
-    this.showLoader = true;
+    this.spinner.show();
     const payload = {
       ...this.questionForm.value,
       subPolicyId: this.subPolicyId,

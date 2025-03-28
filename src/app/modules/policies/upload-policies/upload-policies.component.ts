@@ -57,6 +57,9 @@ export class UploadPoliciesComponent implements OnInit {
           policyType: this.policyData.policyType,
           status: this.policyData.status
         });
+
+        // Disable the policyType control when editing
+        this.policyForm.get('policyType')?.disable();
       }
       this.spinner.hide();
     }, (error) => {
@@ -96,7 +99,11 @@ export class UploadPoliciesComponent implements OnInit {
     }
     this.showLoader = true;
     this.spinner.show();
-    this.policyService.updatePolicy(this.policyID, this.policyForm.value).subscribe((response) => {
+
+    // Include values from disabled controls
+    const formData = {...this.policyForm.getRawValue()};
+
+    this.policyService.updatePolicy(this.policyID, formData).subscribe((response) => {
       this.showLoader = false;
       this.notificationService.showSuccess(response?.message || 'Policy updated successfully');
       this.spinner.hide();

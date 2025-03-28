@@ -16,10 +16,10 @@
             <ng-container *ngIf="!employeeData?.profileImg">
               <img src="assets/img/avatars/no-profile.jpg" class="img-fluid" />
             </ng-container>
-            <div class="input--file">
+            <!-- <div class="input--file">
               <i class="bi bi-camera-fill"></i>
               <input name="Select File" type="file" />
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12">
@@ -27,37 +27,37 @@
             <!-- First 7 details always visible -->
             <li>
               <p>First Name</p>
-              <p class="mb-0 text-muted">{{ employeeData?.firstName }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.firstName || '-' }}</p>
             </li>
             <li>
               <p>Middle Name</p>
-              <p class="mb-0 text-muted">{{ employeeData?.middleName }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.middleName || '-' }}</p>
             </li>
             <li>
               <p>Last Name</p>
-              <p class="mb-0 text-muted">{{ employeeData?.lastName }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.lastName || '-' }}</p>
             </li>
             <li>
               <p>Gender</p>
-              <p class="mb-0 text-muted">{{ employeeData?.gender }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.gender || '-' }}</p>
             </li>
             <li>
               <p>Date of Birth</p>
               <p class="mb-0 text-muted">
-                {{ employeeData?.birthDate | gmtDate }}
+                {{ employeeData?.birthDate ? (employeeData?.birthDate | gmtDate) : '-' }}
               </p>
             </li>
             <li>
               <p>Email</p>
-              <p class="mb-0 text-muted">{{ employeeData?.email }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.email || '-' }}</p>
             </li>
             <li>
               <p>Phone</p>
-              <p class="mb-0 text-muted">{{ employeeData?.phone }}</p>
+              <p class="mb-0 text-muted">{{ employeeData?.phone || '-' }}</p>
             </li>
             <li *ngIf="employeeData?.inactiveReason">
               <p>Inactive Reason</p>
-              <p class="mb-0 text-danger">{{ employeeData?.inactiveReason }}</p>
+              <p class="mb-0 text-danger">{{ employeeData?.inactiveReason || '-' }}</p>
             </li>
 
             <!-- Additional details (hidden initially) -->
@@ -65,26 +65,26 @@
               <li>
                 <p>Date of Joining</p>
                 <p class="mb-0 text-muted">
-                  {{ employeeData?.dateOfJoining | gmtDate }}
+                  {{ employeeData?.dateOfJoining ? (employeeData?.dateOfJoining | gmtDate) : '-' }}
                 </p>
               </li>
               <li>
                 <p>Alternate Phone</p>
                 <p class="mb-0 text-muted">
-                  {{ employeeData?.alternatePhone }}
+                  {{ employeeData?.alternatePhone || '-' }}
                 </p>
               </li>
               <li>
                 <p>State</p>
-                <p class="mb-0 text-muted">{{ employeeData?.state }}</p>
+                <p class="mb-0 text-muted">{{ employeeData?.state || '-' }}</p>
               </li>
               <li>
                 <p>City</p>
-                <p class="mb-0 text-muted">{{ employeeData?.city }}</p>
+                <p class="mb-0 text-muted">{{ employeeData?.city || '-' }}</p>
               </li>
               <li>
                 <p>Country</p>
-                <p class="mb-0 text-muted">{{ employeeData?.country }}</p>
+                <p class="mb-0 text-muted">{{ employeeData?.country || '-' }}</p>
               </li>
             </ng-container>
           </ul>
@@ -92,10 +92,10 @@
           <!-- Flex container for buttons -->
           <div class="d-flex justify-content-end gap-2">
             <a [routerLink]="['/admin/edit-employee', employeeId]" class="btn btn-sm btn-secondary">
-              <i class="bi bi-pencil-square"></i> Edit
+              <i class="bi bi-pencil-square"></i>
             </a>
             <a href="javascript:;" class="btn btn-sm btn-primary" (click)="toggleDetails()">
-              {{ showAllDetails ? "Hide Details" : "All Details" }}
+              <i class="bi" [ngClass]="showAllDetails ? 'bi-eye-slash' : 'bi-eye'"></i>
             </a>
           </div>
         </div>

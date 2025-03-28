@@ -187,4 +187,9 @@ export class EmployeeListComponent {
       );
     }
   }
+
+  // Add a getter to check if there are any non-admin employees
+  get hasNonAdminEmployees(): boolean {
+    return this.filteredEmployees && this.filteredEmployees.some(emp => emp.role !== 'ADMIN');
+  }
 }

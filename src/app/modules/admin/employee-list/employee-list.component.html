@@ -72,47 +72,51 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td *ngIf="filteredEmployees?.length == 1" colspan="7">
-                <app-no-record-found></app-no-record-found>
-              </td>
-            </tr>
-            <ng-container *ngFor="
-                let employee of filteredEmployees
-                  | paginate
-                    : {
-                        itemsPerPage: pagesize,
-                        currentPage: page,
-                        totalItems: totalRecords
-                      }
-              ">
-              <tr *ngIf="employee.role !== 'ADMIN'">
-                <td>
-                  <a [routerLink]="[
-                      '/admin/employee-details-outstanding',
-                      employee._id
-                    ]">
-                    {{ employee.firstName + " " + employee.lastName }}
-                  </a>
-                </td>
-                <td>{{ employee.email }}</td>
-                <td>{{ employee.dateOfJoining | gmtDate }}</td>
-                <td>{{ employee.phone }}</td>
-                <td>{{ employee.role }}</td>
-                <td>
-                  <label class="switch">
-                    <input type="checkbox" [disabled]="!employee.isActive" [(ngModel)]="employee.isActive"
-                      (ngModelChange)="onToggleSwitch(employee)" />
-                    <span class="slider round"></span>
-                  </label>
-                </td>
-
-                <td>
-                  <a href="javascript:void(0);" (click)="deleteEmployee(employee._id)" class="trash-btn">
-                    <i class="bi bi-trash-fill"></i>
-                  </a>
+            <ng-container *ngIf="!hasNonAdminEmployees">
+              <tr>
+                <td colspan="7">
+                  <app-no-record-found></app-no-record-found>
                 </td>
               </tr>
+            </ng-container>
+            <ng-container *ngIf="hasNonAdminEmployees">
+              <ng-container *ngFor="
+                  let employee of filteredEmployees
+                    | paginate
+                      : {
+                          itemsPerPage: pagesize,
+                          currentPage: page,
+                          totalItems: totalRecords
+                        }
+              ">
+                <tr *ngIf="employee.role !== 'ADMIN'">
+                  <td>
+                    <a [routerLink]="[
+                        '/admin/employee-details-outstanding',
+                        employee._id
+                      ]">
+                      {{ employee.firstName + " " + employee.lastName }}
+                    </a>
+                  </td>
+                  <td>{{ employee.email }}</td>
+                  <td>{{ employee.dateOfJoining | gmtDate }}</td>
+                  <td>{{ employee.phone }}</td>
+                  <td>{{ employee.role }}</td>
+                  <td>
+                    <label class="switch">
+                      <input type="checkbox" [disabled]="!employee.isActive" [(ngModel)]="employee.isActive"
+                        (ngModelChange)="onToggleSwitch(employee)" />
+                      <span class="slider round"></span>
+                    </label>
+                  </td>
+
+                  <td>
+                    <a href="javascript:void(0);" (click)="deleteEmployee(employee._id)" class="trash-btn">
+                      <i class="bi bi-trash-fill"></i>
+                    </a>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </tbody>
         </table>

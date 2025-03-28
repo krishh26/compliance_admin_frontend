@@ -184,9 +184,8 @@ export class AddEmployeeComponent {
             city: this.employeeData.city,
             role: this.employeeData.role,
           });
-
-          // Populate states dropdown based on selected country
         }
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();

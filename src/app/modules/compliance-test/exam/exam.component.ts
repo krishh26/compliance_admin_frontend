@@ -68,8 +68,11 @@ export class ExamComponent {
     }
     this.subPoliciesService.getQuestionList(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
+        if(!response?.data) {
+          return this.notificationService.showError('Questions not found.');
+        }
         this.questions = response?.data?.questionList;
-        if (this.questions?.[0] == null) {
+        if (this.questions?.[0] == null || this.questions?.length == 0) {
           return this.notificationService.showError('Questions not found.');
         }
         localStorage.setItem('questions', JSON.stringify(this.questions));

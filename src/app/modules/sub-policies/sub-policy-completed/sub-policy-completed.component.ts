@@ -37,6 +37,17 @@ export class SubPolicyCompletedComponent {
   }
 
 
+  convertDecimalMinutesToMinSec(decimalMinutes: number): string {
+    const totalSeconds = Math.round(decimalMinutes * 60);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    const minPart = minutes > 0 ? `${minutes} Min` : '';
+    const secPart = seconds > 0 ? `${seconds} Sec` : '';
+
+    return `${minPart} ${secPart}`.trim();
+  }
+
   getPolicySettingDetails() {
     this.subPoliciesService.getPolicySetting({ subPolicyId: this.subPolicyId }).subscribe((response) => {
       if (response?.statusCode == 200) {

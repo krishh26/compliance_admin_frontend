@@ -59,7 +59,7 @@
                   <span *ngIf="item?.latestResult?.resultStatus == '1'"
                     class="btn btn-success btn-sm rounded">Pass</span>
                 </td>
-                <td>{{ item?.latestResult?.duration }} Min</td>
+                <td>{{ convertDecimalMinutesToMinSec(item?.latestResult?.duration)  }} Min</td>
                 <td><a href="" class="btn btn-danger btn-sm rounded">3 Day Left</a></td>
               </tr>
             </ng-container>

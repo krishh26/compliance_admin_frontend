@@ -80,12 +80,8 @@ export class CompletedTestComponent {
     //   return daysDiff;
     // }
     const subList = this.completedtestlist?.filter((element : any) => element?._id == subPolicyId);
-
-    const reCount = Number(subList?.length) - 1;
-
-    const attemp = maximumAttempt - reCount;
-
-    return `${String(attemp)}/${String(maximumAttempt)}`
+    const reCount = Number(subList?.length);
+    return `${String(reCount)} of ${String(maximumAttempt)}`
   }
 
 

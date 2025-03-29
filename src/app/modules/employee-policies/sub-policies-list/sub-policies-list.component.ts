@@ -81,7 +81,12 @@ export class SubPoliciesListComponent {
             if(element?.policySettings || element?.policySettings?.[0]) {
               this.policyList.push(element);
             }
-          })
+          });
+
+          this.policyList = this.policyList.sort((a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+
           // this.policyList = response?.data?.subPolicyList || [];
           this.totalRecords = response?.data?.count || 0;
         },

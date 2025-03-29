@@ -217,6 +217,7 @@ export class AddEmployeeComponent {
   }
 
   submitForm() {
+    this.submitted = true;
     if (!this.employeeForm.valid) {
       return;
     }

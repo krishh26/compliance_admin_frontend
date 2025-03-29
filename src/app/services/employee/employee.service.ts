@@ -60,7 +60,8 @@ export class EmployeeService {
   getCompletedTestList(param: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + EmployeeEndPoint.COMPLETED_TEST_LIST,
-      {...param, sortBy:"_id", sortOrder: "asc"},
+      {...param},
+      // sortBy:"_id", sortOrder: "asc"
       {
         headers: this.getHeader(),
       }

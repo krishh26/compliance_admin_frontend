@@ -179,19 +179,19 @@
                     };
               let i = index
             ">
-            <td>{{ item?.policyDetail?.[0]?.[0]?.name }}</td>
-            <td>{{ item?.version }}</td>
+            <td>{{ item?.name }}</td>
+            <td>{{ item?.subPoliciyDetail?.[0]?.version }}</td>
             <td>
-              {{item?.policySettingDetails?.[0]?.examTimeLimit | gmtDate }}
+              {{ item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit | gmtDate }}
             </td>
             <td>
               <!-- <a class="btn btn-primary btn-sm">Edit</a> -->
               <div class="input-group">
                 <input type="date" #dateInput class="form-control"
-                  [(ngModel)]="item.policySettingDetails[0].examTimeLimit" (change)="
+                  [(ngModel)]="item.subPoliciyDetail[0].policySettingDetail.examTimeLimit" (change)="
                     onDateChange(
-                      item.policySettingDetails[0].examTimeLimit,
-                      item?._id
+                      item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit,
+                      item?.subPoliciyDetail?.[0]?._id
                     )
                   " hidden />
                 <a class="edit-btn" (click)="openDatePicker(dateInput)">📅 Edit</a>

@@ -25,6 +25,7 @@ export class QuestionListComponent implements OnInit {
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
+  settingDetails: any;
 
   constructor(
     private location: Location,
@@ -43,11 +44,26 @@ export class QuestionListComponent implements OnInit {
 
       if (this.subPolicyId && this.userGroup) {
         this.getQuestionList();
+        this.getSettingDetails();
       }
     });
     this.searchText.valueChanges.subscribe(() => {
       this.getQuestionList();
     });
+  }
+
+  getSettingDetails(id?: string) {
+    const payload = {
+      subPolicyId: this.subPolicyId
+    }
+
+    this.subPoliciesService.getPolicySetting(payload).subscribe((response) => {
+      if (response?.data) {
+        this.settingDetails = response?.data || {};
+      } else {
+
+      }
+    }, (error) => { this.notificationService.showError("Policy Setting Not Found !") })
   }
 
   paginate(page: number) {

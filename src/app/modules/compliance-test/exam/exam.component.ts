@@ -51,7 +51,7 @@ export class ExamComponent {
       } else {
         this.notificationService.showError(response?.message || 'Policy instructions not found.');
       }
-      this.spinner.hide();
+      // this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Policy instructions not found.');
       this.spinner.hide();
@@ -59,7 +59,6 @@ export class ExamComponent {
   }
 
   getQuestionList() {
-
     const payload = {
       subPolicyId: this.subPolicyId,
       isActive: 1,

@@ -53,7 +53,7 @@
                 totalItems: totalRecords
               };
               let i = index">
-              <tr>
+              <!-- <tr>
                 <td>
                   <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
                     class="text-primary">{{item?.policyDetail?.[0]?.[0]?.name}} - ({{item?.version}})</a>
@@ -84,6 +84,51 @@
                       (click)="showTooltip($event)"> i </div>
                     <div *ngIf="item?.policyDetail?.[0]?.[0]?.policyType == 'For Information'" data-bs-toggle="tooltip"
                       data-bs-placement="top"
+                      title="Please read and acknowledge the company policy document. No further action is required."
+                      (click)="showTooltip($event)"> For Information </div>
+                  </ng-container>
+                </td>
+              </tr> -->
+              <tr>
+                <td>
+                  <a [routerLink]="['/employee-policies/terms-condition-employee/', item?.subPoliciyDetail?.[0]?._id]"
+                    class="text-primary">{{item?.name}} - ({{item?.subPoliciyDetail?.[0]?.version}})</a>
+                </td>
+                <td>{{item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit | gmtDate }}</td>
+                <td>
+                  <span
+                    *ngIf="item?.subPoliciyDetail?.[0]?.conditionDetail?.length && item?.policyType != 'For Information'">
+                    <a *ngIf="item?.subPoliciyDetail?.[0]?.resultDetails?.length == 0"
+                      [routerLink]="['/compliance-test/instruction', item?.subPoliciyDetail?.[0]?._id]"
+                      class="btn btn-primary btn-sm">Begin</a>
+
+                    <div *ngIf="item?.subPoliciyDetail?.[0]?.resultDetails?.length > 0"
+                      style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+
+                      <a *ngIf="dayLeft(item?.subPoliciyDetail?.[0]?.resultDetails, item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumRettemptDaysLeft,  item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) == 'ReExam'"
+                        [routerLink]="['/compliance-test/instruction', item?.subPoliciyDetail?.[0]?._id]"
+                        class="btn btn-primary btn-sm">Re
+                        Exam</a>
+
+                      <a *ngIf="dayLeft(item?.subPoliciyDetail?.[0]?.resultDetails, item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumRettemptDaysLeft,  item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) !== 'ReExam'"
+                        class="text-danger"> {{ dayLeft(item?.subPoliciyDetail?.[0]?.resultDetails,
+                        item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumRettemptDaysLeft,
+                        item?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) }} </a>
+
+                    </div>
+                  </span>
+
+                  <a *ngIf="item?.subPoliciyDetail?.[0]?.conditionDetail?.length && item?.policyType == 'For Information'"
+                    class="text-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="Please read and acknowledge the company policy document. No further action is required."
+                    (click)="showTooltip($event)">For Information</a>
+                  <ng-container
+                    *ngIf="!item?.subPoliciyDetail?.[0]?.conditionDetail || item?.subPoliciyDetail?.[0]?.conditionDetail?.length == 0">
+                    <div *ngIf="item?.policyType != 'For Information'" class="info-icon" data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Please read and acknowledge the company policy document. Once acknowledged, you will be able to take the exam."
+                      (click)="showTooltip($event)"> i </div>
+                    <div *ngIf="item?.policyType == 'For Information'" data-bs-toggle="tooltip" data-bs-placement="top"
                       title="Please read and acknowledge the company policy document. No further action is required."
                       (click)="showTooltip($event)"> For Information </div>
                   </ng-container>

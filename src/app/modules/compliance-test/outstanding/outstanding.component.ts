@@ -68,25 +68,33 @@ export class OutstandingComponent implements AfterViewInit {
       pageNumber: 1,
       pageLimit: this.pagesize,
       searchText: this.searchText.value,
-      isFrontEndRequest: 1
+      isFrontEndRequest: 1,
+      userGroup: this.loginUser?.role == 'EMPLOYEE' ? "1" : "2"
     }
     this.spinner.show();
     this.outstandingtestlist = [];
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         this.spinner.hide();
-        // this.outstandingtestlist = response?.data?.subPolicyList;
-        response?.data?.subPolicyList?.map((element: any) => {
-          if (element?.conditionDetail?.length > 0 && element?.policyDetail?.[0]?.[0]?.policyType == 'For Information') {
+        // this.outstandingtestlist = response?.data?.policyList;
 
-          } else {
-            if (element?.policySettingDetails?.[0]?.publishDate && new Date(element.policySettingDetails[0].publishDate) <= new Date()) {
-              this.outstandingtestlist.push(element);
-            }
+        response?.data?.policyList?.map((element : any) => {
+          if(Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
+            this.outstandingtestlist.push(element);
           }
         })
 
-        this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
+        // response?.data?.policyList?.map((element: any) => {
+        //   if (element?.conditionDetail?.length > 0 && element?.policyDetail?.[0]?.[0]?.policyType == 'For Information') {
+
+        //   } else {
+        //     if (element?.policySettingDetails?.[0]?.publishDate && new Date(element.policySettingDetails[0].publishDate) <= new Date()) {
+        //       this.outstandingtestlist.push(element);
+        //     }
+        //   }
+        // })
+
+        // this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
@@ -96,4 +104,19 @@ export class OutstandingComponent implements AfterViewInit {
     );
   }
 
+  dayLeft(resultDetails: any[], reAttemptDays: any, maximumAttempt: any) {
+    resultDetails.sort((a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    const latestResult = resultDetails[0];
+
+    const dueDateObj = new Date(latestResult?.createdAt);
+    dueDateObj.setDate(dueDateObj.getDate() + reAttemptDays);
+
+    const today = new Date();
+    const remainingDays = Math.ceil((dueDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    return remainingDays > 0 ? `${remainingDays} days left` : "ReExam";
+  }
 }

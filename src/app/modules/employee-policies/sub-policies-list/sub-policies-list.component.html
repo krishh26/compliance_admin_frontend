@@ -60,9 +60,16 @@
 
                       </td>
                       <td>
-                        <span *ngIf="!item?.conditionDetail?.length">
-                          <a class="btn btn-danger btn-sm">Accept Pending</a>
-                        </span>
+                        <div *ngIf="i === 0; else notApplicable">
+                          <span *ngIf="!item?.conditionDetail?.length">
+                            <a class="btn btn-danger btn-sm">Accept Pending</a>
+                          </span>
+                          <!-- <p style="color: green;"><strong>✅ Policy is Applicable</strong></p> -->
+                        </div>
+                        <ng-template #notApplicable>
+                          <!-- <a class="btn btn-danger btn-sm">❌ Not Applicable</a> -->
+                          <p style="color: red;">❌ Not Applicable</p>
+                        </ng-template>
                       </td>
                     </tr>
                   </ng-container>

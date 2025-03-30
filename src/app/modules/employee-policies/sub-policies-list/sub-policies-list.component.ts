@@ -72,7 +72,8 @@ export class SubPoliciesListComponent {
         policyId: this.policyId,
         isActive: 1,
         isFrontEndRequest: 1,
-        employeeId : this.loginUser?._id
+        employeeId : this.loginUser?._id,
+        userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1"
       })
       .subscribe(
         (response) => {

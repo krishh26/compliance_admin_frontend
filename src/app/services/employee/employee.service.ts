@@ -16,6 +16,7 @@ export enum EmployeeEndPoint {
   CREATE_EMPLOYEE = '/employee',
   EMP_POLICY_DUE_DATE_SETTING = '/policy-due-date/upsert',
   BULK_EMP = '/employee/bulk-upload',
+  GET_RESULT_SUB_POLICY = '/result/employee-result-list',
 }
 
 @Injectable({
@@ -71,6 +72,16 @@ export class EmployeeService {
   getOutstandingTestList(param: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + EmployeeEndPoint.OUTSTANDING_TEST_LIST,
+      param,
+      {
+        headers: this.getHeader(),
+      }
+    );
+  }
+
+  getResultBasedOnSubPolicy(param: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + EmployeeEndPoint.GET_RESULT_SUB_POLICY,
       param,
       {
         headers: this.getHeader(),

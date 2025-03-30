@@ -75,26 +75,46 @@ export class OutstandingComponent implements AfterViewInit {
     this.outstandingtestlist = [];
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
-        this.spinner.hide();
+
         // this.outstandingtestlist = response?.data?.policyList;
 
-        response?.data?.policyList?.map((element : any) => {
-          if(Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
+        response?.data?.policyList?.map((element: any) => {
+          if (Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
             this.outstandingtestlist.push(element);
+          }
+        });
+
+        this.outstandingtestlist?.map((element) => {
+          const filterSubPolicyData: any[] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length == 0);
+
+          element['subPoliciyDetail'] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length !== 0) || [];
+
+          if (filterSubPolicyData?.length > 0) {
+            filterSubPolicyData.sort(
+              (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+            element['subPoliciyDetail']?.push(filterSubPolicyData[0]);
           }
         })
 
-        // response?.data?.policyList?.map((element: any) => {
-        //   if (element?.conditionDetail?.length > 0 && element?.policyDetail?.[0]?.[0]?.policyType == 'For Information') {
 
-        //   } else {
-        //     if (element?.policySettingDetails?.[0]?.publishDate && new Date(element.policySettingDetails[0].publishDate) <= new Date()) {
-        //       this.outstandingtestlist.push(element);
-        //     }
-        //   }
-        // })
+        this.outstandingtestlist = this.splitPolicies(this.outstandingtestlist);
 
-        // this.outstandingtestlist = this.outstandingtestlist.filter((element) => element?.policySettingDetails?.length > 0);
+        for (const data of this.outstandingtestlist || []) {
+          setTimeout(async () => {
+            try {
+              const resultDetails = await this.getResultSubPolicyWise(data?.subPoliciyDetail?.[0]?._id);
+              data.subPoliciyDetail[0]['resultCount'] = resultDetails;
+            } catch (error) {
+            }
+          }, 500);
+        }
+
+        setTimeout(() => {
+          this.outstandingtestlist = this.outstandingtestlist?.filter((element) => element?.subPoliciyDetail[0]?.resultCount < element?.subPoliciyDetail[0]?.policySettingDetail?.maximumAttempt);
+          this.spinner.hide();
+        }, 2000);
+
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
@@ -102,6 +122,44 @@ export class OutstandingComponent implements AfterViewInit {
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
+  }
+
+  async getResultSubPolicyWise(subPolicyId: string): Promise<number> {
+    const payload = {
+      employeeId: this.loginUser?._id,
+      subPolicyId: subPolicyId
+    };
+
+    return new Promise((resolve, reject) => {
+      this.employeeService.getResultBasedOnSubPolicy(payload).subscribe(
+        (response) => {
+          const count = response?.data?.resultList?.length || 0;
+          resolve(count); // Return the count properly
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+
+  splitPolicies(policies: any[]): any[] {
+    const result: any[] = [];
+
+    policies.forEach(policy => {
+      if (policy.subPoliciyDetail.length > 1) {
+        policy.subPoliciyDetail.forEach((detail: any) => {
+          result.push({
+            ...policy,
+            subPoliciyDetail: [detail],
+          });
+        });
+      } else {
+        result.push(policy);
+      }
+    });
+
+    return result;
   }
 
   dayLeft(resultDetails: any[], reAttemptDays: any, maximumAttempt: any) {

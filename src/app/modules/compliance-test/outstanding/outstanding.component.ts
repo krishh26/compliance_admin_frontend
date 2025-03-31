@@ -85,15 +85,15 @@ export class OutstandingComponent implements AfterViewInit {
         });
 
         this.outstandingtestlist?.map((element) => {
-          const filterSubPolicyData: any[] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length == 0);
+          const filterSubPolicyData: any[] = element?.subPoliciyDetail?.find((data: any) => data?._id == element?.subPoliciyList?._id && data?.resultDetails?.length == 0);
 
           element['subPoliciyDetail'] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length !== 0) || [];
 
-          if (filterSubPolicyData?.length > 0) {
-            filterSubPolicyData.sort(
-              (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-            element['subPoliciyDetail']?.push(filterSubPolicyData[0]);
+          if (filterSubPolicyData) {
+            // filterSubPolicyData.sort(
+            //   (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            // );
+            element['subPoliciyDetail']?.push(filterSubPolicyData);
           }
         })
 
@@ -170,7 +170,7 @@ export class OutstandingComponent implements AfterViewInit {
     const latestResult = resultDetails[0];
 
     const dueDateObj = new Date(latestResult?.createdAt);
-    dueDateObj.setDate(dueDateObj.getDate() + reAttemptDays);
+    // dueDateObj.setDate(dueDateObj.getDate() + reAttemptDays);
 
     const today = new Date();
     const remainingDays = Math.ceil((dueDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));

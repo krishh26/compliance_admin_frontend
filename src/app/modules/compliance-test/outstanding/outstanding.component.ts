@@ -113,8 +113,8 @@ export class OutstandingComponent implements AfterViewInit {
                 tempData?.push(element);
               }
             }
-            data['subPoliciyDetail'] = tempData;
           });
+          data['subPoliciyDetail'] = tempData;
         }
 
         this.outstandingtestlist = this.splitPolicies(this.outstandingtestlist);

@@ -17,6 +17,7 @@ export enum SubPolicyEndPoint {
   UPDATE_QUESTION = '/question/update',
   SAVE_ANS = '/answer/save',
   GET_COUNT_DATA = '/result/admin-test-employee-list',
+  GET_COUNT_DATA_FOR_INFO = '/accept-term-condition/get-sub-policy-condition-list',
   SUB_POLICY_DETAILS = '/sub-policy/detail',
   UPDATE_SUB_POLICY = '/sub-policy/update/',
   TEST_QUESTION_LIST = '/answer/get-test-question-list',
@@ -79,6 +80,16 @@ export class SubPoliciesService {
   getSubPolicyCountAndData(payload: any): Observable<any> {
     return this.httpClient.post<any>(
       this.baseUrl + SubPolicyEndPoint.GET_COUNT_DATA,
+      payload,
+      {
+        headers: this.getHeader(),
+      }
+    );
+  }
+
+  getSubPolicyCountAndDataForInformation(payload: any): Observable<any> {
+    return this.httpClient.post<any>(
+      this.baseUrl + SubPolicyEndPoint.GET_COUNT_DATA_FOR_INFO,
       payload,
       {
         headers: this.getHeader(),

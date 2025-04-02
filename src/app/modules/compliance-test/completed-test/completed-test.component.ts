@@ -116,7 +116,6 @@ export class CompletedTestComponent {
           };
         });
 
-        console.log("this.completedtestlist", this.completedtestlist);
       },
       (error) => {
         this.spinner.hide();

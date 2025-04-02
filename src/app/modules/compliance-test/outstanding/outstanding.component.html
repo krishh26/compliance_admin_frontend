@@ -94,7 +94,9 @@
                   <a [routerLink]="['/employee-policies/terms-condition-employee/', item?.subPoliciyDetail?.[0]?._id]"
                     class="text-primary">{{item?.name}} - ({{item?.subPoliciyDetail?.[0]?.version}})</a>
                 </td>
-                <td>{{item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit | gmtDate }}</td>
+                <td>{{(item?.subPoliciyDetail?.[0]?.policyDueDate?.length > 0 ?
+                  item?.subPoliciyDetail?.[0]?.policyDueDate?.[0]?.dueDate :
+                  item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit) | gmtDate }}</td>
                 <td>
                   <span
                     *ngIf="item?.subPoliciyDetail?.[0]?.conditionDetail?.length && item?.policyType != 'For Information'">
@@ -117,7 +119,6 @@
 
                     </div>
                   </span>
-
                   <a *ngIf="item?.subPoliciyDetail?.[0]?.conditionDetail?.length && item?.policyType == 'For Information'"
                     class="text-secondary" data-bs-toggle="tooltip" data-bs-placement="top"
                     title="Please read and acknowledge the company policy document. No further action is required."

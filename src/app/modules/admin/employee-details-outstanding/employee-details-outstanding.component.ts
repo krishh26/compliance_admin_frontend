@@ -57,6 +57,7 @@ export class EmployeeDetailsOutstandingComponent {
       (response) => {
         this.spinner.hide();
         this.getOutstandingTestLists();
+        window.location.reload();
       },
       (error) => {
         this.spinner.hide();
@@ -92,36 +93,55 @@ export class EmployeeDetailsOutstandingComponent {
     let param = {
       employeeId: this.employeeId,
       pageNumber: 1,
-      isFrontEndRequest : 1,
+      isFrontEndRequest: 1,
       pageLimit: this.pagesize,
       searchText: this.searchText.value,
-      userGroup :this.employeeData?.role == 'EMPLOYEE' ? "1" : "2"
+      userGroup: this.employeeData?.role == 'EMPLOYEE' ? "1" : "2"
     }
     this.spinner.show();
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
-
+        const forInfoList = response?.data?.policyList?.filter((element: any) => element?.policyType == 'For Information')
         // this.outstandingtestlist = response?.data?.policyList;
+
 
         response?.data?.policyList?.map((element: any) => {
           if (Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
-            this.outstandingtestlist.push(element);
+            if (element?.policyType == 'For Action') {
+              const data = element?.subPoliciyDetail?.find((el: any) => el?._id == element?.subPoliciyList?._id);
+              if (data?.resultDetails?.length !== 0 || data?.resultDetails) {
+                this.outstandingtestlist.push(element);
+              }
+            }
           }
         });
 
         this.outstandingtestlist?.map((element) => {
-          const filterSubPolicyData: any[] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length == 0);
+          if (element?.policyType == 'For Action') {
+            const filterSubPolicyData: any[] = element?.subPoliciyDetail?.find((data: any) => data?._id == element?.subPoliciyList?._id && data?.resultDetails?.length == 0);
 
-          element['subPoliciyDetail'] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length !== 0) || [];
+            element['subPoliciyDetail'] = element?.subPoliciyDetail?.filter((data: any) => data?.resultDetails?.length !== 0) || [];
 
-          if (filterSubPolicyData?.length > 0) {
-            filterSubPolicyData.sort(
-              (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-            element['subPoliciyDetail']?.push(filterSubPolicyData[0]);
+            if (filterSubPolicyData) {
+              element['subPoliciyDetail']?.push(filterSubPolicyData);
+            }
           }
         })
 
+        for (const data of this.outstandingtestlist || []) {
+          const tempData: any[] = [];
+          data?.subPoliciyDetail?.map((element: any) => {
+            if (tempData?.length == 0 && element?.questions?.length >= element?.policySettingDetail?.maximumQuestions) {
+              tempData?.push(element);
+            } else {
+              const existingData = tempData?.find((details) => details?._id == element?._id);
+              if (!existingData && element?.questions?.length >= element?.policySettingDetail?.maximumQuestions) {
+                tempData?.push(element);
+              }
+            }
+            data['subPoliciyDetail'] = tempData;
+          });
+        }
 
         this.outstandingtestlist = this.splitPolicies(this.outstandingtestlist);
 
@@ -138,15 +158,21 @@ export class EmployeeDetailsOutstandingComponent {
         setTimeout(() => {
           this.outstandingtestlist = this.outstandingtestlist?.filter((element) => element?.subPoliciyDetail[0]?.resultCount < element?.subPoliciyDetail[0]?.policySettingDetail?.maximumAttempt);
           this.spinner.hide();
+          forInfoList?.map((element: any) => {
+            if (element?.policyType == 'For Information') {
+              const data = element?.subPoliciyDetail?.find((el: any) => el?._id == element?.subPoliciyList?._id);
+              if ((data?.conditionDetail?.length == 0 || !data?.conditionDetail)) {
+                this.outstandingtestlist.push(element);
+              }
+            }
+          });
         }, 2000);
 
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
         this.spinner.hide();
-        this.notificationService.showError(
-          error?.error?.message || 'Something went wrong!'
-        );
+        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );
   }

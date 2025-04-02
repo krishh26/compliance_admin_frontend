@@ -182,7 +182,7 @@
             <td>{{ item?.name }}</td>
             <td>{{ item?.subPoliciyDetail?.[0]?.version }}</td>
             <td>
-              {{ item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit | gmtDate }}
+              {{ (item?.subPoliciyDetail?.[0]?.policyDueDate?.length > 0 ? item?.subPoliciyDetail?.[0]?.policyDueDate?.[0]?.dueDate : item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit) | gmtDate }}
             </td>
             <td>
               <!-- <a class="btn btn-primary btn-sm">Edit</a> -->

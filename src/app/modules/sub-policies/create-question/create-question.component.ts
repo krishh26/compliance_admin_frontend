@@ -92,21 +92,21 @@ export class CreateQuestionComponent {
 
     if (type === '3') {
       // MCQ: Always 4 fixed options
-      const mcqOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+      const mcqOptions = ['', '', '', ''];
       mcqOptions.forEach((option, index) => {
         optionsArray.push(new FormControl(option, Validators.required));
         if (index === 0) defaultAnswer = option; // Set first option as default
       });
     } else if (type === '2') {
       // Boolean: Always Yes & No
-      const booleanOptions = ['True', 'False'];
+      const booleanOptions = ['', ''];
       booleanOptions.forEach((option, index) => {
         optionsArray.push(new FormControl(option, Validators.required));
         if (index === 0) defaultAnswer = option; // Set first option as default
       });
     } else if (type === '1') {
       // Multiple Choice: Starts with 4 options
-      const multipleOptions = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+      const multipleOptions = ['', '', '', ''];
       multipleOptions.forEach((option, index) => {
         optionsArray.push(new FormControl(option, Validators.required));
         if (index === 0) defaultAnswer = option; // Set first option as default

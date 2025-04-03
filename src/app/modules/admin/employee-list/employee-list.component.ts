@@ -22,6 +22,7 @@ export class EmployeeListComponent {
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
   filterEmployee = false;
+  selectedFilter: string = 'BOTH';
   filterLineManager = false;
   sortBy: string = '_id';
   sortOrder: string = 'desc';
@@ -185,6 +186,17 @@ export class EmployeeListComponent {
       this.filteredEmployees = this.employees.filter(
         (emp) => emp.role === 'EMPLOYEE' || emp.role === 'LINEMANAGER'
       );
+    }
+  }
+
+  filterEmployees() {
+    if (this.selectedFilter === 'EMPLOYEE') {
+      this.filteredEmployees = this.employees.filter(emp => emp.role === 'EMPLOYEE');
+    } else if (this.selectedFilter === 'LINEMANAGER') {
+      this.filteredEmployees = this.employees.filter(emp => emp.role === 'LINEMANAGER');
+    } else {
+      // Show both Employee & Line Manager
+      this.filteredEmployees = this.employees;
     }
   }
 

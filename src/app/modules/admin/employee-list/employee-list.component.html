@@ -18,12 +18,19 @@
         </div>
         <div class="col-lg-4 col-xl-4 col-sm-4 col-md-4 col-12 d-flex align-items-center">
           <label class="me-3">
-            <input type="checkbox" [(ngModel)]="filterEmployee" (change)="checkBoxChange()" />
+            <input type="radio" name="employeeFilter" [(ngModel)]="selectedFilter" value="EMPLOYEE"
+              (change)="filterEmployees()" />
             Employee
           </label>
-          <label>
-            <input type="checkbox" [(ngModel)]="filterLineManager" (change)="checkBoxChange()" />
+          <label class="me-3">
+            <input type="radio" name="employeeFilter" [(ngModel)]="selectedFilter" value="LINEMANAGER"
+              (change)="filterEmployees()" />
             Line Manager
+          </label>
+          <label>
+            <input type="radio" name="employeeFilter" [(ngModel)]="selectedFilter" value="BOTH"
+              (change)="filterEmployees()" />
+            Both
           </label>
         </div>
         <div class="col-lg-2 col-xl-2 col-sm-4 col-md-4 col-12">

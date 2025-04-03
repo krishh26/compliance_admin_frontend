@@ -3,6 +3,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-employee-profile',
@@ -12,6 +13,7 @@ import { NotificationService } from 'src/app/services/notification/notification.
 export class EmployeeProfileComponent {
   loginUser: any;
   employeeData: any;
+  baseUrl = environment.baseUrl;
 
   constructor(
     private employeeService: EmployeeService,

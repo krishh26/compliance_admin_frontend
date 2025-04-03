@@ -19,6 +19,8 @@ export class SubPoliciesSettingComponent {
   subPolicyDetails: any;
   subPolicyList: any[] = [];
   latestPolicy: any = {};
+  minDate!: string;
+  minCompleteBefore!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -29,6 +31,9 @@ export class SubPoliciesSettingComponent {
     private spinner: NgxSpinnerService,
     private router: Router
   ) {
+    const today = new Date();
+    this.minDate = today.toISOString().split('T')[0];
+    this.minCompleteBefore = today.toISOString().split('T')[0];
     this.route.paramMap.subscribe((params) => {
       this.subPolicyId = String(params.get('id'));
       if (this.subPolicyId) {
@@ -52,20 +57,24 @@ export class SubPoliciesSettingComponent {
 
     this.testSettingsForm.get('maximumMarks')?.valueChanges.subscribe(() => this.calculateValues());
     this.testSettingsForm.get('maximumQuestions')?.valueChanges.subscribe(() => this.calculateValues());
+    this.testSettingsForm.get('publishDate')?.valueChanges.subscribe((value) => {
+      const today = new Date(value);
+      this.minCompleteBefore = today.toISOString().split('T')[0];
+    });
   }
 
   get f() {
     return this.testSettingsForm.controls;
   }
 
-    // Number only validation
-    NumberOnly(event: any): boolean {
-      const charCode = event.which ? event.which : event.keyCode;
-      if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-      }
-      return true;
+  // Number only validation
+  NumberOnly(event: any): boolean {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
     }
+    return true;
+  }
 
 
   getSubPolicyDetails() {
@@ -185,17 +194,17 @@ export class SubPoliciesSettingComponent {
       return;
     }
 
-    if(this.testSettingsForm.get('skipWeekDays')?.value) {
+    if (this.testSettingsForm.get('skipWeekDays')?.value) {
       this.testSettingsForm.patchValue({
-        skipWeekDays : "1"
+        skipWeekDays: "1"
       })
     } else {
       this.testSettingsForm.patchValue({
-        skipWeekDays : "0"
+        skipWeekDays: "0"
       })
     }
 
-    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value, policyType : "1" };
+    const payload = { ...this.testSettingsForm.getRawValue(), subPolicyId: this.subPolicyId, dueDate: this.testSettingsForm.get('examTimeLimit')?.value, policyType: "1" };
 
     this.subPoliciesService.updatePolicySetting(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {

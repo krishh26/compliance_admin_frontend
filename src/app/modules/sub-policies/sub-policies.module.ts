@@ -17,7 +17,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TermsConditionAdminComponent } from './terms-condition-admin/terms-condition-admin.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { SubPolicySettingInformationComponent } from './sub-policy-setting-information/sub-policy-setting-information.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
   {
@@ -85,7 +85,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     NgxSpinnerModule,
     NgxPaginationModule,
-    NgxEditorModule
+    NgxEditorModule,
+    NgSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

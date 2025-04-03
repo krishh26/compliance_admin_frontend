@@ -19,6 +19,7 @@ import { ComplianceTestModule } from './modules/compliance-test/compliance-test.
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CreatePasswordComponent } from './modules/auth/create-password/create-password.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { NgxEditorModule } from 'ngx-editor';
     SharedModule,
     ComplianceTestModule,
     NgxSpinnerModule,
-    NgxEditorModule
+    NgxEditorModule,
+    NgSelectModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
   {

@@ -110,7 +110,7 @@ export class AddEmployeeComponent {
   ) {
     this.employeeForm = this.fb.group({
       firstName: ['', Validators.required],
-      middleName: ['', Validators.required],
+      middleName: [''],
       lastName: ['', Validators.required],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],

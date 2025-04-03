@@ -27,6 +27,7 @@
                   <tr>
                     <th scope="col">Version History</th>
                     <th scope="col">Published Date</th>
+                    <th scope="col">Due Date</th>
                     <th scope="col">Date Stamp</th>
                     <th></th>
                   </tr>
@@ -49,10 +50,20 @@
                       <td>
                         <!-- <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]" class="text-primary
                         ">{{ item?.name }} ({{ item?.version }})</a> -->
-                        <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
-                          class="text-primary">{{ item?.version }}</a>
+                        <ng-container
+                          *ngIf="dueDateCheck(item?.policyDueDate?.length > 0 ? item?.policyDueDate?.[0]?.dueDate : item?.policySettings?.examTimeLimit)">
+                          <a data-bs-toggle="tooltip" data-bs-placement="top" title="Due date has passed"
+                            (click)="showTooltip($event)">{{ item?.version }}</a>
+                        </ng-container>
+                        <ng-container
+                          *ngIf="!dueDateCheck(item?.policyDueDate?.length > 0 ? item?.policyDueDate?.[0]?.dueDate : item?.policySettings?.examTimeLimit)">
+                          <a [routerLink]="['/employee-policies/terms-condition-employee/', item._id]"
+                            class="text-primary">{{ item?.version }}</a>
+                        </ng-container>
                       </td>
                       <td>{{ item?.policySettings?.publishDate | gmtDate }}</td>
+                      <td>{{ (item?.policyDueDate?.length > 0 ? item?.policyDueDate?.[0]?.dueDate :
+                        item?.policySettings?.examTimeLimit) | gmtDate }}</td>
                       <td>
                         <span *ngIf="item?.conditionDetail?.length">
                           {{ item?.conditionDetail?.[0]?.updatedAt | gmtDate }}
@@ -60,9 +71,23 @@
 
                       </td>
                       <td>
-                        <span *ngIf="!item?.conditionDetail?.length">
-                          <a class="btn btn-danger btn-sm">Accept Pending</a>
-                        </span>
+
+                        <div *ngIf="i === 0; else notApplicable">
+                          <div
+                            *ngIf="dueDateCheck(item?.policyDueDate?.length > 0 ? item?.policyDueDate?.[0]?.dueDate : item?.policySettings?.examTimeLimit)"
+                            class="m-1">
+                            <a class="btn btn-danger btn-sm">Due date has passed</a>
+                            <!-- <p style="color: green;"><strong>✅ Policy is Applicable</strong></p> -->
+                          </div>
+                          <span *ngIf="!item?.conditionDetail?.length">
+                            <a class="btn btn-danger btn-sm">Accept Pending</a>
+                          </span>
+                          <!-- <p style="color: green;"><strong>✅ Policy is Applicable</strong></p> -->
+                        </div>
+                        <ng-template #notApplicable>
+                          <!-- <a class="btn btn-danger btn-sm">❌ Not Applicable</a> -->
+                          <p style="color: red;">❌ Not Applicable</p>
+                        </ng-template>
                       </td>
                     </tr>
                   </ng-container>

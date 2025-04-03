@@ -7,7 +7,7 @@ import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
-
+import * as bootstrap from 'bootstrap';
 @Component({
   selector: 'app-sub-policies-list',
   templateUrl: './sub-policies-list.component.html',
@@ -40,7 +40,7 @@ export class SubPoliciesListComponent {
       this.policyId = params.get('id');
       if (this.policyId) {
         this.getPolicyDetails();
-        this.getSubPolicyList();
+        // this.getSubPolicyList();
       }
     });
   }
@@ -51,12 +51,29 @@ export class SubPoliciesListComponent {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  ngAfterViewInit() {
+    // Initialize all tooltips globally in this component
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach((tooltipTriggerEl) => {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  }
+
+  showTooltip(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const tooltipInstance = bootstrap.Tooltip.getInstance(target) || new bootstrap.Tooltip(target);
+
+    // Show tooltip on click
+    tooltipInstance.show();
+  }
+
   getPolicyDetails() {
     this.spinner.show();
     this.policyService.getPolicyDetails(this.policyId).subscribe((response) => {
       this.spinner.hide();
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         this.policyDetails = response?.data;
+        this.getSubPolicyList();
       }
     }, (error) => {
       this.spinner.hide();
@@ -72,16 +89,23 @@ export class SubPoliciesListComponent {
         policyId: this.policyId,
         isActive: 1,
         isFrontEndRequest: 1,
-        employeeId : this.loginUser?._id
+        employeeId: this.loginUser?._id,
+        userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
+        payloadType: this.policyDetails?.policyType == 'For Information' ? '1' : '2'
       })
       .subscribe(
         (response) => {
           this.spinner.hide();
-          response?.data?.subPolicyList?.map((element : any) => {
-            if(element?.policySettings || element?.policySettings?.[0]) {
+          response?.data?.subPolicyList?.map((element: any) => {
+            if (element?.policySettings || element?.policySettings?.[0]) {
               this.policyList.push(element);
             }
-          })
+          });
+
+          this.policyList = this.policyList.sort((a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+
           // this.policyList = response?.data?.subPolicyList || [];
           this.totalRecords = response?.data?.count || 0;
         },
@@ -92,6 +116,13 @@ export class SubPoliciesListComponent {
           );
         }
       );
+  }
+
+  dueDateCheck(dueDate: any): boolean {
+    const currentDate = new Date(); // Get the current date
+    const inputDate = new Date(dueDate); // Convert the dueDate to a Date object
+
+    return inputDate < currentDate; // Return true if dueDate is greater than current date
   }
 
   uploadSubPolicies() {

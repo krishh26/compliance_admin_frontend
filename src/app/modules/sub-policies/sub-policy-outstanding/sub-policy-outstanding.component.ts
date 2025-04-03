@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
+import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class SubPolicyOutstandingComponent {
     private route: ActivatedRoute,
     private router: Router,
     private spinner: NgxSpinnerService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private policyService : PolicyService
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class SubPolicyOutstandingComponent {
       if (this.subPolicyId) {
         this.getSubPolicyDetails();
         this.getPolicySettingDetails();
-        this.getSubPolicyCountAndData();
+        // this.getSubPolicyCountAndData();
       }
     });
   }
@@ -77,6 +79,7 @@ export class SubPolicyOutstandingComponent {
     this.subPoliciesService.getSubPolicyDetails({ id: this.subPolicyId }).subscribe((response) => {
       this.spinner.hide();
       this.subPolicyDetails = response?.data?.length > 0 ? response?.data?.[0] : response?.data;
+      this.getPolicyDetails(this.subPolicyDetails?.policyId)
     }, (error) => {
       this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
@@ -93,6 +96,35 @@ export class SubPolicyOutstandingComponent {
       this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
     });
+  }
+
+  getSubPolicyCountAndDataForInfo() {
+    this.spinner.show();
+    this.subPoliciesService.getSubPolicyCountAndDataForInformation({ subPolicyId: this.subPolicyId }).subscribe((response) => {
+      this.spinner.hide();
+      this.countDetails = response?.data;
+      this.outStandingList = this.countDetails?.empOutStadingList || [];
+    }, (error) => {
+      this.spinner.hide();
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    });
+  }
+
+  getPolicyDetails(id : string) {
+    this.spinner.show();
+    this.policyService.getPolicyDetails(id).subscribe((response) => {
+      if (response?.statusCode == 200 || response?.statusCode == 201) {
+        if(response?.data?.policyType == 'For Information') {
+          this.getSubPolicyCountAndDataForInfo();
+        } else {
+          this.getSubPolicyCountAndData();
+        }
+      }
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    })
   }
 
   changeType(type: string) {

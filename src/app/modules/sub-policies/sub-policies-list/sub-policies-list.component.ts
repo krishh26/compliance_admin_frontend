@@ -78,7 +78,11 @@ export class SubPoliciesListComponent {
           this.latestPolicy = sortedPolicies[0];
           this.selectedVersion = this.latestPolicy?.version
           if (this.latestPolicy) {
-            this.getSubPolicyCountAndData();
+            if(this.policyDetails?.policyType == 'For Information') {
+              this.getSubPolicyCountAndDataForInfo();
+            } else {
+              this.getSubPolicyCountAndData();
+            }
           }
         }
 
@@ -87,7 +91,11 @@ export class SubPoliciesListComponent {
           this.latestPolicy = findPolicy || {};
           this.selectedVersion = this.latestPolicy?.version
           if (this.latestPolicy) {
-            this.getSubPolicyCountAndData();
+            if(this.policyDetails?.policyType == 'For Information') {
+              this.getSubPolicyCountAndDataForInfo();
+            } else {
+              this.getSubPolicyCountAndData();
+            }
           }
         }
 
@@ -106,7 +114,11 @@ export class SubPoliciesListComponent {
     this.latestPolicy = findPolicy || {};
     this.selectedVersion = this.latestPolicy?.version
     if (this.latestPolicy) {
-      this.getSubPolicyCountAndData();
+      if(this.policyDetails?.policyType == 'For Information') {
+        this.getSubPolicyCountAndDataForInfo();
+      } else {
+        this.getSubPolicyCountAndData();
+      }
     }
   }
 
@@ -156,4 +168,14 @@ export class SubPoliciesListComponent {
     });
   }
 
+  getSubPolicyCountAndDataForInfo() {
+    this.spinner.show();
+    this.subPoliciesService.getSubPolicyCountAndDataForInformation({ subPolicyId: this.latestPolicy?._id }).subscribe((response) => {
+      this.spinner.hide();
+      this.countDetails = response?.data;
+    }, (error) => {
+      this.spinner.hide();
+      this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    });
+  }
 }

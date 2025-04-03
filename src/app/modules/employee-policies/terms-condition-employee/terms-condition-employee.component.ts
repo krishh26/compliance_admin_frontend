@@ -134,8 +134,6 @@ export class TermsConditionEmployeeComponent {
           location: this.latitude && this.longitude ? `${this.latitude},${this.longitude}` : "Location not available"
         };
 
-        console.log('Sending acceptance with payload:', payload);
-
         this.subPoliciesService.acceptTerms(payload).subscribe(
           (response) => {
             this.spinner.hide();
@@ -203,7 +201,6 @@ export class TermsConditionEmployeeComponent {
   getIpAddressFallback2(callback?: () => void) {
     this.ipAddress = window.location.hostname || 'client-ip-unknown';
     this.ipAddressRetrieved = true;
-    console.log('Using default IP address:', this.ipAddress);
 
     if (callback) {
       callback();

@@ -70,6 +70,7 @@ export class PoliciesListComponent {
       (response) => {
         this.spinner.hide();
         this.policyList = response?.data?.policyList || [];
+        this.policyList = this.sortSubPoliciesByCreatedAt(this.policyList);
         this.totalRecords = response?.data?.count || 0;
       },
       (error) => {
@@ -79,6 +80,19 @@ export class PoliciesListComponent {
         );
       }
     );
+  }
+
+  sortSubPoliciesByCreatedAt(data: any[]): any[] {
+    return data.map(policy => {
+      return {
+        ...policy,
+        subPolicyDetail: policy.subPolicyDetail.map((subPolicies: any) =>
+          subPolicies.sort((a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        )
+      };
+    });
   }
 
   deletePolicy(id: any) {

@@ -51,7 +51,7 @@ export class ExamComponent {
       } else {
         this.notificationService.showError(response?.message || 'Policy instructions not found.');
       }
-      this.spinner.hide();
+      // this.spinner.hide();
     }, (error) => {
       this.notificationService.showError(error?.error?.message || 'Policy instructions not found.');
       this.spinner.hide();
@@ -59,7 +59,6 @@ export class ExamComponent {
   }
 
   getQuestionList() {
-
     const payload = {
       subPolicyId: this.subPolicyId,
       isActive: 1,
@@ -186,7 +185,6 @@ export class ExamComponent {
   }
 
   completeExam() {
-    this.spinner.show();
     if (this.answers?.length == 0) {
       return this.notificationService.showError("Please select one answers");
     }
@@ -206,7 +204,7 @@ export class ExamComponent {
       duration: duration !== 0 ? Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
       answers: transformedArray
     }
-
+    this.spinner.show();
     this.subPoliciesService.saveAnswer(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {
         localStorage.removeItem('answers');

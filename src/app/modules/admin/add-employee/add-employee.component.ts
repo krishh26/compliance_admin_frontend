@@ -109,9 +109,9 @@ export class AddEmployeeComponent {
     private spinner: NgxSpinnerService
   ) {
     this.employeeForm = this.fb.group({
-      firstName: ['', Validators.required],
-      middleName: [''],
-      lastName: ['', Validators.required],
+      firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+      middleName: ['', [Validators.pattern('^[a-zA-Z ]*$')]],
+      lastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
       gender: ['', Validators.required],
       birthDate: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],

@@ -39,15 +39,18 @@
               <small class="text-danger" *ngIf="submitted && f['firstName'].errors?.['required']">
                 First Name is required
               </small>
+              <small class="text-danger" *ngIf="submitted && f['firstName'].errors?.['pattern']">
+                Only alphabets are allowed
+              </small>
             </div>
           </div>
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Middle Name</label>
               <input type="text" class="form-control" placeholder="Middle name" formControlName="middleName"  />
-              <!-- <small class="text-danger" *ngIf="submitted && f['middleName'].errors?.['required']">
-                Middle Name is required
-              </small> -->
+              <small class="text-danger" *ngIf="submitted && f['middleName'].errors?.['pattern']">
+                Only alphabets are allowed
+              </small>
             </div>
           </div>
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
@@ -56,6 +59,9 @@
               <input type="text" class="form-control" placeholder="Last name" formControlName="lastName" required />
               <small class="text-danger" *ngIf="submitted && f['lastName'].errors?.['required']">
                 Last Name is required
+              </small>
+              <small class="text-danger" *ngIf="submitted && f['lastName'].errors?.['pattern']">
+                Only alphabets are allowed
               </small>
             </div>
           </div>

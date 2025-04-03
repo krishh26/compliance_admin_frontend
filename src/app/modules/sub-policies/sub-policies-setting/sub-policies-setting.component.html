@@ -85,7 +85,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="maximumAttempt" />
+                <input type="text" class="form-control" formControlName="maximumAttempt"  (keypress)="NumberOnly($event)"/>
                 <small class="text-danger" *ngIf="submitted && f['maximumAttempt'].errors?.['required']">
                   Max. no. of Re-attempt is required
                 </small>
@@ -99,7 +99,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="maximumMarks" />
+                <input type="text" class="form-control" formControlName="maximumMarks"  (keypress)="NumberOnly($event)"/>
                 <small class="text-danger" *ngIf="submitted && f['maximumMarks'].errors?.['required']">
                   Max Marks is required
                 </small>
@@ -113,7 +113,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="maximumQuestions" />
+                <input type="text" class="form-control" formControlName="maximumQuestions"  (keypress)="NumberOnly($event)"/>
                 <small class="text-danger" *ngIf="submitted && f['maximumQuestions'].errors?.['required']">
                   Max Questions is required
                 </small>
@@ -127,7 +127,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="maximumScore" />
+                <input type="text" class="form-control" formControlName="maximumScore"  (keypress)="NumberOnly($event)"/>
               </div>
             </div>
           </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="timeLimit" />
+                <input type="text" class="form-control" formControlName="timeLimit"  (keypress)="NumberOnly($event)"/>
                 <small class="text-danger" *ngIf="submitted && f['timeLimit'].errors?.['required']">
                   TimeLimit is required
                 </small>
@@ -152,7 +152,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="text" class="form-control" formControlName="PassingScore" />
+                <input type="text" class="form-control" formControlName="PassingScore"  (keypress)="NumberOnly($event)"/>
                 <small class="text-danger" *ngIf="submitted && f['PassingScore'].errors?.['required']">
                   Passing Score is required
                 </small>

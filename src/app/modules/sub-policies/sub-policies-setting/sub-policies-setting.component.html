@@ -24,7 +24,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="date" class="form-control" formControlName="publishDate" />
+                <input type="date" class="form-control" formControlName="publishDate" [min]="minDate"/>
                 <small class="text-danger" *ngIf="submitted && f['publishDate'].errors?.['required']">
                   Publish Date is required
                 </small>
@@ -38,7 +38,7 @@
             </div>
             <div class="col-lg-9 col-xl-9 col-12">
               <div class="form-group">
-                <input type="date" class="form-control" formControlName="examTimeLimit" />
+                <input type="date" class="form-control" formControlName="examTimeLimit" [min]="minCompleteBefore"/>
                 <small class="text-danger" *ngIf="submitted && f['examTimeLimit'].errors?.['required']">
                   Exam timeline is required
                 </small>

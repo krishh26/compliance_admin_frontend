@@ -6,6 +6,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-terms-condition-employee',
@@ -22,6 +23,7 @@ export class TermsConditionEmployeeComponent {
   ipAddress: string = 'Retrieving...';
   ipAddressRetrieved: boolean = false;
   loginUser: any;
+  locationDetails: { city: string; state: string } | null = null;
 
   constructor(
     private router: Router,
@@ -30,7 +32,8 @@ export class TermsConditionEmployeeComponent {
     private route: ActivatedRoute,
     private spinner: NgxSpinnerService,
     private sanitizer: DomSanitizer,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private http: HttpClient
   ) {
     this.loginUser = this.localStorageService.getLogger();
     this.getIpAddress();
@@ -58,6 +61,21 @@ export class TermsConditionEmployeeComponent {
       if (this.subPolicyData?.description) {
         this.safeDescription = this.sanitizer.bypassSecurityTrustHtml(this.subPolicyData.description);
       }
+
+      // Parse location details if they exist
+      if (this.subPolicyData?.conditionDetail?.location) {
+        const locationStr = this.subPolicyData.conditionDetail.location;
+        if (locationStr.includes('(') && locationStr.includes(')')) {
+          const locationParts = locationStr.split('(')[1].split(')')[0].split(',');
+          if (locationParts.length >= 2) {
+            this.locationDetails = {
+              city: locationParts[0].trim(),
+              state: locationParts[1].trim()
+            };
+          }
+        }
+      }
+
       this.spinner.hide();
     }, (error) => {
       this.spinner.hide();
@@ -83,16 +101,45 @@ export class TermsConditionEmployeeComponent {
   openMap(location: string): void {
     if (!location) return;
 
-    const [lat, lon] = location.split(',').map(coord => coord.trim());
+    // Extract just the coordinates part (before any parentheses)
+    const coordinatesPart = location.split('(')[0].trim();
+    const [lat, lon] = coordinatesPart.split(',').map(coord => coord.trim());
 
     if (lat && lon) {
-      const url = `https://www.google.com/maps?q=${lat},${lon}`;
-      window.open(url, '_blank');
+      // Get city name from coordinates
+      this.getLocationNameFromCoordinates(lat, lon);
     } else {
       console.error('Invalid location format');
     }
   }
 
+  getLocationNameFromCoordinates(lat: string, lon: string): void {
+    // Using OpenStreetMap Nominatim API for reverse geocoding
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+
+    this.http.get(url).subscribe({
+      next: (response: any) => {
+        if (response && response.address) {
+          const city = response.address.city || response.address.town || response.address.village || 'Unknown City';
+          const state = response.address.state || 'Unknown State';
+
+          // Open Google Maps with the coordinates and city name
+          const url = `https://www.google.com/maps?q=${lat},${lon}&title=${city}, ${state}`;
+          window.open(url, '_blank');
+        } else {
+          // Fallback to just coordinates if city name can't be determined
+          const url = `https://www.google.com/maps?q=${lat},${lon}`;
+          window.open(url, '_blank');
+        }
+      },
+      error: (error) => {
+        console.error('Error getting location details:', error);
+        // Fallback to just coordinates if there's an error
+        const url = `https://www.google.com/maps?q=${lat},${lon}`;
+        window.open(url, '_blank');
+      }
+    });
+  }
 
   getCurrentLocation() {
     if (navigator.geolocation) {
@@ -100,6 +147,7 @@ export class TermsConditionEmployeeComponent {
         (position) => {
           this.latitude = position.coords.latitude;
           this.longitude = position.coords.longitude;
+          this.getLocationDetails(this.latitude, this.longitude);
         },
         (error) => {
           console.error('Error getting location:', error);
@@ -108,6 +156,26 @@ export class TermsConditionEmployeeComponent {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
+  }
+
+  getLocationDetails(lat: number, lon: number) {
+    // Using OpenStreetMap Nominatim API for reverse geocoding
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+
+    this.http.get(url).subscribe({
+      next: (response: any) => {
+        if (response && response.address) {
+          this.locationDetails = {
+            city: response.address.city || response.address.town || response.address.village || 'Unknown City',
+            state: response.address.state || 'Unknown State'
+          };
+        }
+      },
+      error: (error) => {
+        console.error('Error getting location details:', error);
+        this.locationDetails = null;
+      }
+    });
   }
 
   acceptTermsAndCondition() {
@@ -131,7 +199,9 @@ export class TermsConditionEmployeeComponent {
           employeeId: this.loginUser?._id,
           subPolicyId: this.subPolicyID,
           ipAddress: this.ipAddress,
-          location: this.latitude && this.longitude ? `${this.latitude},${this.longitude}` : "Location not available"
+          location: this.latitude && this.longitude ?
+            `${this.latitude},${this.longitude}${this.locationDetails ? ` (${this.locationDetails.city}, ${this.locationDetails.state})` : ''}` :
+            "Location not available"
         };
 
         this.subPoliciesService.acceptTerms(payload).subscribe(

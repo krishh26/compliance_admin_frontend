@@ -88,6 +88,7 @@ export class ExamComponent {
   }
 
   ngOnDestroy() {
+    this.completeExam(false);
     clearInterval(this.timerInterval);
     localStorage.removeItem('timeLeft');
     localStorage.removeItem('questions');
@@ -111,7 +112,7 @@ export class ExamComponent {
         this.timeLeft--;
         localStorage.setItem('timeLeft', this.timeLeft.toString());
       } else {
-        this.completeExam();
+        this.completeExam(false);
       }
     }, 1000);
   }
@@ -184,16 +185,26 @@ export class ExamComponent {
     }
   }
 
-  completeExam() {
-    if (this.answers?.length == 0) {
+  completeExam(showValidation : boolean) {
+    if (this.answers?.length == 0 && showValidation) {
       return this.notificationService.showError("Please select one answers");
     }
-    const transformedArray = this.answers.map(item => ({
+    const transformedArray : any[] = this.answers?.map(item => ({
       questionId: item.questionId,
       answer: Array.isArray(item.answer) ? item.answer.join(",") : item.answer.toString()
     }));
 
     const duration = (Number(localStorage.getItem('timeLeft')) !== 0 && localStorage.getItem('timeLeft')) ? (Number(localStorage.getItem('timeLeft')) / 60) : 1;
+
+    this.questions?.forEach((element: any) => {
+      const existing = transformedArray?.find((el) => el?.questionId == element?._id);
+      if(!existing) {
+        transformedArray.push({
+          questionId : element?._id,
+          answer : "null"
+        })
+      }
+    })
 
     clearInterval(this.timerInterval);
     const payload = {
@@ -204,6 +215,7 @@ export class ExamComponent {
       duration: duration !== 0 ? Number(this.settingDetails?.timeLimit) - Number(duration) : Number(this.settingDetails?.timeLimit),
       answers: transformedArray
     }
+
     this.spinner.show();
     this.subPoliciesService.saveAnswer(payload).subscribe((response) => {
       if (response?.statusCode == 200 || response?.statusCode == 201) {

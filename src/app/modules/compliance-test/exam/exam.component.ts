@@ -23,6 +23,7 @@ export class ExamComponent {
   timeLeft: number = 600; // 10 minutes in seconds
   timerInterval: any;
   hasReloaded = false;
+  tabId = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -94,35 +95,85 @@ export class ExamComponent {
     })
   }
 
+  ngAfterViewInit() {
+    window.addEventListener('beforeunload', () => {
+      const openTabs = JSON.parse(localStorage.getItem('appTabs') || '[]');
+      const updatedTabs = openTabs.filter((id: string) => id !== this.tabId);
+      localStorage.setItem('appTabs', JSON.stringify(updatedTabs));
+    });
+  }
+
   ngOnDestroy() {
+    window.removeEventListener('storage', this.handleTabChange.bind(this));
+
+    const openTabs = JSON.parse(localStorage.getItem('appTabs') || '[]');
+    const updatedTabs = openTabs.filter((id: string) => id !== this.tabId);
+    localStorage.setItem('appTabs', JSON.stringify(updatedTabs));
+
     this.completeExam(false);
     clearInterval(this.timerInterval);
     this.resetLocal();
-    localStorage.removeItem('hasVisitedExamOnce');
+    sessionStorage.removeItem('hasVisitedExamOnce');
   }
 
-  ngOnInit() {
-    const visited = localStorage.getItem('hasVisitedExamOnce');
 
+  ngOnInit() {
+    this.tabId = this.generateTabId();
+
+    // Save this tab's ID
+    sessionStorage.setItem('tabId', this.tabId);
+
+    // Register this tab
+    this.registerTab();
+
+    // Listen for tab changes
+    window.addEventListener('storage', this.handleTabChange.bind(this));
+
+    const visited = sessionStorage.getItem('hasVisitedExamOnce');
     if (visited) {
-      // If already visited in this session (i.e., same tab or new tab),
-      // redirect after 2 seconds
-      this.hasReloaded = true;
+      // Already visited → redirect
       setTimeout(() => {
         this.router.navigateByUrl('/compliance-test/outstanding');
       }, 2000);
       return;
     }
 
-    // First-time visit in this tab
-    localStorage.setItem('hasVisitedExamOnce', 'true');
-
-    localStorage.removeItem('timeLeft');
-    localStorage.removeItem('questions');
-    localStorage.removeItem('answers');
-
+    sessionStorage.setItem('hasVisitedExamOnce', 'true');
     this.loadAnswers();
     this.startTimer();
+  }
+
+  generateTabId(): string {
+    return 'tab_' + Math.random().toString(36).substr(2, 9);
+  }
+
+  registerTab() {
+    const openTabs = JSON.parse(localStorage.getItem('appTabs') || '[]');
+    openTabs.push(this.tabId);
+    localStorage.setItem('appTabs', JSON.stringify(openTabs));
+  }
+
+  handleTabChange(event: StorageEvent) {
+    if (event.key === 'appTabs') {
+      const openTabs = JSON.parse(event.newValue || '[]');
+      const isCurrentTabStillFirst = openTabs[0] === this.tabId;
+
+      if (!isCurrentTabStillFirst) {
+        // Another tab has opened — take action in this one
+        sessionStorage.removeItem('hasVisitedExamOnce');
+        location.reload(); // or use this.router.navigateByUrl(...)
+      }
+    }
+  }
+  handleStorageChange(event: StorageEvent) {
+    if (event.key === 'exam-opened-timestamp') {
+      // Another tab just opened the exam
+      // This tab should consider itself invalid and redirect
+      if (sessionStorage.getItem('hasVisitedExamOnce')) {
+        sessionStorage.removeItem('hasVisitedExamOnce');
+        this.router.navigateByUrl('/compliance-test/outstanding');
+      }
+    }
   }
 
   startTimer() {

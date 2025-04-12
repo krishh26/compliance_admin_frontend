@@ -21,6 +21,7 @@ export class OutstandingComponent implements AfterViewInit {
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
+  showData: boolean = true;
 
   constructor(
     private router: Router,
@@ -72,6 +73,7 @@ export class OutstandingComponent implements AfterViewInit {
       userGroup: this.loginUser?.role == 'EMPLOYEE' ? "1" : "2"
     }
     this.spinner.show();
+    this.showData = false;
     this.outstandingtestlist = [];
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
@@ -132,6 +134,7 @@ export class OutstandingComponent implements AfterViewInit {
         setTimeout(() => {
           this.outstandingtestlist = this.outstandingtestlist?.filter((element) => element?.subPoliciyDetail[0]?.resultCount < element?.subPoliciyDetail[0]?.policySettingDetail?.maximumAttempt);
           this.spinner.hide();
+          this.showData = true;
           forInfoList?.map((element: any) => {
             if (element?.policyType == 'For Information') {
               const data = element?.subPoliciyDetail?.find((el: any) => el?._id == element?.subPoliciyList?._id);
@@ -146,6 +149,7 @@ export class OutstandingComponent implements AfterViewInit {
       },
       (error) => {
         this.spinner.hide();
+        this.showData = true;
         this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
     );

@@ -85,15 +85,12 @@ export class OutstandingComponent implements AfterViewInit {
           if (Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
             if (element?.policyType == 'For Action') {
               const data = element?.subPoliciyDetail?.find((el: any) => el?._id == element?.subPoliciyList?._id);
-              console.log("data", data);
               if (data?.resultDetails?.length !== 0 || data?.resultDetails) {
                 this.outstandingtestlist.push(element);
               }
             }
           }
         });
-
-        console.log("this.outstandingtestlist", this.outstandingtestlist)
 
         this.outstandingtestlist?.map((element) => {
           if (element?.policyType == 'For Action') {
@@ -107,7 +104,6 @@ export class OutstandingComponent implements AfterViewInit {
           }
         })
 
-        console.log("this.outstandingtestlist 2222222", this.outstandingtestlist)
 
         for (const data of this.outstandingtestlist || []) {
           const tempData: any[] = [];
@@ -124,11 +120,7 @@ export class OutstandingComponent implements AfterViewInit {
           data['subPoliciyDetail'] = tempData;
         }
 
-        console.log("this.outstandingtestlist 33333333", this.outstandingtestlist)
-
         this.outstandingtestlist = this.splitPolicies(this.outstandingtestlist);
-
-        console.log("this.outstandingtestlist 444444", this.outstandingtestlist)
 
         for (const data of this.outstandingtestlist || []) {
           setTimeout(async () => {

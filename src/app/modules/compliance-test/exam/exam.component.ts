@@ -81,17 +81,16 @@ export class ExamComponent {
           return this.notificationService.showError('Questions not found.');
         }
         this.questions = response?.data?.questionList;
-        if (this.questions?.[0] == null || this.questions?.length == 0) {
-          return this.notificationService.showError('Questions not found.');
-        }
+        // if (this.questions?.[0] == null || this.questions?.length == 0) {
+        //   return this.notificationService.showError('Questions not found.');
+        // }
         localStorage.setItem('questions', JSON.stringify(this.questions));
       } else {
-        this.notificationService.showError('Questions not found.');
+        // this.notificationService.showError('Questions not found.');
       }
     }, (error) => {
       this.spinner.hide();
-      this.notificationService.showError(error?.error?.message || 'Questions not found.');
-
+      // this.notificationService.showError(error?.error?.message || 'Questions not found.');
     })
   }
 

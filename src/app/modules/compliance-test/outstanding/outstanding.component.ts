@@ -85,12 +85,15 @@ export class OutstandingComponent implements AfterViewInit {
           if (Number(element?.subPoliciyDetail?.[0]?.policySettingDetail?.maximumAttempt) > element?.subPoliciyDetail?.[0]?.resultDetails?.length) {
             if (element?.policyType == 'For Action') {
               const data = element?.subPoliciyDetail?.find((el: any) => el?._id == element?.subPoliciyList?._id);
+              console.log("data", data);
               if (data?.resultDetails?.length !== 0 || data?.resultDetails) {
                 this.outstandingtestlist.push(element);
               }
             }
           }
         });
+
+        console.log("this.outstandingtestlist", this.outstandingtestlist)
 
         this.outstandingtestlist?.map((element) => {
           if (element?.policyType == 'For Action') {
@@ -103,6 +106,8 @@ export class OutstandingComponent implements AfterViewInit {
             }
           }
         })
+
+        console.log("this.outstandingtestlist 2222222", this.outstandingtestlist)
 
         for (const data of this.outstandingtestlist || []) {
           const tempData: any[] = [];
@@ -119,7 +124,11 @@ export class OutstandingComponent implements AfterViewInit {
           data['subPoliciyDetail'] = tempData;
         }
 
+        console.log("this.outstandingtestlist 33333333", this.outstandingtestlist)
+
         this.outstandingtestlist = this.splitPolicies(this.outstandingtestlist);
+
+        console.log("this.outstandingtestlist 444444", this.outstandingtestlist)
 
         for (const data of this.outstandingtestlist || []) {
           setTimeout(async () => {
@@ -180,12 +189,16 @@ export class OutstandingComponent implements AfterViewInit {
     policies.forEach(policy => {
       if (policy?.policyType == 'For Action') {
         if (policy.subPoliciyDetail.length > 1) {
-          policy.subPoliciyDetail.forEach((detail: any) => {
-            result.push({
-              ...policy,
-              subPoliciyDetail: [detail],
+          const data = policy?.subPoliciyDetail?.filter((el: any) => el?._id == policy?.subPoliciyList?._id);
+          if (data?.length !== 0) {
+            policy["subPoliciyDetail"] = data;
+            policy.subPoliciyDetail.forEach((detail: any) => {
+              result.push({
+                ...policy,
+                subPoliciyDetail: [detail],
+              });
             });
-          });
+          }
         } else {
           result.push(policy);
         }
@@ -209,5 +222,15 @@ export class OutstandingComponent implements AfterViewInit {
     const remainingDays = Math.ceil((dueDateObj.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
     return remainingDays > 0 ? `${remainingDays} days left` : "ReExam";
+  }
+
+  dueDateCheck(dueDate: any): boolean {
+    const currentDate = new Date(); // Get the current date
+    const inputDate = new Date(dueDate); // Convert the dueDate to a Date object
+    // Set time to 00:00:00 for both dates to compare only the date part
+    currentDate.setHours(0, 0, 0, 0);
+    inputDate.setHours(0, 0, 0, 0);
+
+    return inputDate < currentDate; // Return true if dueDate is greater than current date
   }
 }

@@ -70,8 +70,4 @@ export class LoginComponent {
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
-
-  loginWithMicrosoft() {
-    window.location.href = 'http://localhost:3006/auth/microsoft';
-  }
 }

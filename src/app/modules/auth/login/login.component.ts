@@ -23,7 +23,7 @@ export class LoginComponent {
     private router: Router,
     private notificationService: NotificationService,
     private localStorageService: LocalStorageService,
-     private spinner: NgxSpinnerService,
+    private spinner: NgxSpinnerService,
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -69,5 +69,9 @@ export class LoginComponent {
 
   togglePassword() {
     this.showPassword = !this.showPassword;
+  }
+
+  loginWithMicrosoft() {
+    window.location.href = 'http://localhost:3006/auth/microsoft';
   }
 }

@@ -54,7 +54,8 @@ export class AddEmployeeComponent {
       city: ['', Validators.required],
       role: ['', Validators.required],
       jobTitle: ['', Validators.required],
-      employeeIdentity: ['', Validators.required]
+      employeeIdentity: ['', Validators.required],
+      jobType: ['', Validators.required],
       // profileImage: [null],
     });
   }
@@ -175,6 +176,7 @@ export class AddEmployeeComponent {
             role: this.employeeData.role,
             jobTitle: this.employeeData.jobTitle,
             employeeIdentity: this.employeeData.employeeIdentity,
+            jobType: this.employeeData?.jobType
           });
         }
         this.spinner.hide();

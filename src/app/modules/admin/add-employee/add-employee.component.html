@@ -101,7 +101,6 @@
               </small>
             </div>
           </div>
-
         </div>
         <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
@@ -163,14 +162,15 @@
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
               <label>Country</label>
-              <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+              <input type="text" class="form-control" placeholder="Enter county" formControlName="country" required />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
                 <option value="">Select Country</option>
                 <option *ngFor="let country of countries" [value]="country.name">
                   {{ country.name }}
                 </option>
-              </select>
+              </select> -->
               <small class="text-danger" *ngIf="submitted && f['country'].errors?.['required']">
-                Please Select Country
+                Please enter country
               </small>
             </div>
           </div>
@@ -180,14 +180,15 @@
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
               <label>State</label>
-              <select class="form-select" formControlName="state" (change)="onStateChange($event)">
+              <input type="text" class="form-control" placeholder="Enter state" formControlName="state" required />
+              <!-- <select class="form-select" formControlName="state" (change)="onStateChange($event)">
                 <option value="">Select State</option>
                 <option *ngFor="let state of states" [value]="state?.name">
                   {{ state?.name }}
                 </option>
-              </select>
+              </select> -->
               <small class="text-danger" *ngIf="submitted && f['state'].errors?.['required']">
-                Please Select State
+                Please enter state
               </small>
             </div>
           </div>
@@ -196,17 +197,19 @@
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
               <label>City</label>
-              <select class="form-select" formControlName="city">
+              <input type="text" class="form-control" placeholder="Enter city" formControlName="city" required />
+              <!-- <select class="form-select" formControlName="city">
                 <option value="">Select City</option>
                 <option *ngFor="let city of cities" [value]="city">
                   {{ city }}
                 </option>
-              </select>
+              </select> -->
               <small class="text-danger" *ngIf="submitted && f['city'].errors?.['city']">
-                Please Select State
+                Please enter city
               </small>
             </div>
           </div>
+
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Role</label>
@@ -218,6 +221,21 @@
               </select>
               <small class="text-danger" *ngIf="submitted && f['role'].errors?.['required']">
                 Please Select Role
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
+            <div class="form-group">
+              <label>Job Type</label>
+              <select class="form-select" formControlName="jobType">
+                <option value="">Select Job Type</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Permanent">Permanent</option>
+              </select>
+              <small class="text-danger" *ngIf="submitted && f['jobType'].errors?.['required']">
+                Please Select Job Type
               </small>
             </div>
           </div>

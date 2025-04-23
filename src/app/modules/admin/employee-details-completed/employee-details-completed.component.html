@@ -26,6 +26,10 @@
           <ul class="Employeedetails">
             <!-- First 7 details always visible -->
             <li>
+              <p>EMP ID</p>
+              <p class="mb-0 text-muted">{{ employeeData?.employeeIdentity || '-' }}</p>
+            </li>
+            <li>
               <p>First Name</p>
               <p class="mb-0 text-muted">{{ employeeData?.firstName || '-' }}</p>
             </li>
@@ -38,35 +42,29 @@
               <p class="mb-0 text-muted">{{ employeeData?.lastName || '-' }}</p>
             </li>
             <li>
-              <p>Employee ID</p>
-              <p class="mb-0 text-muted">{{ employeeData?.employeeIdentity || '-' }}</p>
-            </li>
-            <li>
-              <p>Job Title</p>
+              <p>Position</p>
               <p class="mb-0 text-muted">{{ employeeData?.jobTitle || '-' }}</p>
             </li>
-
             <li>
-              <p>Email</p>
+              <p>Official E-mail ID</p>
               <p class="mb-0 text-muted">{{ employeeData?.email || '-' }}</p>
             </li>
             <li>
-              <p>Job Type</p>
-              <p class="mb-0 text-muted">{{ employeeData?.jobType || '-' }}</p>
+              <p>Date of Joining</p>
+              <p class="mb-0 text-muted">
+                {{ employeeData?.dateOfJoining ? (employeeData?.dateOfJoining | gmtDate) : '-' }}
+              </p>
             </li>
-            <li>
-              <p>Phone</p>
-              <p class="mb-0 text-muted">{{ employeeData?.phone || '-' }}</p>
-            </li>
-            <li *ngIf="employeeData?.inactiveReason">
-              <p>Inactive Reason</p>
-              <p class="mb-0 text-danger">{{ employeeData?.inactiveReason || '-' }}</p>
-            </li>
+
             <!-- Additional details (hidden initially) -->
             <ng-container *ngIf="showAllDetails">
               <li>
-                <p>Gender</p>
-                <p class="mb-0 text-muted">{{ employeeData?.gender || '-' }}</p>
+                <p>Employee Status</p>
+                <p class="mb-0 text-muted">{{ employeeData?.jobType || '-' }}</p>
+              </li>
+              <li>
+                <p>Contact Number</p>
+                <p class="mb-0 text-muted">{{ employeeData?.phone || '-' }}</p>
               </li>
               <li>
                 <p>Date of Birth</p>
@@ -75,10 +73,16 @@
                 </p>
               </li>
               <li>
-                <p>Date of Joining</p>
-                <p class="mb-0 text-muted">
-                  {{ employeeData?.dateOfJoining ? (employeeData?.dateOfJoining | gmtDate) : '-' }}
-                </p>
+                <p>Gender</p>
+                <p class="mb-0 text-muted">{{ employeeData?.gender || '-' }}</p>
+              </li>
+              <li>
+                <p>Personal Email ID</p>
+                <p class="mb-0 text-muted">{{ employeeData?.personalEmail || '-' }}</p>
+              </li>
+              <li>
+                <p>Role</p>
+                <p class="mb-0 text-muted">{{ employeeData?.personalEmail || '-' }}</p>
               </li>
               <li>
                 <p>Alternate Phone</p>
@@ -87,16 +91,16 @@
                 </p>
               </li>
               <li>
+                <p>Country</p>
+                <p class="mb-0 text-muted">{{ employeeData?.country || '-' }}</p>
+              </li>
+              <li>
                 <p>Country/Region</p>
                 <p class="mb-0 text-muted">{{ employeeData?.state || '-' }}</p>
               </li>
               <li>
                 <p>City</p>
                 <p class="mb-0 text-muted">{{ employeeData?.city || '-' }}</p>
-              </li>
-              <li>
-                <p>Country</p>
-                <p class="mb-0 text-muted">{{ employeeData?.country || '-' }}</p>
               </li>
             </ng-container>
           </ul>

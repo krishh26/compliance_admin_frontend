@@ -31,7 +31,18 @@
             </div>
           </div> -->
         </div>
+
         <div class="row">
+          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
+            <div class="form-group">
+              <label>EMP ID</label>
+              <input type="number" class="form-control" placeholder="EMP ID" formControlName="employeeIdentity"
+                required />
+              <small class="text-danger" *ngIf="submitted && f['employeeIdentity'].errors?.['required']">
+                EMP ID is required
+              </small>
+            </div>
+          </div>
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>First Name</label>
@@ -53,6 +64,9 @@
               </small>
             </div>
           </div>
+        </div>
+
+        <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Last Name</label>
@@ -65,24 +79,12 @@
               </small>
             </div>
           </div>
-        </div>
-        <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
-              <label>Employee Id</label>
-              <input type="number" class="form-control" placeholder="Employee Id" formControlName="employeeIdentity"
-                required />
-              <small class="text-danger" *ngIf="submitted && f['employeeIdentity'].errors?.['required']">
-                Employee Id is required
-              </small>
-            </div>
-          </div>
-          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
-            <div class="form-group">
-              <label>Job Title</label>
-              <input type="text" class="form-control" placeholder="Job title" formControlName="jobTitle" required />
+              <label>Position</label>
+              <input type="text" class="form-control" placeholder="Position" formControlName="jobTitle" required />
               <small class="text-danger" *ngIf="submitted && f['jobTitle'].errors?.['required']">
-                Job Title is required
+                Position is required
               </small>
               <small class="text-danger" *ngIf="submitted && f['jobTitle'].errors?.['pattern']">
                 Only alphabets are allowed
@@ -91,10 +93,11 @@
           </div>
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
-              <label>Email Address</label>
-              <input type="email" class="form-control" placeholder="Email address" formControlName="email" required />
+              <label>Official E-mail ID</label>
+              <input type="email" class="form-control" placeholder="Official E-mail ID" formControlName="email"
+                required />
               <small class="text-danger" *ngIf="submitted && f['email'].errors?.['required']">
-                Email is required
+                Official E-mail ID is required
               </small>
               <small class="text-danger" *ngIf="submitted && f['email'].errors?.['email']">
                 Enter a valid email
@@ -102,6 +105,43 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
+            <div class="form-group">
+              <label>Date of Joining</label>
+              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="dateOfJoining"
+                required />
+              <small class="text-danger" *ngIf="submitted && f['dateOfJoining'].errors?.['required']">
+                Date of Joining is required
+              </small>
+            </div>
+          </div>
+          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
+            <div class="form-group">
+              <label>Employee Status</label>
+              <select class="form-select" formControlName="jobType">
+                <option value="">Select Employee Status</option>
+                <option value="Temporary">Temporary</option>
+                <option value="Permanent">Permanent</option>
+              </select>
+              <small class="text-danger" *ngIf="submitted && f['jobType'].errors?.['required']">
+                Please Select Employee Status
+              </small>
+            </div>
+          </div>
+          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
+            <div class="form-group">
+              <label>Contact Number</label>
+              <input type="text" class="form-control" placeholder="Contact Number" formControlName="phone"
+                maxlength="10" minlength="10" (keypress)="NumberOnly($event)" required />
+              <small class="text-danger" *ngIf="submitted && f['phone'].errors?.['required']">
+                Contact Number is required
+              </small>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
@@ -128,23 +168,28 @@
           </div>
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
-              <label>Joining Date</label>
-              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="dateOfJoining"
-                required />
-              <small class="text-danger" *ngIf="submitted && f['dateOfJoining'].errors?.['required']">
-                Joining Date is required
+              <label>Personal Email ID</label>
+              <input type="email" class="form-control" placeholder="Personal email address"
+                formControlName="personalEmail" />
+              <small class="text-danger" *ngIf="submitted && f['personalEmail'].errors?.['personalEmail']">
+                Enter a valid email
               </small>
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
-              <label>Phone</label>
-              <input type="text" class="form-control" placeholder="Phone number" formControlName="phone" maxlength="10"
-                minlength="10" (keypress)="NumberOnly($event)" required />
-              <small class="text-danger" *ngIf="submitted && f['phone'].errors?.['required']">
-                Phone Number is required
+              <label>Role</label>
+              <select class="form-select" formControlName="role">
+                <option value="">Select Role</option>
+                <!-- <option value="ADMIN">ADMIN</option> -->
+                <option value="LINEMANAGER">Line Manager</option>
+                <option value="EMPLOYEE">Employee</option>
+              </select>
+              <small class="text-danger" *ngIf="submitted && f['role'].errors?.['required']">
+                Please Select Role
               </small>
             </div>
           </div>
@@ -175,6 +220,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <!-- State Dropdown -->
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
@@ -207,46 +253,6 @@
               </select> -->
               <small class="text-danger" *ngIf="submitted && f['city'].errors?.['city']">
                 Please enter city
-              </small>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
-            <div class="form-group">
-              <label>Role</label>
-              <select class="form-select" formControlName="role">
-                <option value="">Select Role</option>
-                <!-- <option value="ADMIN">ADMIN</option> -->
-                <option value="LINEMANAGER">Line Manager</option>
-                <option value="EMPLOYEE">Employee</option>
-              </select>
-              <small class="text-danger" *ngIf="submitted && f['role'].errors?.['required']">
-                Please Select Role
-              </small>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
-            <div class="form-group">
-              <label>Job Type</label>
-              <select class="form-select" formControlName="jobType">
-                <option value="">Select Job Type</option>
-                <option value="Temporary">Temporary</option>
-                <option value="Permanent">Permanent</option>
-              </select>
-              <small class="text-danger" *ngIf="submitted && f['jobType'].errors?.['required']">
-                Please Select Job Type
-              </small>
-            </div>
-          </div>
-          <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
-            <div class="form-group">
-              <label>Personal Email</label>
-              <input type="email" class="form-control" placeholder="Personal email address"
-                formControlName="personalEmail" />
-              <small class="text-danger" *ngIf="submitted && f['personalEmail'].errors?.['personalEmail']">
-                Enter a valid email
               </small>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { environment } from './../../../../environment/environment';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import { FormControl } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { debounceTime } from 'rxjs';
 @Component({
   selector: 'app-employee-details-completed',
   templateUrl: './employee-details-completed.component.html',
@@ -37,7 +38,7 @@ export class EmployeeDetailsCompletedComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
-    this.searchText.valueChanges.subscribe(() => {
+    this.searchText.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getCompletedTestLists();
     });
   }
@@ -108,6 +109,7 @@ export class EmployeeDetailsCompletedComponent {
       sortOrder: 'desc',
     };
     this.spinner.show();
+    this.completedTestList = [];
     this.employeeService.getCompletedTestList(param).subscribe(
       (response) => {
         this.spinner.hide();

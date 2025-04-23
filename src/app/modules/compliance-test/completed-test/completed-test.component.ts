@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { debounceTime } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
@@ -34,7 +35,7 @@ export class CompletedTestComponent {
 
   ngOnInit() {
     this.getCompletedTestLists();
-    this.searchText.valueChanges.subscribe(() => {
+    this.searchText.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getCompletedTestLists();
     })
   }

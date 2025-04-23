@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { debounceTime } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
@@ -23,6 +24,7 @@ export class EmployeeDetailsOutstandingComponent {
   pagesize = pagination.itemsPerPage;
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
+  showData: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +39,7 @@ export class EmployeeDetailsOutstandingComponent {
       this.employeeId = params.get('id');
     });
     this.getOneEmployee();
-    this.searchText.valueChanges.subscribe(() => {
+    this.searchText.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getOutstandingTestLists();
     })
   }
@@ -99,6 +101,8 @@ export class EmployeeDetailsOutstandingComponent {
       userGroup: this.employeeData?.role == 'EMPLOYEE' ? "1" : "2"
     }
     this.spinner.show();
+    this.outstandingtestlist = [];
+    this.showData = false;
     this.employeeService.getOutstandingTestList(param).subscribe(
       (response) => {
         const forInfoList = response?.data?.policyList?.filter((element: any) => element?.policyType == 'For Information')
@@ -152,7 +156,7 @@ export class EmployeeDetailsOutstandingComponent {
               data.subPoliciyDetail[0]['resultCount'] = resultDetails;
             } catch (error) {
             }
-          }, 500);
+          }, 300);
         }
 
         setTimeout(() => {
@@ -166,7 +170,8 @@ export class EmployeeDetailsOutstandingComponent {
               }
             }
           });
-        }, 2000);
+          this.showData = true;
+        }, 1000);
 
         this.totalRecords = response?.data?.count || 0;
       },

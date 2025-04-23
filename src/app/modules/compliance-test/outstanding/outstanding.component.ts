@@ -7,6 +7,7 @@ import { LocalStorageService } from 'src/app/services/local-storage/local-storag
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import * as bootstrap from 'bootstrap';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-outstanding',
@@ -52,7 +53,7 @@ export class OutstandingComponent implements AfterViewInit {
 
   ngOnInit() {
     this.getOutstandingTestLists();
-    this.searchText.valueChanges.subscribe(() => {
+    this.searchText.valueChanges.pipe(debounceTime(500)).subscribe(() => {
       this.getOutstandingTestLists();
     })
   }

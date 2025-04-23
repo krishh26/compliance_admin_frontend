@@ -128,7 +128,7 @@ export class LoginComponent {
       return;
     }
     this.spinner.show();
-    this.authServiceService.verifyOTP({ email: this.loginForm.value?.email, otp: this.loginForm.value?.otp }).subscribe(
+    this.authServiceService.verifyOTP({ email: this.loginForm.value?.email, otp: Number(this.loginForm.value?.otp) }).subscribe(
       (response) => {
         this.localStorageService.setLoginToken(response?.data?.access_token);
         this.localStorageService.setLogger(response.data);

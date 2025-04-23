@@ -56,6 +56,7 @@ export class AddEmployeeComponent {
       jobTitle: ['', Validators.required],
       employeeIdentity: ['', Validators.required],
       jobType: ['', Validators.required],
+      personalEmail: ['']
       // profileImage: [null],
     });
   }
@@ -176,7 +177,8 @@ export class AddEmployeeComponent {
             role: this.employeeData.role,
             jobTitle: this.employeeData.jobTitle,
             employeeIdentity: this.employeeData.employeeIdentity,
-            jobType: this.employeeData?.jobType
+            jobType: this.employeeData?.jobType,
+            personalEmail: this.employeeData?.personalEmail
           });
         }
         this.spinner.hide();
@@ -212,6 +214,7 @@ export class AddEmployeeComponent {
 
   submitForm() {
     this.submitted = true;
+    console.log("this.employeeForm",this.employeeForm)
     if (!this.employeeForm.valid) {
       return;
     }

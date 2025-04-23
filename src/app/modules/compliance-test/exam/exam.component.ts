@@ -26,6 +26,7 @@ export class ExamComponent {
   hasReloaded = false;
   tabId = '';
   hasSubmitted = false;
+  showData: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -75,6 +76,7 @@ export class ExamComponent {
       userGroup: this.loginUser.role == "LINEMANAGER" ? "2" : "1",
       size: Number(this.settingDetails?.maximumQuestions) || 0
     }
+    this.showData = false;
     this.spinner.show();
     this.subPoliciesService.getQuestionList(payload).subscribe((response) => {
       this.spinner.hide();
@@ -90,8 +92,10 @@ export class ExamComponent {
       } else {
         // this.notificationService.showError('Questions not found.');
       }
+      this.showData = true;
     }, (error) => {
       this.spinner.hide();
+      this.showData = true;
       // this.notificationService.showError(error?.error?.message || 'Questions not found.');
     })
   }
@@ -196,6 +200,8 @@ export class ExamComponent {
     this.questions = JSON.parse(localStorage.getItem('questions')!) || []; // Load from localStorage or API
     if (this.questions?.length == 0) {
       this.getQuestionList();
+    } else {
+      this.showData = true;
     }
   }
 

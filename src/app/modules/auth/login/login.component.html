@@ -26,7 +26,7 @@
 
             <div class="form-group mb-3" *ngIf="isShowOTP">
               <label class="form-label">Enter OTP</label>
-              <input class="form-control form-control-lg" type="number" name="otp" placeholder="Enter your otp"
+              <input class="form-control form-control-lg" type="text" name="otp" placeholder="Enter your otp"
                 formControlName="otp" />
               <small class="text-danger" *ngIf="submitted && f['otp'].errors?.['required']">
                 Please Enter OTP.

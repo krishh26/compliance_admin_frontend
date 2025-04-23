@@ -52,7 +52,7 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
     this.editor = new Editor();
     this.policyForm = this.fb.group({
       policyId: ['', Validators.required],
-      name: ['Test', Validators.required],
+      name: ['XXXXXXXXXX', Validators.required],
       version: ['', Validators.required],
       description: [''],
       isActive: [1],
@@ -99,7 +99,6 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
       pageLimit: this.pagesize,
       searchText: this.searchText.value,
     }
-
 
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(
@@ -149,9 +148,9 @@ export class UploadSubPoliciesComponent implements OnInit, OnDestroy {
       return this.notificationService.showError("Please enter the description of policy.");
     }
 
-    if (!this.policyForm.valid) {
-      return;
-    }
+    // if (!this.policyForm.valid) {
+    //   return;
+    // }
 
     if (this.subPolicyId) {
       return this.update();

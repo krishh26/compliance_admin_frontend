@@ -12,7 +12,8 @@
       <div class="row align-items-center mb-4">
         <div class="col-lg-2 col-xl-2 col-md-2 col-12 mob-mb1">
           <div class="profile-image">
-            <img [src]="loginUser?.profileImg ? baseUrl + loginUser.profileImg : 'assets/img/avatars/no-profile.jpg'" class="img-fluid">
+            <img [src]="loginUser?.profileImg ? baseUrl + loginUser.profileImg : 'assets/img/avatars/no-profile.jpg'"
+              class="img-fluid">
           </div>
         </div>
         <div class="col-lg-10 col-xl-10 col-md-10 col-sm-10 col-12 desktop-end">
@@ -89,7 +90,7 @@
         </div>
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
           <div class="form-group">
-            <label>State</label>
+            <label>Country/Region</label>
             <div class="text-box">{{ employeeData?.state }}</div>
           </div>
         </div>
@@ -119,8 +120,13 @@
             <div class="text-box">{{ employeeData?.jobTitle }}</div>
           </div>
         </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <div class="form-group">
+            <label>Personal Email</label>
+            <div class="text-box">{{ employeeData?.personalEmail }}</div>
+          </div>
+        </div>
       </div>
-
     </div>
   </div>
   <!--/end new code-->

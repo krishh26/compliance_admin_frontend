@@ -80,7 +80,7 @@
                 </p>
               </li>
               <li>
-                <p>State</p>
+                <p>Country/Region</p>
                 <p class="mb-0 text-muted">{{ employeeData?.state || '-' }}</p>
               </li>
               <li>
@@ -170,11 +170,12 @@
         </thead>
         <tbody>
           <tr>
-            <td *ngIf="!outstandingtestlist?.length" colspan="4">
+            <td *ngIf="!outstandingtestlist?.length && showData" colspan="4">
               <app-no-record-found></app-no-record-found>
             </td>
           </tr>
-          <tr *ngFor="
+          <ng-container *ngIf="showData">
+            <tr *ngFor="
               let item of outstandingtestlist
                 | paginate
                   : {
@@ -184,27 +185,28 @@
                     };
               let i = index
             ">
-            <td>{{ item?.name }}</td>
-            <td>{{ item?.subPoliciyDetail?.[0]?.version }}</td>
-            <td>
-              {{ (item?.subPoliciyDetail?.[0]?.policyDueDate?.length > 0 ?
-              item?.subPoliciyDetail?.[0]?.policyDueDate?.[0]?.dueDate :
-              item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit) | gmtDate }}
-            </td>
-            <td>
-              <!-- <a class="btn btn-primary btn-sm">Edit</a> -->
-              <div class="input-group">
-                <input type="date" #dateInput class="form-control"
-                  [(ngModel)]="item.subPoliciyDetail[0].policySettingDetail.examTimeLimit" (change)="
+              <td>{{ item?.name }}</td>
+              <td>{{ item?.subPoliciyDetail?.[0]?.version }}</td>
+              <td>
+                {{ (item?.subPoliciyDetail?.[0]?.policyDueDate?.length > 0 ?
+                item?.subPoliciyDetail?.[0]?.policyDueDate?.[0]?.dueDate :
+                item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit) | gmtDate }}
+              </td>
+              <td>
+                <!-- <a class="btn btn-primary btn-sm">Edit</a> -->
+                <div class="input-group">
+                  <input type="date" #dateInput class="form-control"
+                    [(ngModel)]="item.subPoliciyDetail[0].policySettingDetail.examTimeLimit" (change)="
                     onDateChange(
                       item?.subPoliciyDetail?.[0]?.policySettingDetail?.examTimeLimit,
                       item?.subPoliciyDetail?.[0]?._id
                     )
                   " hidden />
-                <a class="edit-btn" (click)="openDatePicker(dateInput)">📅 Edit</a>
-              </div>
-            </td>
-          </tr>
+                  <a class="edit-btn" (click)="openDatePicker(dateInput)">📅 Edit</a>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
     </div>

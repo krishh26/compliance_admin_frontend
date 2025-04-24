@@ -43,12 +43,12 @@
 
             <ng-container *ngFor="let item of dataList">
               <ng-container *ngIf="policyDetails?.policyType !== 'For Information'">
-                <tr *ngIf="item?.latestResult?.resultStatus == '1'">
+                <tr>
                   <td>
                     <a [routerLink]="[ '/admin/show-exam-questions-admin',item?.resultDetails?.[0]?._id]">{{ item?.firstName }} {{ item?.lastName }} </a>
                   </td>
                   <!-- <td>{{ item?.firstName }} {{ item?.lastName }} </td> -->
-                  <td> {{ subPolicyDetails?.version }}</td>
+                  <td>{{ subPolicyDetails?.version }}</td>
                   <td>{{ item?.latestResult?.score }}</td>
                   <td>{{ item?.latestResult?.submitDate | gmtDate }}</td>
                   <td>

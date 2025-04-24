@@ -18,6 +18,7 @@ import { TermsConditionAdminComponent } from './terms-condition-admin/terms-cond
 import { NgxEditorModule } from 'ngx-editor';
 import { SubPolicySettingInformationComponent } from './sub-policy-setting-information/sub-policy-setting-information.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SubPolicyFailedComponent } from './sub-policy-failed/sub-policy-failed.component';
 const routes: Routes = [
   { path: '', redirectTo: 'policies-list', pathMatch: 'full' },
   {
@@ -58,6 +59,10 @@ const routes: Routes = [
         path: 'completed/:id',
         component: SubPolicyCompletedComponent,
       },
+      {
+        path: 'failed/:id',
+        component: SubPolicyFailedComponent,
+      },
     ],
   },
   {
@@ -79,6 +84,7 @@ const routes: Routes = [
     BulyEntryQuestionComponent,
     TermsConditionAdminComponent,
     SubPolicySettingInformationComponent,
+    SubPolicyFailedComponent,
   ],
   imports: [CommonModule,
     SharedModule,

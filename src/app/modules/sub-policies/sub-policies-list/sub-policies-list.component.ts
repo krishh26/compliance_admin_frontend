@@ -24,6 +24,7 @@ export class SubPoliciesListComponent {
   selectedVersion: any;
   policyDetails: any;
   version: any;
+  settingDetails: any;
 
   constructor(
     private notificationService: NotificationService,
@@ -55,6 +56,19 @@ export class SubPoliciesListComponent {
     })
   }
 
+  getSettingDetails(id: string) {
+    const payload = {
+      subPolicyId: this.latestPolicy?._id
+    }
+
+    this.subPoliciesService.getPolicySetting(payload).subscribe((response) => {
+      if (response?.data) {
+        this.settingDetails = response?.data;
+        this.filterOutData();
+      }
+    })
+  }
+
   paginate(page: number) {
     this.page = page;
     this.getPolicyList();
@@ -78,7 +92,7 @@ export class SubPoliciesListComponent {
           this.latestPolicy = sortedPolicies[0];
           this.selectedVersion = this.latestPolicy?.version
           if (this.latestPolicy) {
-            if(this.policyDetails?.policyType == 'For Information') {
+            if (this.policyDetails?.policyType == 'For Information') {
               this.getSubPolicyCountAndDataForInfo();
             } else {
               this.getSubPolicyCountAndData();
@@ -91,7 +105,7 @@ export class SubPoliciesListComponent {
           this.latestPolicy = findPolicy || {};
           this.selectedVersion = this.latestPolicy?.version
           if (this.latestPolicy) {
-            if(this.policyDetails?.policyType == 'For Information') {
+            if (this.policyDetails?.policyType == 'For Information') {
               this.getSubPolicyCountAndDataForInfo();
             } else {
               this.getSubPolicyCountAndData();
@@ -114,7 +128,7 @@ export class SubPoliciesListComponent {
     this.latestPolicy = findPolicy || {};
     this.selectedVersion = this.latestPolicy?.version
     if (this.latestPolicy) {
-      if(this.policyDetails?.policyType == 'For Information') {
+      if (this.policyDetails?.policyType == 'For Information') {
         this.getSubPolicyCountAndDataForInfo();
       } else {
         this.getSubPolicyCountAndData();
@@ -142,12 +156,12 @@ export class SubPoliciesListComponent {
         const payload = { id: id };
         this.subPoliciesService.deleteSubPolicy(payload).subscribe(
           (response) => {
-           this.spinner.hide();
+            this.spinner.hide();
             this.notificationService.showSuccess('Delete Sub Policy successfully');
             this.getPolicyList();
           },
           (error) => {
-           this.spinner.hide();
+            this.spinner.hide();
             this.notificationService.showError(
               error?.error?.message || 'Something went wrong!'
             );
@@ -158,13 +172,50 @@ export class SubPoliciesListComponent {
   }
 
   getSubPolicyCountAndData() {
+    this.completedCount = 0;
+    this.failedCount = 0;
+    this.countDetails = {};
     this.spinner.show();
     this.subPoliciesService.getSubPolicyCountAndData({ subPolicyId: this.latestPolicy?._id }).subscribe((response) => {
       this.spinner.hide();
       this.countDetails = response?.data;
+      this.getSettingDetails(this.latestPolicy?._id);
     }, (error) => {
       this.spinner.hide();
       this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+    });
+  }
+
+  completedCount: number = 0;
+  failedCount: number = 0;
+
+  filterOutData() {
+    console.log(this.countDetails)
+    this.countDetails?.lineManagerCompletedlist?.forEach((user: any) => {
+      const { resultDetails } = user;
+
+      const hasCompleted = resultDetails.some((rd: any) => rd.resultStatus === '1' || rd.resultStatus === 1);
+      const allFailed = Number(resultDetails.length) === Number(this.settingDetails?.maximumAttempt) &&
+        resultDetails.every((rd: any) => rd.resultStatus === '2' || rd.resultStatus === 2);
+
+      if (hasCompleted) {
+        this.completedCount++;
+      } else if (allFailed) {
+        this.failedCount++;
+      }
+    });
+    this.countDetails?.empCompletedList?.forEach((user: any) => {
+      const { resultDetails } = user;
+
+      const hasCompleted = resultDetails.some((rd: any) => rd.resultStatus === '1' || rd.resultStatus === 1);
+      const allFailed = Number(resultDetails.length) === Number(this.settingDetails?.maximumAttempt) &&
+        resultDetails.every((rd: any) => rd.resultStatus === '2' || rd.resultStatus === 2);
+
+      if (hasCompleted) {
+        this.completedCount++;
+      } else if (allFailed) {
+        this.failedCount++;
+      }
     });
   }
 

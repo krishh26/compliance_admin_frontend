@@ -6,11 +6,11 @@ import { PolicyService } from 'src/app/services/policy/policy.service';
 import { SubPoliciesService } from 'src/app/services/sub-policy/sub-policies.service';
 
 @Component({
-  selector: 'app-sub-policy-completed',
-  templateUrl: './sub-policy-completed.component.html',
-  styleUrls: ['./sub-policy-completed.component.css']
+  selector: 'app-sub-policy-failed',
+  templateUrl: './sub-policy-failed.component.html',
+  styleUrls: ['./sub-policy-failed.component.css']
 })
-export class SubPolicyCompletedComponent {
+export class SubPolicyFailedComponent {
   subPolicyId: any = null;
   countDetails: any;
   dataList: any[] = [];
@@ -32,8 +32,8 @@ export class SubPolicyCompletedComponent {
     this.route.paramMap.subscribe((params) => {
       this.subPolicyId = params.get('id');
       if (this.subPolicyId) {
-        this.getSubPolicyDetails();
         this.getPolicySettingDetails();
+        this.getSubPolicyDetails();
         // this.getSubPolicyCountAndData();
       }
     });
@@ -85,9 +85,10 @@ export class SubPolicyCompletedComponent {
       this.countDetails?.empCompletedList?.forEach((user: any) => {
         const { resultDetails } = user;
 
-        const hasCompleted = resultDetails.some((rd: any) => rd.resultStatus === '1' || rd.resultStatus === 1);
+        const allFailed = Number(resultDetails.length) === Number(this.settingDetails?.maximumAttempt) &&
+          resultDetails.every((rd: any) => rd.resultStatus === '2' || rd.resultStatus === 2);
 
-        if (hasCompleted) {
+        if (allFailed) {
           this.dataList.push(user);
         }
       });
@@ -163,23 +164,27 @@ export class SubPolicyCompletedComponent {
       this.countDetails?.lineManagerCompletedlist?.forEach((user: any) => {
         const { resultDetails } = user;
 
-        const hasCompleted = resultDetails.some((rd: any) => rd.resultStatus === '1' || rd.resultStatus === 1);
+        const allFailed = Number(resultDetails.length) === Number(this.settingDetails?.maximumAttempt) &&
+          resultDetails.every((rd: any) => rd.resultStatus === '2' || rd.resultStatus === 2);
 
-        if (hasCompleted) {
+        if (allFailed) {
           this.dataList.push(user);
         }
       });
+
       // this.dataList = this.countDetails?.lineManagerCompletedlist || [];
     } else {
       this.countDetails?.empCompletedList?.forEach((user: any) => {
         const { resultDetails } = user;
 
-        const hasCompleted = resultDetails.some((rd: any) => rd.resultStatus === '1' || rd.resultStatus === 1);
+        const allFailed = Number(resultDetails.length) === Number(this.settingDetails?.maximumAttempt) &&
+          resultDetails.every((rd: any) => rd.resultStatus === '2' || rd.resultStatus === 2);
 
-        if (hasCompleted) {
+        if (allFailed) {
           this.dataList.push(user);
         }
       });
+
       // this.dataList = this.countDetails?.empCompletedList || [];
     }
 
@@ -200,3 +205,4 @@ export class SubPolicyCompletedComponent {
 
   }
 }
+

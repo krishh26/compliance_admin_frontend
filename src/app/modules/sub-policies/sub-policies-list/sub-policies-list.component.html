@@ -32,12 +32,18 @@
       </li>
       <li>
         <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]" class="second-child">
-          <img src="assets/img/icons/completed-icon.png" /> Completed ({{ countDetails?.completedCount }})
+          <img src="assets/img/icons/completed-icon.png" /> Completed ({{ completedCount }})
         </a>
       </li>
       <li>
         <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]" class="first-child">
           <img src="assets/img/icons/outstanding-icon.png" /> Outstanding ({{ countDetails?.OutStadingCount }})
+        </a>
+      </li>
+      <li *ngIf="policyDetails?.policyType == 'For Action'">
+        <a [routerLink]="[ '/sub-policies/failed/', latestPolicy?._id]" class="first-child"
+          style="background-color:  #ffc5c5">
+          <img src="assets/img/icons/outstanding-icon.png" /> Failed ({{ failedCount }})
         </a>
       </li>
     </ul>
@@ -54,6 +60,11 @@
       <li>
         <a class="first-child">
           <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
+        </a>
+      </li>
+      <li *ngIf="policyDetails?.policyType == 'For Action'">
+        <a class="first-child" style="background-color:  #ffc5c5">
+          <img src="assets/img/icons/outstanding-icon.png" /> Failed
         </a>
       </li>
     </ul>
@@ -90,11 +101,11 @@
                 <td class="action-col">
                   <span *ngIf="policyDetails?.policyType !== 'For Information'">
                     <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-2"><i
-                      class="bi bi-gear-fill"></i> </a>
+                        class="bi bi-gear-fill"></i> </a>
                   </span>
                   <span *ngIf="policyDetails?.policyType == 'For Information'">
-                    <a [routerLink]="[ '/sub-policies/setting-sub-policies-for-information/', item._id]" class="text-dark me-2"><i
-                      class="bi bi-gear-fill"></i> </a>
+                    <a [routerLink]="[ '/sub-policies/setting-sub-policies-for-information/', item._id]"
+                      class="text-dark me-2"><i class="bi bi-gear-fill"></i> </a>
                   </span>
                   <!-- <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)" class="edit-btn me-2">
                     <i class="bi bi-pencil-square"></i>

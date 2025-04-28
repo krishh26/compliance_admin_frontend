@@ -48,7 +48,10 @@
                 <td>
                   <a class="btn btn-primary btn-sm">{{ item?.policyType }}</a>
                 </td>
-                <td>{{ item?.status }}</td>
+                <td>
+                  <span *ngIf="item?.giveExam" class="btn btn-success btn-sm rounded">Completed</span>
+                  <span *ngIf="!item?.giveExam" class="btn btn-danger btn-sm rounded">Pending</span>
+                  <!-- {{ item?.status }}</td> -->
                 <td>
                   <a style="margin-left: 2px;" [routerLink]="['/policies/upload-policy', item._id]" class="edit-btn me-2">
                     <i class="bi bi-pencil-square"></i>

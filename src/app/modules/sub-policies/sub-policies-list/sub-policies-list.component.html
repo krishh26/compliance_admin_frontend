@@ -3,68 +3,69 @@
 </ngx-spinner>
 <div class="container-fluid p-0">
   <div class="row align-items-center mb-3">
-    <div class="col-lg-10 col-xl-10 col-12">
+    <div class="col-lg-10 col-xl-10 col-md-8 col-sm-12">
       <div class="page-title">
-        <h2>
+        <h2 class="mb-2 mb-sm-0">
           <a routerLink="/policies/policies-list" class="me-2 text-dark">
             <i class="bi bi-arrow-left-circle"></i></a>
           {{policyDetails?.name || 'Sub Policies'}}
         </h2>
       </div>
     </div>
-    <div class="col-lg-2 col-xl-2 col-12 d-flex gap-2">
+    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-12 d-flex gap-2">
       <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
         Upload
       </a>
     </div>
   </div>
   <div class="mb-1">
-    <ul class="OutstandingTab" *ngIf="latestPolicy">
-      <li>
-        <a class="first-child">
-          <img src="assets/img/icons/outstanding-icon.png" /> Version
-          <select [(ngModel)]="selectedVersion" (change)="onVersionChange($event)">
+    <ul class="OutstandingTab d-flex flex-wrap" *ngIf="latestPolicy">
+      <li class="flex-grow-1 min-width-200">
+        <a class="first-child d-flex align-items-center">
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Version
+          <select [(ngModel)]="selectedVersion" (change)="onVersionChange($event)" class="ms-2">
             <option *ngFor="let item of policyList" [value]="item?.version">
               {{ item?.version }}
             </option>
           </select>
         </a>
       </li>
-      <li>
-        <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]" class="second-child">
-          <img src="assets/img/icons/completed-icon.png" /> Completed ({{ completedCount }})
+      <li class="flex-grow-1 min-width-200">
+        <a [routerLink]="[ '/sub-policies/completed/', latestPolicy?._id]" class="second-child d-flex align-items-center">
+          <img src="assets/img/icons/completed-icon.png" class="me-2" /> Completed ({{ completedCount }})
         </a>
       </li>
-      <li>
-        <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]" class="first-child">
-          <img src="assets/img/icons/outstanding-icon.png" /> Outstanding ({{ countDetails?.OutStadingCount }})
+      <li class="flex-grow-1 min-width-200">
+        <a [routerLink]="[ '/sub-policies/outstanding/', latestPolicy?._id]" class="first-child d-flex align-items-center">
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Outstanding ({{ countDetails?.OutStadingCount }})
         </a>
       </li>
-      <li *ngIf="policyDetails?.policyType == 'For Action'">
-        <a [routerLink]="[ '/sub-policies/failed/', latestPolicy?._id]" class="first-child"
+      <li class="flex-grow-1 min-width-200" *ngIf="policyDetails?.policyType == 'For Action'">
+        <a [routerLink]="[ '/sub-policies/failed/', latestPolicy?._id]" class="first-child d-flex align-items-center"
           style="background-color:  #ffc5c5">
-          <img src="assets/img/icons/outstanding-icon.png" /> Failed ({{ failedCount }})
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Failed ({{ failedCount }})
         </a>
       </li>
     </ul>
-    <ul class="OutstandingTab" *ngIf="!latestPolicy">
-      <li>
-        <a class="first-child">
-          <img src="assets/img/icons/outstanding-icon.png" /> Version
+    <ul class="OutstandingTab d-flex flex-wrap" *ngIf="!latestPolicy">
+      <li class="flex-grow-1 min-width-200">
+        <a class="first-child d-flex align-items-center">
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Version
         </a>
       </li>
-      <li>
-        <a class="second-child">
-          <img src="assets/img/icons/completed-icon.png" /> Completed </a>
-      </li>
-      <li>
-        <a class="first-child">
-          <img src="assets/img/icons/outstanding-icon.png" /> Outstanding
+      <li class="flex-grow-1 min-width-200">
+        <a class="second-child d-flex align-items-center">
+          <img src="assets/img/icons/completed-icon.png" class="me-2" /> Completed
         </a>
       </li>
-      <li *ngIf="policyDetails?.policyType == 'For Action'">
-        <a class="first-child" style="background-color:  #ffc5c5">
-          <img src="assets/img/icons/outstanding-icon.png" /> Failed
+      <li class="flex-grow-1 min-width-200">
+        <a class="first-child d-flex align-items-center">
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Outstanding
+        </a>
+      </li>
+      <li class="flex-grow-1 min-width-200" *ngIf="policyDetails?.policyType == 'For Action'">
+        <a class="first-child d-flex align-items-center" style="background-color:  #ffc5c5">
+          <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Failed
         </a>
       </li>
     </ul>
@@ -99,44 +100,38 @@
                 <td>{{ item?.policySettings?.publishDate | gmtDate }}</td>
                 <td>{{ item?.createdAt | gmtDate }}</td>
                 <td class="action-col">
-                  <span *ngIf="policyDetails?.policyType !== 'For Information'">
-                    <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark me-2"><i
-                        class="bi bi-gear-fill"></i> </a>
-                  </span>
-                  <span *ngIf="policyDetails?.policyType == 'For Information'">
-                    <a [routerLink]="[ '/sub-policies/setting-sub-policies-for-information/', item._id]"
-                      class="text-dark me-2"><i class="bi bi-gear-fill"></i> </a>
-                  </span>
-                  <!-- <a style="margin-left: 2px;" (click)="uploadSubPolicies(item?._id)" class="edit-btn me-2">
-                    <i class="bi bi-pencil-square"></i>
-                  </a> -->
-                  <a (click)="deleteSubPolicy(item._id)" class="trash-btn">
-                    <i class="bi bi-trash-fill"></i>
-                  </a>
+                  <div class="d-flex gap-2">
+                    <span *ngIf="policyDetails?.policyType !== 'For Information'">
+                      <a [routerLink]="[ '/sub-policies/setting-sub-policies/', item._id]" class="text-dark"><i
+                          class="bi bi-gear-fill"></i> </a>
+                    </span>
+                    <span *ngIf="policyDetails?.policyType == 'For Information'">
+                      <a [routerLink]="[ '/sub-policies/setting-sub-policies-for-information/', item._id]"
+                        class="text-dark"><i class="bi bi-gear-fill"></i> </a>
+                    </span>
+                    <a (click)="deleteSubPolicy(item._id)" class="trash-btn">
+                      <i class="bi bi-trash-fill"></i>
+                    </a>
+                  </div>
                 </td>
                 <td>
-                  <ng-container *ngIf="item?.policySettings && policyDetails?.policyType !== 'For Information'">
-                    <a class="btn btn-primary btn-sm me-2 mob-mb1" [routerLink]="['/sub-policies/question-list']"
-                      [queryParams]="{ subPoliciesId: item._id, userGroup: '1' }">Employee</a>
-                    <a class="btn btn-primary btn-sm me-2 mob-mb1" [routerLink]="['/sub-policies/question-list']"
-                      [queryParams]="{ subPoliciesId: item._id, userGroup: '2'}">Line Manager</a>
-                  </ng-container>
-                  <ng-container *ngIf="!item?.policySettings">
-                    <a class="btn btn-danger btn-sm">Setting Pending</a>
-                  </ng-container>
+                  <div class="d-flex flex-wrap gap-2">
+                    <ng-container *ngIf="item?.policySettings && policyDetails?.policyType !== 'For Information'">
+                      <a class="btn btn-primary btn-sm" [routerLink]="['/sub-policies/question-list']"
+                        [queryParams]="{ subPoliciesId: item._id, userGroup: '1' }">Employee</a>
+                      <a class="btn btn-primary btn-sm" [routerLink]="['/sub-policies/question-list']"
+                        [queryParams]="{ subPoliciesId: item._id, userGroup: '2'}">Line Manager</a>
+                    </ng-container>
+                    <ng-container *ngIf="!item?.policySettings">
+                      <a class="btn btn-danger btn-sm">Setting Pending</a>
+                    </ng-container>
+                  </div>
                 </td>
               </tr>
             </ng-container>
           </tbody>
         </table>
       </div>
-      <!-- <div class="row mt-3 align-items-center">
-        <div class="row">
-          <div class="pagination">
-            <pagination-controls (pageChange)="paginate($event)"></pagination-controls>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </div>

@@ -203,40 +203,51 @@
               </small> -->
             </div>
           </div>
-          <!-- Country Dropdown -->
+          <!-- address line 1 -->
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
-              <label>Country</label>
-              <input type="text" class="form-control" placeholder="Enter county" formControlName="country" required />
+              <label>Address Line 1</label>
+              <input type="text" class="form-control" placeholder="Address line 1" formControlName="addressLine1"
+                required />
               <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
                 <option value="">Select Country</option>
                 <option *ngFor="let country of countries" [value]="country.name">
                   {{ country.name }}
                 </option>
               </select> -->
-              <small class="text-danger" *ngIf="submitted && f['country'].errors?.['required']">
-                Please enter country
+              <small class="text-danger" *ngIf="submitted && f['addressLine1'].errors?.['required']">
+                Please enter address
               </small>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <!-- State Dropdown -->
+          <!-- address line 2 -->
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
-              <label>County/Region</label>
-              <input type="text" class="form-control" placeholder="Enter county/region" formControlName="state"
-                required />
-              <!-- <select class="form-select" formControlName="state" (change)="onStateChange($event)">
-                <option value="">Select State</option>
-                <option *ngFor="let state of states" [value]="state?.name">
-                  {{ state?.name }}
+              <label>Address Line 2</label>
+              <input type="text" class="form-control" placeholder="Address line 2" formControlName="addressLine2" />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
                 </option>
               </select> -->
-              <small class="text-danger" *ngIf="submitted && f['state'].errors?.['required']">
-                Please enter state
-              </small>
+            </div>
+          </div>
+
+          <!-- address line 3  -->
+          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+            <div class="form-group">
+              <label>Address Line 3</label>
+              <input type="text" class="form-control" placeholder="Address line 3" formControlName="addressLine3" />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
+                </option>
+              </select> -->
             </div>
           </div>
 
@@ -253,6 +264,57 @@
               </select> -->
               <small class="text-danger" *ngIf="submitted && f['city'].errors?.['city']">
                 Please enter city
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Post code -->
+          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+            <div class="form-group">
+              <label>Post Code</label>
+              <input type="text" class="form-control" placeholder="Enter post code" formControlName="postCode" />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
+                </option>
+              </select> -->
+            </div>
+          </div>
+
+          <!-- Country Dropdown -->
+          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+            <div class="form-group">
+              <label>Country</label>
+              <input type="text" class="form-control" placeholder="Enter county" formControlName="country" required />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
+                </option>
+              </select> -->
+              <small class="text-danger" *ngIf="submitted && f['country'].errors?.['required']">
+                Please enter country
+              </small>
+            </div>
+          </div>
+
+          <!-- State Dropdown -->
+          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+            <div class="form-group">
+              <label>County/Region</label>
+              <input type="text" class="form-control" placeholder="Enter county/region" formControlName="state"
+                required />
+              <!-- <select class="form-select" formControlName="state" (change)="onStateChange($event)">
+                <option value="">Select State</option>
+                <option *ngFor="let state of states" [value]="state?.name">
+                  {{ state?.name }}
+                </option>
+              </select> -->
+              <small class="text-danger" *ngIf="submitted && f['state'].errors?.['required']">
+                Please enter state
               </small>
             </div>
           </div>

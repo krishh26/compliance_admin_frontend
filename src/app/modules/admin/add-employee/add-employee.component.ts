@@ -56,6 +56,10 @@ export class AddEmployeeComponent {
       jobTitle: ['', Validators.required],
       employeeIdentity: ['', Validators.required],
       jobType: ['', Validators.required],
+      addressLine1: ['', Validators.required],
+      addressLine2: [''],
+      addressLine3: [''],
+      postCode: [''],
       personalEmail: ['']
       // profileImage: [null],
     });
@@ -178,7 +182,11 @@ export class AddEmployeeComponent {
             jobTitle: this.employeeData.jobTitle,
             employeeIdentity: this.employeeData.employeeIdentity,
             jobType: this.employeeData?.jobType,
-            personalEmail: this.employeeData?.personalEmail
+            personalEmail: this.employeeData?.personalEmail,
+            addressLine1: this.employeeData?.addressLine1,
+            addressLine2: this.employeeData?.addressLine2,
+            addressLine3: this.employeeData?.addressLine3,
+            postCode: this.employeeData?.postCode,
           });
         }
         this.spinner.hide();
@@ -214,7 +222,7 @@ export class AddEmployeeComponent {
 
   submitForm() {
     this.submitted = true;
-    console.log("this.employeeForm",this.employeeForm)
+    console.log("this.employeeForm", this.employeeForm)
     if (!this.employeeForm.valid) {
       return;
     }

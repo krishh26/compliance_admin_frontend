@@ -5,6 +5,11 @@ import { PolicyService } from 'src/app/services/policy/policy.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
 import Swal from 'sweetalert2';
 
+interface PolicyDetailsResult {
+  index: number;
+  giveExam: boolean;
+}
+
 @Component({
   selector: 'app-policies-list',
   templateUrl: './policies-list.component.html',
@@ -43,9 +48,40 @@ export class PoliciesListComponent implements OnInit {
 
     this.policyList = [];
     this.policyService.getPolicyList(params).subscribe(
-      (response) => {
-        this.spinner.hide();
+      async (response) => {
         this.policyList = response?.data?.policyList || [];
+
+        // Create an array of promises for parallel API calls
+        const policyDetailsPromises = this.policyList.map(policy =>
+          new Promise<PolicyDetailsResult>((resolve) => {
+            this.policyService.getPolicyDetails(policy._id).subscribe(
+              (detailsResponse) => {
+                resolve({
+                  index: this.policyList.indexOf(policy),
+                  giveExam: detailsResponse?.data?.allUserGiveExam || false
+                });
+              },
+              (error) => {
+                resolve({
+                  index: this.policyList.indexOf(policy),
+                  giveExam: false
+                });
+              }
+            );
+          })
+        );
+
+        // Wait for all API calls to complete
+        const results = await Promise.all(policyDetailsPromises);
+
+        // Update the policyList with the results
+        results.forEach(result => {
+          if (this.policyList[result.index]) {
+            this.policyList[result.index].giveExam = result.giveExam;
+          }
+        });
+        console.log(this.policyList);
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();

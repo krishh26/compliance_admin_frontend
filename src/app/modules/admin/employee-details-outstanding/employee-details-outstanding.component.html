@@ -88,16 +88,32 @@
                 </p>
               </li>
               <li>
+                <p>Address Line 1</p>
+                <p class="mb-0 text-muted">{{ employeeData?.addressLine1 || '-' }}</p>
+              </li>
+              <li>
+                <p>Address Line 2</p>
+                <p class="mb-0 text-muted">{{ employeeData?.addressLine2 || '-' }}</p>
+              </li>
+              <li>
+                <p>Address Line 3</p>
+                <p class="mb-0 text-muted">{{ employeeData?.addressLine3 || '-' }}</p>
+              </li>
+              <li>
+                <p>City</p>
+                <p class="mb-0 text-muted">{{ employeeData?.city || '-' }}</p>
+              </li>
+              <li>
+                <p>Post Code</p>
+                <p class="mb-0 text-muted">{{ employeeData?.postCode || '-' }}</p>
+              </li>
+              <li>
                 <p>Country</p>
                 <p class="mb-0 text-muted">{{ employeeData?.country || '-' }}</p>
               </li>
               <li>
                 <p>Country/Region</p>
                 <p class="mb-0 text-muted">{{ employeeData?.state || '-' }}</p>
-              </li>
-              <li>
-                <p>City</p>
-                <p class="mb-0 text-muted">{{ employeeData?.city || '-' }}</p>
               </li>
             </ng-container>
           </ul>

@@ -115,7 +115,7 @@
             <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu aria-labelledby="adminDropdown">
               <li><a class="dropdown-item" routerLink="/admin/employee-profile"><i class="align-middle me-1"
                     data-feather="user"></i> My Profile</a></li>
-              <li><a class="dropdown-item" routerLink="/admin/change-password"><i class="align-middle me-1"
+              <li *ngIf="loginUser?.role == 'ADMIN'"><a class="dropdown-item" routerLink="/admin/change-password"><i class="align-middle me-1"
                     data-feather="key"></i> Change Password</a></li>
               <li><a class="dropdown-item" (click)="logout()"><i class="align-middle me-1" data-feather="power"></i>
                   Logout</a></li>

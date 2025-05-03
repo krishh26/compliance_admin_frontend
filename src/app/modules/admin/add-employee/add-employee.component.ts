@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
@@ -23,6 +23,8 @@ export class AddEmployeeComponent {
   isUpload: boolean = false;
   baseImageURL = environment.baseUrl;
   maxDate!: string;
+  defaultDate!: string; // Date the calendar opens to
+  maxJoiningDate!: string;
   countries: any = [];
   states: any[] = [];
   cities: any[] = [];
@@ -36,8 +38,19 @@ export class AddEmployeeComponent {
     private spinner: NgxSpinnerService,
     private http: HttpClient
   ) {
+    // const today = new Date();
     const today = new Date();
-    this.maxDate = today.toISOString().split('T')[0];
+    this.maxJoiningDate = today.toISOString().split('T')[0];
+    const eighteenYearsAgo = new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate()
+    );
+
+    // Format as yyyy-MM-dd for input[type="date"]
+    this.maxDate = eighteenYearsAgo.toISOString().split('T')[0];
+    this.defaultDate = this.maxDate; // calendar will open at this date
+
 
     this.employeeForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
@@ -60,9 +73,34 @@ export class AddEmployeeComponent {
       addressLine2: [''],
       addressLine3: [''],
       postCode: [''],
-      personalEmail: ['']
+      personalEmail: [''],
+      countryCode: ['', Validators.required]
       // profileImage: [null],
     });
+  }
+
+  minAgeValidator(minAge: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const birthDate = new Date(control.value);
+      const today = new Date();
+
+      // Calculate age
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      return age >= minAge ? null : { minAge: { requiredAge: minAge, actualAge: age } };
+    };
+  }
+
+  get dateOfBirth() {
+    return this.employeeForm.get('dateOfBirth');
   }
 
   get f() {
@@ -187,6 +225,7 @@ export class AddEmployeeComponent {
             addressLine2: this.employeeData?.addressLine2,
             addressLine3: this.employeeData?.addressLine3,
             postCode: this.employeeData?.postCode,
+            countryCode: this.employeeData?.countryCode
           });
         }
         this.spinner.hide();

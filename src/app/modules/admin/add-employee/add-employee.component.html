@@ -110,8 +110,8 @@
           <div class="col-lg-4 col-xl-4 col-md-4 colk-smn-4 col-12">
             <div class="form-group">
               <label>Date of Joining</label>
-              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="dateOfJoining"
-                required />
+              <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="dateOfJoining" required
+                [max]="maxJoiningDate" />
               <small class="text-danger" *ngIf="submitted && f['dateOfJoining'].errors?.['required']">
                 Date of Joining is required
               </small>
@@ -147,9 +147,12 @@
             <div class="form-group">
               <label>Date of Birth</label>
               <input type="date" class="form-control" placeholder="MM/DD/YYYY" formControlName="birthDate"
-                [max]="maxDate" required />
+                [max]="maxDate" [value]="defaultDate" required />
               <small class="text-danger" *ngIf="submitted && f['birthDate'].errors?.['required']">
                 Date of Birth is required
+              </small>
+              <small class="text-danger" *ngIf="dateOfBirth?.errors?.['minAge']">
+                You must be at least 18 years old.
               </small>
             </div>
           </div>
@@ -252,24 +255,23 @@
           </div>
 
           <!-- City Dropdown -->
-          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+          <!-- <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
               <label>City</label>
               <input type="text" class="form-control" placeholder="Enter city" formControlName="city" required />
-              <!-- <select class="form-select" formControlName="city">
+
+              Not require Code
+              <select class="form-select" formControlName="city">
                 <option value="">Select City</option>
                 <option *ngFor="let city of cities" [value]="city">
                   {{ city }}
                 </option>
-              </select> -->
+              </select>
               <small class="text-danger" *ngIf="submitted && f['city'].errors?.['city']">
                 Please enter city
               </small>
             </div>
-          </div>
-        </div>
-
-        <div class="row">
+          </div> -->
           <!-- Post code -->
           <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
             <div class="form-group">
@@ -281,6 +283,26 @@
                   {{ country.name }}
                 </option>
               </select> -->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- Country Dropdown -->
+          <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4 col-12">
+            <div class="form-group">
+              <label>Country Code</label>
+              <input type="text" class="form-control" placeholder="Enter country code" formControlName="countryCode"
+                required />
+              <!-- <select class="form-select" formControlName="country" (change)="onCountryChange($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries" [value]="country.name">
+                  {{ country.name }}
+                </option>
+              </select> -->
+              <small class="text-danger" *ngIf="submitted && f['countryCode'].errors?.['required']">
+                Please enter country code
+              </small>
             </div>
           </div>
 
@@ -319,6 +341,7 @@
             </div>
           </div>
         </div>
+
         <div class="form-group text-end">
           <button type="submit" class="btn btn-primary">
             Save Employee

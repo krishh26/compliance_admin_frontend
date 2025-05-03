@@ -51,12 +51,12 @@
               </small>
             </div> -->
 
-            <!-- <div class="d-grid gap-2 mt-4 text-center">
-              <button type="submit" class="btn btn-lg btn-primary">
+            <div class="mt-4 text-end" *ngIf="isShowOTP">
+              <!-- <button type="submit" class="btn btn-lg btn-primary">
                 Sign in
-              </button>
-              <a routerLink="/forgot" class="text-muted text-decoration-none">Forgot Password?</a>
-            </div> -->
+              </button> -->
+              <a class="text-primary" (click)="checkTheRegisterUser()"> Resend OTP ?</a>
+            </div>
           </form>
           <div class="d-grid gap-2 mt-4 text-center">
             <!-- Live environment -->

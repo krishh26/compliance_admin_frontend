@@ -1,5 +1,5 @@
 import { environment } from './../../../../environment/environment';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,12 +7,14 @@ import { debounceTime } from 'rxjs';
 import { EmployeeService } from 'src/app/services/employee/employee.service';
 import { NotificationService } from 'src/app/services/notification/notification.service';
 import { pagination } from 'src/app/utility/shared/constant/pagination.constant';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-employee-details-outstanding',
   templateUrl: './employee-details-outstanding.component.html',
   styleUrls: ['./employee-details-outstanding.component.css'],
 })
-export class EmployeeDetailsOutstandingComponent {
+export class EmployeeDetailsOutstandingComponent implements OnInit {
   employeeId: any = null;
   employeeData: any;
   showLoader: boolean = false;
@@ -25,6 +27,8 @@ export class EmployeeDetailsOutstandingComponent {
   totalRecords: number = pagination.totalRecords;
   searchText: FormControl = new FormControl();
   showData: boolean = false;
+  activeDateInput: HTMLInputElement | null = null;
+  bulkDueDate: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -44,28 +48,62 @@ export class EmployeeDetailsOutstandingComponent {
     })
   }
 
-  openDatePicker(input: HTMLInputElement) {
-    input.showPicker(); // Opens native date picker
+  openDatePicker(dateInput: HTMLInputElement) {
+    this.activeDateInput = dateInput;
+    dateInput.showPicker();
+
+    // Close the date picker when clicking outside
+    const closeDatePicker = (event: MouseEvent) => {
+      if (!dateInput.contains(event.target as Node)) {
+        this.activeDateInput = null;
+        document.removeEventListener('click', closeDatePicker);
+      }
+    };
+
+    // Add click listener after a small delay to prevent immediate closing
+    setTimeout(() => {
+      document.addEventListener('click', closeDatePicker);
+    }, 100);
   }
 
   onDateChange(date: string, subPolicyId: string) {
-    const payload = {
-      subPolicyId: subPolicyId,
-      employeeId: this.employeeId,
-      dueDate: date
+    if (!date) {
+      this.notificationService.showError('Please select a date');
+      return;
     }
-    this.spinner.show();
-    this.employeeService.dueDateSetting(payload).subscribe(
-      (response) => {
-        this.spinner.hide();
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to update the due date for this sub-policy ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00B96F',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const payload = {
+          subPolicyId: subPolicyId,
+          employeeId: this.employeeId,
+          dueDate: date
+        }
+        this.spinner.show();
+        this.employeeService.dueDateSetting(payload).subscribe(
+          (response) => {
+            this.spinner.hide();
+            this.notificationService.showSuccess('Due date updated successfully');
+            this.getOutstandingTestLists();
+          },
+          (error) => {
+            this.spinner.hide();
+            this.notificationService.showError(error?.error?.message || 'Something went wrong!');
+          }
+        );
+      } else {
+        // Reset the date if user cancels
         this.getOutstandingTestLists();
-        window.location.reload();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.notificationService.showError(error?.error?.message || 'Something went wrong!');
       }
-    );
+    });
   }
 
   getOneEmployee() {
@@ -240,5 +278,55 @@ export class EmployeeDetailsOutstandingComponent {
     inputDate.setHours(0, 0, 0, 0);
 
     return inputDate < currentDate; // Return true if dueDate is greater than current date
+  }
+
+  applyBulkDateChange() {
+    if (!this.bulkDueDate) {
+      this.notificationService.showError('Please select a date first');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'This will update the due date for all outstanding sub-policies. Do you want to continue?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#00B96F',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, update all!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.spinner.show();
+
+        // Create an array of promises for all API calls
+        const updatePromises = this.outstandingtestlist.map(item => {
+          const payload = {
+            subPolicyId: item?.subPoliciyDetail?.[0]?._id,
+            employeeId: this.employeeId,
+            dueDate: this.bulkDueDate
+          };
+
+          return new Promise((resolve, reject) => {
+            this.employeeService.dueDateSetting(payload).subscribe(
+              (response) => resolve(response),
+              (error) => reject(error)
+            );
+          });
+        });
+
+        // Execute all API calls in parallel
+        Promise.all(updatePromises)
+          .then(() => {
+            this.spinner.hide();
+            this.notificationService.showSuccess('Due dates updated successfully');
+            this.bulkDueDate = ''; // Reset the bulk date
+            this.getOutstandingTestLists(); // Refresh the list
+          })
+          .catch((error) => {
+            this.spinner.hide();
+            this.notificationService.showError(error?.error?.message || 'Something went wrong while updating dates');
+          });
+      }
+    });
   }
 }

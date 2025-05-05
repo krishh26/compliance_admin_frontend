@@ -130,10 +130,10 @@ export class EmployeeListComponent {
       text: 'Do you want to Inactive this employee?',
       icon: 'warning',
       input: 'text',
-      inputPlaceholder: 'Enter Resoan',
+      inputPlaceholder: 'Enter Reason',
       inputValidator: (value) => {
         if (!value) {
-          return 'Resoan is required!';
+          return 'Reason is required!';
         }
         return null;
       },

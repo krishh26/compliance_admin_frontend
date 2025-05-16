@@ -64,7 +64,7 @@ export class AddEmployeeComponent {
       alternatePhone: [''],
       country: ['', Validators.required],
       state: ['', Validators.required],
-      city: ['', Validators.required],
+      city: [''],
       role: ['', Validators.required],
       jobTitle: ['', Validators.required],
       employeeIdentity: ['', Validators.required],

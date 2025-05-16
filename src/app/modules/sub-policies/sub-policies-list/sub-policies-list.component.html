@@ -3,7 +3,7 @@
 </ngx-spinner>
 <div class="container-fluid p-0">
   <div class="row align-items-center mb-3">
-    <div class="col-lg-10 col-xl-10 col-md-8 col-sm-12">
+    <div class="col-lg-9 col-md-8 col-sm-12">
       <div class="page-title">
         <h2 class="mb-2 mb-sm-0">
           <a routerLink="/policies/policies-list" class="me-2 text-dark">
@@ -12,8 +12,8 @@
         </h2>
       </div>
     </div>
-    <div class="col-lg-2 col-xl-2 col-md-4 col-sm-12 d-flex gap-2">
-      <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary w-100">
+    <div class="col-lg-3 col-md-4 col-sm-12 d-flex justify-content-end">
+      <a [routerLink]="['/sub-policies/upload-sub-policy', policyId]" class="btn btn-primary">
         Upload
       </a>
     </div>
@@ -23,7 +23,7 @@
       <li class="flex-grow-1 min-width-200">
         <a class="first-child d-flex align-items-center">
           <img src="assets/img/icons/outstanding-icon.png" class="me-2" /> Version
-          <select [(ngModel)]="selectedVersion" (change)="onVersionChange($event)" class="ms-2">
+          <select [(ngModel)]="selectedVersion" (change)="onVersionChange($event)" class="ms-2 form-select-sm">
             <option *ngFor="let item of policyList" [value]="item?.version">
               {{ item?.version }}
             </option>
@@ -81,7 +81,7 @@
               <th scope="col">Published Date</th>
               <th scope="col">Created Date</th>
               <th scope="col">Action</th>
-              <th></th>
+              <th>User Groups</th>
             </tr>
           </thead>
           <tbody>
